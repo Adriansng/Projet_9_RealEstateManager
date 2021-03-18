@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ItemDetailFragment">
+
+    <TextView
+        android:id="@+id/item_detail_date_creation_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_date_title_creation"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_date_creation_txt"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_date_creation_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_date_creation_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_date_creation_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_date_creation"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_card_view" />
+
+    <TextView
+        android:id="@+id/item_detail_date_sold_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_date_sold_title"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_date_sold_txt"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_date_sold_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_date_sold_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_date_sold_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_date_creation"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_date_creation_title_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_realtor_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_realtor_title_creation"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_realtor_creation_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_realtor_creation_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_realtor_creation_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/item_detail_realtor_creation"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_date_sold_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_date_sold_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_media_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/item_detail_media"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_detail_photos_rv"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_media_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_type_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/item_detail_type_title"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_photos_rv" />
+
+    <TextView
+        android:id="@+id/item_detail_type_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/item_detail_type"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_type_title_txt"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_price_title_txt"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/item_detail_type_title_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_type_title_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_price_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_price_title_txt"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_price_txt"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_price_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_price_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_price_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/item_detail_price_txt"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_photos_rv" />
+
+    <TextView
+        android:id="@+id/item_detail_description_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/item_detail_description_title"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_type_title_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_description_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/item_detail_description_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_description_title_txt" />
+
+    <ImageView
+        android:id="@+id/item_detail_surface_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/baseline_aspect_ratio_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_description_txt"
+        android:contentDescription="@string/description_item_detail_surface" />
+
+    <TextView
+        android:id="@+id/item_detail_surface_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/item_detail_surface_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_surface_iv"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_location_iv"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/item_detail_surface_iv"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_surface_iv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/item_detail_surface_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/item_detail_surface_txt"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_surface_title_txt"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_surface_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_surface_title_txt" />
+
+    <ImageView
+        android:id="@+id/item_detail_room_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_home_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_surface_iv"
+        android:contentDescription="@string/description_item_detail_room" />
+
+    <TextView
+        android:id="@+id/item_detail_room_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_room_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/item_detail_room_iv"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_surface_title_txt"
+        app:layout_constraintStart_toEndOf="@id/item_detail_room_iv"
+        app:layout_constraintTop_toTopOf="@id/item_detail_room_iv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/item_detail_room_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/item_detail_room"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_room_title_txt"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_room_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_room_title_txt" />
+
+    <ImageView
+        android:id="@+id/item_detail_bedroom_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/description_item_detail_bedroom"
+        android:src="@drawable/baseline_bedroom_child_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_room_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_bedroom_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_bedroom_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/item_detail_bedroom_iv"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_room_title_txt"
+        app:layout_constraintStart_toEndOf="@id/item_detail_bedroom_iv"
+        app:layout_constraintTop_toTopOf="@id/item_detail_bedroom_iv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/item_detail_bedroom_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/item_detail_bedroom"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_bedroom_title_txt"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_bedroom_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_bedroom_title_txt" />
+
+    <ImageView
+        android:id="@+id/item_detail_bathroom_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/description_item_detail_bathroom"
+        android:src="@drawable/baseline_bathroom_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_bedroom_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_bathroom_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_bathroom_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/item_detail_bathroom_iv"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_bedroom_title_txt"
+        app:layout_constraintStart_toEndOf="@id/item_detail_bathroom_iv"
+        app:layout_constraintTop_toTopOf="@id/item_detail_bathroom_iv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/item_detail_bathroom_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/item_detail_bathroom_txt"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_bathroom_title_txt"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_bathroom_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_bathroom_title_txt" />
+
+    <ImageView
+        android:id="@+id/item_detail_approximate_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/description_item_detail_approximate"
+        android:src="@drawable/baseline_accessibility_new_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_bathroom_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_approximate_title_txt"
+        android:layout_width="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:text="@string/item_detail_approximate_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/item_detail_approximate_iv"
+        app:layout_constraintEnd_toEndOf="@+id/item_detail_bedroom_title_txt"
+        app:layout_constraintStart_toEndOf="@id/item_detail_approximate_iv"
+        app:layout_constraintTop_toTopOf="@id/item_detail_approximate_iv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/item_detail_school_check_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_check_24"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_approximate_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_approximate_title_txt"
+        android:contentDescription="@string/description_icon_check"/>
+
+    <TextView
+        android:id="@+id/item_detail_school_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_school"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_school_check_iv"
+        app:layout_constraintStart_toEndOf="@+id/item_detail_school_check_iv"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_school_check_iv" />
+
+    <ImageView
+        android:id="@+id/item_detail_commerce_check_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_check_24"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_school_check_iv"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_school_check_iv"
+        android:contentDescription="@string/description_icon_check" />
+
+    <TextView
+        android:id="@+id/item_detail_commerce_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_commerce"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_commerce_check_iv"
+        app:layout_constraintStart_toEndOf="@+id/item_detail_commerce_check_iv"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_commerce_check_iv" />
+
+    <ImageView
+        android:id="@+id/item_detail_park_check_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_check_24"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_commerce_check_iv"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_commerce_check_iv"
+        android:contentDescription="@string/description_icon_check"/>
+
+    <TextView
+        android:id="@+id/item_detail_park_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/item_detail_park"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_park_check_iv"
+        app:layout_constraintStart_toEndOf="@+id/item_detail_park_check_iv"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_park_check_iv" />
+
+    <ImageView
+        android:id="@+id/item_detail_location_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/baseline_location_on_24"
+        app:layout_constraintBottom_toBottomOf="@+id/item_detail_location_title_txt"
+        app:layout_constraintEnd_toStartOf="@+id/item_detail_location_title_txt"
+        app:layout_constraintTop_toTopOf="@+id/item_detail_location_title_txt"
+        android:contentDescription="@string/description_item_detail_location" />
+
+    <TextView
+        android:id="@+id/item_detail_location_title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/item_detail_location_title_txt"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_description_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_address_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:singleLine="false"
+        android:text="@string/item_detail_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_location_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_location_title_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_city_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="@string/item_detail_city_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_address_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_address_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_code_postal_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="@string/item_detail_code_postal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_city_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_city_txt" />
+
+    <TextView
+        android:id="@+id/item_detail_country_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="@string/item_detail_country"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_code_postal_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_code_postal_txt" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_detail_card_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_country_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_country_txt">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/item_detail_map_location_iv"
+            android:layout_width="match_parent"
+            android:layout_height="125dp" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/item_detail_sale_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_item_detail_sale"
+        android:src="@drawable/sale_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_realtor_title_txt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

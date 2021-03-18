@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/search_RE_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/search_title"
+        app:titleTextColor="@color/colorAccentWhite" />
+
+    <TextView
+        android:id="@+id/search_RE_type_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_type"
+        style="@style/theme_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_toolbar" />
+
+    <CheckBox
+        android:id="@+id/search_RE_type_house_cb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/search_house"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_type_txt" />
+
+    <CheckBox
+        android:id="@+id/search_RE_type_flat_cb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_flat"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_house_cb"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_type_house_cb"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_house_cb" />
+
+    <CheckBox
+        android:id="@+id/search_RE_type_penthouse_cb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/search_penthouse"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_type_house_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_type_house_cb" />
+
+    <CheckBox
+        android:id="@+id/search_RE_type_duplex_cb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_duplex"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_penthouse_cb"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_type_penthouse_cb"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_penthouse_cb" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/search_RE_sold_switch"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/search_sold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_type_penthouse_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_type_txt" />
+
+    <TextView
+        android:id="@+id/search_RE_price_txt"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_price"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_type_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_flat_cb" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_price_min_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:maxEms="10"
+        android:text="@string/search_min"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_txt"
+        app:layout_constraintEnd_toStartOf="@+id/search_device_min_txt"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_type_flat_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_price_txt" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_price_max_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:text="@string/search_max"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/search_device_min_txt"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_price_min_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_min_edit_text" />
+
+    <TextView
+        android:id="@+id/search_device_min_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dollar"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_min_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_duplex_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_price_min_edit_text" />
+
+    <TextView
+        android:id="@+id/search_device_max_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dollar"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_max_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_duplex_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_price_max_edit_text" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/search_device_switch"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/euro"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_min_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/search_device_min_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_price_min_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_surface_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_surface"
+        style="@style/theme_title"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_price_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_max_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_surface_min_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:inputType="number"
+        android:maxEms="2"
+        android:text="@string/search_min"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_txt"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_price_max_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_txt" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_surface_max_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:inputType="number"
+        android:maxEms="2"
+        android:text="@string/search_max"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_surface_min_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_min_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_surface_min_unity_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_m"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_min_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_min_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_min_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_surface_max_unity_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_m"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_max_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_max_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_max_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_room_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_rooms"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_surface_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_max_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_room_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_room_txt"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_room_txt" />
+
+    <TextView
+        android:id="@+id/search_RE_room_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_room_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_room_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_room_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_bedrooms_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_bedrooms"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_room_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_bedrooms_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_room_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_txt" />
+
+    <TextView
+        android:id="@+id/search_RE_bedrooms_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_bathrooms_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_bathrooms"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_nb_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_RE_bathrooms_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bathrooms_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_txt" />
+
+    <TextView
+        android:id="@+id/search_RE_bathrooms_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bathrooms_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_edit_text" />
+
+    <TextView
+        android:id="@+id/search_RE_approximate_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_approximate"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_bedrooms_edit_text" />
+
+    <CheckBox
+        android:id="@+id/search_RE_school_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/search_school"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_approximate_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_approximate_txt" />
+
+    <CheckBox
+        android:id="@+id/search_RE_commerce_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/search_commerce"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_school_cb"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_approximate_txt" />
+
+    <CheckBox
+        android:id="@+id/search_RE_park_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/search_park"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_commerce_cb"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_approximate_txt" />
+
+
+    <TextView
+        android:id="@+id/search_RE_photo_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_photos"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_school_cb" />
+
+    <CheckBox
+        android:id="@+id/search_RE_photo1_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/search_1"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_approximate_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_photo_txt" />
+
+    <CheckBox
+        android:id="@+id/search_RE_photo2_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/search_2"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_photo1_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_photo1_cb" />
+
+    <CheckBox
+        android:id="@+id/search_RE_photo3_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/search_3"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_photo2_cb"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_photo1_cb" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/search_RE_button_reset_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_baseline_restart_alt_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_photo1_cb" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/search_RE_button_validate_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_button_reset_iv"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_photo1_cb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

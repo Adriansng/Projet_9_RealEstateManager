@@ -1,3 +1,143 @@
 <resources>
-    <string name="app_name">Real Estate Manager</string>
+    // ------------------
+    // INFO APP
+    // ------------------
+    <string name="app_name" translatable="false">Real Estate Manager</string>
+
+    <string name="dollar" translatable="false">$</string>
+    <string name="euro" translatable="false">Euro</string>
+
+    // ------------------
+    // ITEM LIST
+    // ------------------
+    <string name="title_item_list">Items</string>
+
+    <string name="item_list_price_txt" translatable="false">$15.000.000</string>
+    <string name="item_list_address_txt" translatable="false">Manhattan</string>
+    <string name="item_list_type_txt">House</string>
+
+    // ------------------
+    // ITEM DETAIL
+    // ------------------
+    <string name="title_item_detail">Item Detail</string>
+    <string name="item_detail_date_title_creation">date creation</string>
+    <string name="item_detail_date_creation">01/02/2021</string>
+    <string name="item_detail_date_sold_title">date sold</string>
+    <string name="item_detail_realtor_title_creation">by</string>
+    <string name="item_detail_realtor_creation">Enrico</string>
+    <string name="item_detail_media">Media</string>
+    <string name="item_detail_type_title">Type</string>
+    <string name="item_detail_type">House</string>
+    <string name="item_detail_price_title_txt">Price</string>
+    <string name="item_detail_price_txt" translatable="false">$15.000.000</string>
+    <string name="item_detail_description_title">Description</string>
+    <string name="item_detail_description_txt">L’application doit fonctionner à la fois sur smartphone et tablette, il faut donc prévoir un affichage adapté sur ces deux équipements. L\'écran pourra donc être divisé par deux sur tablette (la liste des biens à gauche et le détail d\'un bien à droite) alors que sur smartphone, un écran à la fois sera affiché (la liste des biens en plein écran ainsi que le détail d\'un bien en plein écran également).</string>
+    <string name="item_detail_surface_title">Surface</string>
+    <string name="item_detail_surface_txt">250 m²</string>
+    <string name="item_detail_room_title">Number of rooms</string>
+    <string name="item_detail_room">8</string>
+    <string name="item_detail_bedroom_title">Number of bedrooms</string>
+    <string name="item_detail_bedroom">3</string>
+    <string name="item_detail_bathroom_title">Number of bathrooms</string>
+    <string name="item_detail_bathroom_txt">2</string>
+    <string name="item_detail_location_title_txt">Location</string>
+    <string name="item_detail_address">123 park street</string>
+    <string name="item_detail_city_txt">New York</string>
+    <string name="item_detail_code_postal">Zip Code</string>
+    <string name="item_detail_country">USA</string>
+    <string name="item_detail_approximate_title">Approximate to</string>
+    <string name="item_detail_commerce">Commerce</string>
+    <string name="item_detail_park">Park</string>
+    <string name="item_detail_school">School</string>
+
+    // ------------------
+    // ADD REAL ESTATE
+    // ------------------
+    <string name="add_title">Add Real Estate</string>
+    <string name="add_photos" translatable="false">Photos</string>
+    <string name="add_description" translatable="false">Description</string>
+    <string name="add_park">Park</string>
+    <string name="add_commerce" translatable="false">Commerce</string>
+    <string name="add_school">School</string>
+    <string name="add_approximate">Approximate</string>
+    <string name="add_bathrooms">Bathrooms</string>
+    <string name="add_bedrooms">Bedrooms</string>
+    <string name="add_nb">nb</string>
+    <string name="add_rooms">Rooms</string>
+    <string name="add_m" translatable="false">m²</string>
+    <string name="add_surface" translatable="false">Surface</string>
+    <string name="add_price">Price</string>
+    <string name="add_sold">Sold</string>
+    <string name="add_type" translatable="false">Type</string>
+
+    // ------------------
+    // SEARCH REAL ESTATE
+    // ------------------
+    <string name="search_title">Filter Real Estate</string>
+    <string name="search_3" translatable="false">3+</string>
+    <string name="search_2" translatable="false">2</string>
+    <string name="search_1" translatable="false">1</string>
+    <string name="search_photos" translatable="false">Photos</string>
+    <string name="search_park">Park</string>
+    <string name="search_commerce" translatable="false">Commerce</string>
+    <string name="search_school">School</string>
+    <string name="search_approximate">Approximate</string>
+    <string name="search_nb" translatable="false">nb</string>
+    <string name="search_bathrooms">Bathrooms min</string>
+    <string name="search_bedrooms">Bedrooms min</string>
+    <string name="search_rooms">Rooms min</string>
+    <string name="search_m" translatable="false">m²</string>
+    <string name="search_surface" translatable="false">Surface</string>
+    <string name="search_price">Price</string>
+    <string name="search_sold">Sold</string>
+    <string name="search_duplex" translatable="false">Duplex</string>
+    <string name="search_penthouse" translatable="false">Penthouse</string>
+    <string name="search_flat">Flat</string>
+    <string name="search_house">House</string>
+    <string name="search_type" translatable="false">Type</string>
+    <string name="search_min" translatable="false">min</string>
+    <string name="search_max" translatable="false">max</string>
+
+    // ------------------
+    // MENU
+    // ------------------
+    <string name="menu_item_realtor">Realtor</string>
+    <string name="menu_item_add_realtor">Add Realtor</string>
+    <string name="menu_item_change_device">Change Device</string>
+    <string name="menu_item_simulator_loan">Simulator of Loan</string>
+    <string name="menu_header_first_name" translatable="false">John</string>
+    <string name="menu_header_name" translatable="false">SMITH</string>
+
+    // ------------------
+    // LOAN
+    // ------------------
+    <string name="loan_title">Simulator Loan</string>
+    <string name="loan_contribution">Contribution</string>
+    <string name="loan_interest">Interest</string>
+    <string name="loan_pourcentage" translatable="false">%</string>
+    <string name="loan_term">Term</string>
+    <string name="loan_years">years</string>
+    <string name="loan_per_month">Loan per month</string>
+    <string name="loan_total_amount">Total amount</string>
+    <string name="loan_amount">Amount</string>
+
+    // ------------------
+    // DESCRIPTIONS
+    // ------------------
+    <string name="description_add_button">add real Estate button</string>
+    <string name="description_photo_house_list">photo house item list</string>
+    <string name="description_item_detail_surface">icon surface</string>
+    <string name="description_item_detail_room">icon room</string>
+    <string name="description_item_detail_bedroom">icon bedroom</string>
+    <string name="description_item_detail_bathroom">icon bathroom</string>
+    <string name="description_item_detail_location">icon location</string>
+    <string name="description_icon_check">icon check</string>
+    <string name="description_item_detail_approximate">icon approximate</string>
+    <string name="description_item_detail_sale">icon sale</string>
+    <string name="description_button_calcul">button for calcul</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="menu_fitler">filter list</string>
+    <string name="menu_edit_real_estate">edit real estate</string>
+    <string name="menu_add_real_estate">add real estate</string>
 </resources>

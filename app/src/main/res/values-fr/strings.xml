@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // ------------------
+    // ITEM LIST
+    // ------------------
+    <string name="title_item_list">Articles</string>
+
+    // ------------------
+    // ITEM DETAIL
+    // ------------------
+    <string name="title_item_detail">Détail de l\'article</string>
+    <string name="item_list_type_txt">Maison</string>
+    <string name="item_detail_date_title_creation">date creation</string>
+    <string name="item_detail_date_creation">01/02/2021</string>
+    <string name="item_detail_date_sold_title">date vente</string>
+    <string name="item_detail_realtor_title_creation">par</string>
+    <string name="item_detail_realtor_creation">Enrico</string>
+    <string name="item_detail_media">Photo</string>
+    <string name="item_detail_type_title">Type</string>
+    <string name="item_detail_type">Maison</string>
+    <string name="item_detail_price_title_txt">Prix</string>
+    <string name="item_detail_description_title">Description</string>
+    <string name="item_detail_description_txt">L’application doit fonctionner à la fois sur smartphone et tablette, il faut donc prévoir un affichage adapté sur ces deux équipements. L\'écran pourra donc être divisé par deux sur tablette (la liste des biens à gauche et le détail d\'un bien à droite) alors que sur smartphone, un écran à la fois sera affiché (la liste des biens en plein écran ainsi que le détail d\'un bien en plein écran également).</string>
+    <string name="item_detail_bedroom_title">Nombre de chambres</string>
+    <string name="item_detail_bedroom">3</string>
+    <string name="item_detail_bathroom_title">Nombre de salles de bain</string>
+    <string name="item_detail_bathroom_txt">2</string>
+    <string name="item_detail_location_title_txt">Adresse</string>
+    <string name="item_detail_address">123 rue du park</string>
+    <string name="item_detail_city_txt">New York</string>
+    <string name="item_detail_code_postal">Code Postal</string>
+    <string name="item_detail_country">USA</string>
+    <string name="item_detail_surface_title">Surface</string>
+    <string name="item_detail_surface_txt">250 m²</string>
+    <string name="item_detail_room_title">Nombre de chambres</string>
+    <string name="item_detail_room">8</string>
+    <string name="item_detail_approximate_title">Proche</string>
+    <string name="item_detail_commerce">Commerce</string>
+    <string name="item_detail_park">Parc</string>
+    <string name="item_detail_school">Ecole</string>
+
+    // ------------------
+    // ADD REAL ESTATE
+    // ------------------
+    <string name="add_title">Ajout Bien Immobillier</string>
+    <string name="add_park">Parc</string>
+    <string name="add_approximate">Proche de</string>
+    <string name="add_bathrooms">Salles de bain</string>
+    <string name="add_bedrooms">Chambres</string>
+    <string name="add_nb">nb</string>
+    <string name="add_rooms">Pièces</string>
+    <string name="add_price">Prix</string>
+    <string name="add_sold">Vendu</string>
+    <string name="add_school">Ecole</string>
+
+    // ------------------
+    // SEARCH REAL ESTATE
+    // ------------------
+    <string name="search_park">Parc</string>
+    <string name="search_school">Ecole</string>
+    <string name="search_approximate">Proche de </string>
+    <string name="search_bathrooms">Salles de bain</string>
+    <string name="search_bedrooms">Chambres</string>
+    <string name="search_rooms">Pièces</string>
+    <string name="search_price">Prix</string>
+    <string name="search_sold">Vendu</string>
+    <string name="search_flat">Appartement</string>
+    <string name="search_house">Maison</string>
+    <string name="search_title">Filtre Bien Immobillier</string>
+    // ------------------
+    // LOAN
+    // ------------------
+    <string name="loan_amount">Coût</string>
+    <string name="loan_contribution">Accompte</string>
+    <string name="loan_interest">Interet</string>
+    <string name="loan_term">Durée</string>
+    <string name="loan_years">années</string>
+    <string name="loan_per_month">Mensualité</string>
+    <string name="loan_total_amount">Total coût</string>
+    <string name="loan_title">Simulateur prêt</string>
+
+    // ------------------
+    // MENU
+    // ------------------
+    <string name="menu_item_realtor">Agent</string>
+    <string name="menu_item_add_realtor">Ajouter un agent </string>
+    <string name="menu_item_change_device">Changer de device</string>
+    <string name="menu_item_simulator_loan">Simulateur de Prêt </string>
+
+    // ------------------
+    // DESCRIPTIONS
+    // ------------------
+    <string name="description_add_button">ajouter un bien immobilier</string>
+    <string name="description_photo_house_list">photo maison item liste</string>
+    <string name="description_item_detail_surface">icone surface</string>
+    <string name="description_item_detail_bedroom">icone chambre</string>
+    <string name="description_item_detail_room">icone room</string>
+    <string name="description_item_detail_bathroom">icone bathroom</string>
+    <string name="description_item_detail_location">icone adresse</string>
+    <string name="description_icon_check">icone check</string>
+    <string name="description_item_detail_approximate">icone proche de </string>
+    <string name="description_item_detail_sale">icone vente</string>
+    <string name="description_button_calcul">boutton pour le calcul</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="menu_fitler">filter list</string>
+    <string name="menu_edit_real_estate">edit real estate</string>
+    <string name="menu_add_real_estate">add real estate</string>
+</resources>

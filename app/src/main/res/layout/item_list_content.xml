@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp">
+
+    <ImageView
+        android:id="@+id/item_list_iv"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_house_demo_item"
+        android:contentDescription="@string/description_photo_house_list" />
+
+    <TextView
+        android:id="@+id/item_list_type_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/item_list_type_txt"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/item_list_iv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_list_address_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/item_list_iv"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_type_txt"
+        android:text="@string/item_list_address_txt"/>
+
+    <TextView
+        android:id="@+id/item_list_price_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@id/item_list_iv"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_address_txt"
+        android:text="@string/item_list_price_txt"
+        android:textColor="@color/colorAccent"/>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

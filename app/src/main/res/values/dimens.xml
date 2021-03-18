@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="menu_setting_title">35sp</dimen>
+    <dimen name="menu_setting_name">18sp</dimen>
+    <dimen name="menu_setting_first_name">14sp</dimen>
+    <dimen name="layout_height_meal_menu">100sp</dimen>
+</resources>

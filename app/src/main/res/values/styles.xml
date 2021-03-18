@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!-- MENU THEME -->
+    <style name="Menu_setting">
+        <item name="android:textColor">@color/colorAccentWhite</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- ADD TITLE THEME -->
+
+    <style name="theme_title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/quantum_black_100</item>
+    </style>
+
 </resources>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_RE_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/add_title"
+        app:titleTextColor="@color/colorAccentWhite" />
+
+    <TextView
+        android:id="@+id/add_RE_type_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_type"
+        style="@style/theme_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_toolbar" />
+
+    <Spinner
+        android:id="@+id/add_RE_type_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_type_txt"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_park_cb"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_type_txt" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/add_RE_sold_switch"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_sold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/add_device_switch"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_toolbar" />
+
+    <TextView
+        android:id="@+id/add_RE_price_txt"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_price"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_type_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_type_txt" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_price_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_type_spinner"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_price_txt" />
+
+    <TextView
+        android:id="@+id/add_device_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dollar"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_price_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_price_edit_text" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/add_device_switch"
+        style="@style/theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/euro"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_device_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_price_edit_text" />
+
+    <TextView
+        android:id="@+id/add_RE_surface_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_surface"
+        style="@style/theme_title"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_price_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_price_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_surface_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:inputType="number"
+        android:maxEms="2"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_surface_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_price_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_surface_txt" />
+
+    <TextView
+        android:id="@+id/add_RE_surface_unity_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_m"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_surface_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_surface_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_surface_edit_text" />
+
+    <TextView
+        android:id="@+id/add_RE_room_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_rooms"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_surface_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_surface_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_room_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_room_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_surface_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_room_txt" />
+
+    <TextView
+        android:id="@+id/add_RE_room_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_room_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_room_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_room_edit_text" />
+
+    <TextView
+        android:id="@+id/add_RE_bedrooms_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_bedrooms"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_room_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_bedrooms_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_txt" />
+
+    <TextView
+        android:id="@+id/add_RE_bedrooms_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bedrooms_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_edit_text" />
+
+    <TextView
+        android:id="@+id/add_RE_bathrooms_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_bathrooms"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_nb_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_edit_text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_bathrooms_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="2"
+        android:inputType="number"
+        android:maxEms="2"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_room_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintVertical_bias="0.652" />
+
+    <TextView
+        android:id="@+id/add_RE_bathrooms_nb_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_nb"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_edit_text" />
+
+    <TextView
+        android:id="@+id/add_RE_approximate_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_approximate"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_bedrooms_edit_text" />
+
+    <CheckBox
+        android:id="@+id/add_RE_school_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_school"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_approximate_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_approximate_txt" />
+
+    <CheckBox
+        android:id="@+id/add_RE_commerce_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_commerce"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_school_cb"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_approximate_txt" />
+
+    <CheckBox
+        android:id="@+id/add_RE_park_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_park"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_commerce_cb"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_approximate_txt" />
+
+    <TextView
+        android:id="@+id/add_RE_description_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_description"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_photo_recyclerview" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_RE_description_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ems="2000"
+        android:inputType="number"
+        android:maxEms="2000"
+        android:singleLine="false"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_description_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_description_txt" />
+
+    <TextView
+        android:id="@+id/add_RE_photo_txt"
+        style="@style/theme_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_photos"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_school_cb" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/add_RE_button_image_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_photo_txt"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_photo_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_photo_txt" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/add_RE_photo_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_description_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_photo_txt" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/add_RE_button_add_iv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_baseline_add_business_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_description_edit_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
