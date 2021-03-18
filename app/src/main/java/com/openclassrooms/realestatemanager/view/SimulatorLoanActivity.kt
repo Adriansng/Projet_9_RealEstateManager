@@ -36,6 +36,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
+        title = "Simulator Loan"
         amountEditText = findViewById(R.id.loan_amount_edit_text)
         contributionEditText = findViewById(R.id.loan_contribution_edit_text)
         interestEditText = findViewById(R.id.loan_interest_edit_text)
@@ -46,9 +47,10 @@ class SimulatorLoanActivity : AppCompatActivity() {
 
         device1 = findViewById(R.id.loan_device_txt)
         device2 = findViewById(R.id.loan_contribution_device_txt)
-        val idRealtor = intent.getStringExtra("Realtor").toString().toLong()
-        setupDevice(idRealtor)
+        //val idRealtor = intent.getStringExtra("Realtor").toString().toLong()
+        //setupDevice(idRealtor)
         setupEditText()
+        displayResult("$")
     }
 
     // ------------------
@@ -80,31 +82,30 @@ class SimulatorLoanActivity : AppCompatActivity() {
         editText(termEditText, "Term")
     }
 
-    private fun editText(editText: TextInputEditText, text: String): Boolean {
-        var check = false
+    private fun editText(editText: TextInputEditText, text: String) {
         editText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrBlank()){
-                    termEditText.error = "$text is required."
-                    check = false
+                    editText.error = "$text is required."
                 }else{
-                    termEditText.error = ""
-                    check = true
-                    checkEditText()
+                    editText.error = ""
+                    checkCalculator()
                 }
             }
             override fun afterTextChanged(s: Editable?) {
             }
         })
-        return check
     }
-    private fun checkEditText(){
-        if( editText(amountEditText, "Amount") &&
-                editText(contributionEditText, "Contribution") &&
-                editText(interestEditText, "Interest") &&
-                editText(termEditText, "Term")) calculatorLoan()
+
+    private fun checkCalculator(){
+        if(amountEditText.text.toString() != "" &&
+                contributionEditText.text.toString() != ("")&&
+                interestEditText.text.toString() != ("") &&
+                termEditText.text.toString() != ("")){
+            calculatorLoan()
+        }
     }
 
     // ------------------
@@ -112,10 +113,10 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // ------------------
     private fun calculatorLoan(){
         viewModel.calculatorLoan(
-                amountEditText.toString().toInt(),
-                contributionEditText.toString().toInt(),
-                interestEditText.toString().toDouble(),
-                termEditText.toString().toInt())
+                amountEditText.text.toString().toInt(),
+                contributionEditText.text.toString().toInt(),
+                interestEditText.text.toString().toDouble(),
+                termEditText.text.toString().toInt())
     }
 
     // ------------------

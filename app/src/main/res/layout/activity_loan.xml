@@ -4,21 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/loan_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/loan_title"
-        app:titleTextColor="@color/colorAccentWhite" />
-
-
     <TextView
         android:id="@+id/loan_amount_txt"
         style="@style/theme_title"
@@ -28,7 +13,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/loan_amount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loan_toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/loan_amount_edit_text"
@@ -105,7 +90,7 @@
         android:layout_marginStart="8dp"
         android:ems="4"
         android:maxEms="4"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="@+id/loan_interest_txt"
         app:layout_constraintStart_toEndOf="@+id/loan_interest_txt"
         app:layout_constraintTop_toTopOf="@+id/loan_interest_txt" />
@@ -138,6 +123,7 @@
         android:layout_marginStart="8dp"
         android:ems="2"
         android:maxEms="2"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="@+id/loan_term_txt"
         app:layout_constraintStart_toEndOf="@+id/loan_term_txt"
         app:layout_constraintTop_toTopOf="@+id/loan_term_txt" />

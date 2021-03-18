@@ -58,7 +58,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var inEuro: Boolean = false
 
     private lateinit var realEstates: List<RealEstate>
-    var realtor : Realtor ?= Realtor.default()
+    var realtor : Realtor = Realtor.default()
     private lateinit var realtors : List<Realtor>
 
 
@@ -109,7 +109,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun setUpRealtors(){
         viewModel.getRealtors().observe(this, {
              realtors= it
-             setUpSpinnerRealtors()
         })
     }
 
@@ -238,6 +237,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
             viewModel.addRealtor(textInputEditText.text.toString())
+            setUpSpinnerRealtors()
             dialog.dismiss()
         }
 
