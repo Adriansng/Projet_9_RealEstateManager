@@ -44,12 +44,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private val viewModel : ItemListViewModel by viewModel()
 
-    private var recyclerView: RecyclerView = findViewById(R.id.item_list)
-    private var toolbar: Toolbar1 = findViewById(R.id.item_list_toolbar)
-    private var drawerView: DrawerLayout = findViewById(R.id.drawer_layout)
-    private var navView: NavigationView = findViewById(R.id.nav_view_menu)
-    private var spinnerRealtors: Spinner = findViewById(R.id.nav_header_realtor_spinner)
-
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar: Toolbar1
+    private lateinit var drawerView: DrawerLayout
+    private lateinit var navView: NavigationView
+    private lateinit var spinnerRealtors: Spinner
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -59,7 +58,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var inEuro: Boolean = false
 
     private lateinit var realEstates: List<RealEstate>
-    lateinit var realtor : Realtor
+    var realtor : Realtor ?= Realtor.default()
     private lateinit var realtors : List<Realtor>
 
 
@@ -70,6 +69,10 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+        recyclerView = findViewById(R.id.item_list)
+        toolbar = findViewById(R.id.item_list_toolbar)
+        drawerView = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view_menu)
         setSupportActionBar(toolbar)
         setUpRealEstates()
         setUpRealtors()
@@ -111,7 +114,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun setUpRealtor(){
-        realtor = viewModel.getRealtor(realtors[0].id)
+       // realtor = viewModel.getRealtor(realtors[0].id)
     }
 
     // ------------------
@@ -195,6 +198,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpSpinnerRealtors() {
         val adapter = ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, realtors)
+        spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
         spinnerRealtors.adapter = adapter
     }
 
@@ -208,7 +212,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val device : String = listItems[i]
             dialogueInterface.dismiss()
             inEuro = device == "Euro"
-            viewModel.updateDeviceForRealtor(realtor.id, inEuro)
+            realtor?.id?.let { viewModel.updateDeviceForRealtor(it, inEuro) }
         }
         // Set the neutral/cancel button click listener
         builder.setNeutralButton("Cancel") { dialog, _ ->
@@ -322,7 +326,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun launchSimulatorLoan(){
         val intent = Intent(this, SimulatorLoanActivity::class.java)
-        intent.putExtra("Realtor", realtor.id)
+        intent.putExtra("Realtor", realtor?.id)
         startActivity(intent)
     }
 

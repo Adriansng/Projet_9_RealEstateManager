@@ -158,6 +158,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/di/module/Injection.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/di/module/RepositoryModule.kt">
           <value>
             <set />
