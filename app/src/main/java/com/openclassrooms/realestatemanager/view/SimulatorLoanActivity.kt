@@ -17,17 +17,17 @@ class SimulatorLoanActivity : AppCompatActivity() {
 
     private val viewModel : SimulatorLoanViewModel by viewModel()
 
-    private var amountEditText: TextInputEditText = findViewById(R.id.loan_amount_edit_text)
-    private var contributionEditText: TextInputEditText = findViewById(R.id.loan_contribution_edit_text)
-    private var interestEditText: TextInputEditText = findViewById(R.id.loan_interest_edit_text)
-    private var termEditText: TextInputEditText = findViewById(R.id.loan_term_edit_text)
+    private lateinit var amountEditText: TextInputEditText
+    private lateinit var contributionEditText: TextInputEditText
+    private lateinit var interestEditText: TextInputEditText
+    private lateinit var termEditText: TextInputEditText
 
-    private var interestText: TextView = findViewById(R.id.loan_interest_txt)
-    private var mountText: TextView = findViewById(R.id.loan_calcul_mount_txt)
-    private var totalText: TextView = findViewById(R.id.loan_calcul_total_txt)
+    private lateinit var interestText: TextView
+    private lateinit var mountText: TextView
+    private lateinit var totalText: TextView
 
-    private var device1: TextView = findViewById(R.id.loan_device_txt)
-    private var device2: TextView = findViewById(R.id.loan_contribution_device_txt)
+    private lateinit var device1: TextView
+    private lateinit var device2: TextView
 
     // ------------------
     // TO CREATE
@@ -36,6 +36,16 @@ class SimulatorLoanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
+        amountEditText = findViewById(R.id.loan_amount_edit_text)
+        contributionEditText = findViewById(R.id.loan_contribution_edit_text)
+        interestEditText = findViewById(R.id.loan_interest_edit_text)
+        termEditText = findViewById(R.id.loan_term_edit_text)
+        interestText = findViewById(R.id.loan_interest_txt)
+        mountText = findViewById(R.id.loan_calcul_mount_txt)
+        totalText = findViewById(R.id.loan_calcul_total_txt)
+
+        device1 = findViewById(R.id.loan_device_txt)
+        device2 = findViewById(R.id.loan_contribution_device_txt)
         val idRealtor = intent.getStringExtra("Realtor").toString().toLong()
         setupDevice(idRealtor)
         setupEditText()

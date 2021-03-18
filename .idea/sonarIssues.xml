@@ -118,6 +118,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/database/ProviderRoom.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/database/RealEstateDao.kt">
           <value>
             <set />
@@ -149,6 +154,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/database/dao/RealtorDao.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/database/providerRoom.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/database/providerRoom.kt">
           <value>
             <set />
           </value>
