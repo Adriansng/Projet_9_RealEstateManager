@@ -137,11 +137,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when( item.itemId){
             R.id.item_list_add_toolbar -> {
-                //TODO (add RE)
+                launchItemCreation()
                 true
             }
             R.id.item_list_edit_toolbar -> {
-                //TODO (edit RE)
+                launchItemCreation()
                 true
             }
             R.id.item_list_filter_toolbar -> {
@@ -322,24 +322,40 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     ).toInt()
 
+    // ------------------
+    // LAUNCHER
+    // ------------------
+
     // --- LAUNCH SIMULATOR LOAN ---
 
     private fun launchSimulatorLoan(){
         val intent = Intent(this, SimulatorLoanActivity::class.java)
+        intent.putExtra("Realtor", realtor.prefEuro)
+        startActivity(intent)
+    }
+
+    // --- LAUNCH ITEM CREATION  ---
+
+    private fun launchItemCreation(){
+        val intent = Intent(this, ItemCreationRealEstate::class.java)
         intent.putExtra("Realtor", realtor.id)
         startActivity(intent)
     }
 
 
-    // --- RECYCLER VIEW ---
+
+
+
+    // --- RECYCLER VIEW REAL ESTATE---
 
     private fun setupRecyclerView(realEstates: List<RealEstate>) {
-            recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
+            recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, realEstates, twoPane, realtor, inEuro)
     }
 
     class SimpleItemRecyclerViewAdapter(private val parentActivity: ItemListActivity,
                                         private val values: List<RealEstate>,
                                         private val twoPane: Boolean,
+                                        private val realtor: Realtor,
                                         private val inEuro: Boolean) :
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -358,6 +374,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             } else {
                 val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
                     putExtra(ItemDetailFragment.ARG_ITEM_ID, item)
+                    putExtra("Realtor", realtor)
                 }
                 v.context.startActivity(intent)
             }

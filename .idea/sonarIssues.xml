@@ -278,6 +278,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/view/ItemCreationRealEstate.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/view/ItemDetailActivity.kt">
           <value>
             <set />
@@ -294,6 +299,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/view/SimulatorLoanActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/viewModel/ItemCreationViewModeL.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/openclassrooms/realestatemanager/viewModel/ItemCreationViewModel.kt">
           <value>
             <set />
           </value>
@@ -424,6 +439,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/menu/menu_header.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/menu/menu_toolbar_detail_activity.xml">
           <value>
             <set />
           </value>

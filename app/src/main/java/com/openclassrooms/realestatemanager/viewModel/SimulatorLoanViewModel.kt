@@ -40,9 +40,9 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
     // --- CALCULATOR ---
 
     fun calculatorLoan(amount: Int, contribution: Int, interest: Double, term: Int){
-        val interestLoan : Double = ((amount - contribution) * interest) - amount
+        val interestLoan : Double = (amount - contribution) * (interest/100)
         val totalLoan : Double = amount + interestLoan
-        val termLoan : Double = totalLoan/ (term/12)
+        val termLoan : Double = totalLoan/ (term*12)
         updateInterest(interestLoan)
         updateMount(termLoan)
         updateTotal(totalLoan)

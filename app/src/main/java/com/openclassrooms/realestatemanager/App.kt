@@ -25,7 +25,8 @@ class App : MultiDexApplication() {
             // modules
             modules  (appModule,
                     itemListModule,
-                    simulatorModule)
+                    simulatorModule,
+                    itemCreationModule)
         }
     }
 }

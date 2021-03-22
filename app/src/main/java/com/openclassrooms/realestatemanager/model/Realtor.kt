@@ -11,7 +11,8 @@ data class Realtor(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id") val id: Long,
         @ColumnInfo(name = "name") var name: String,
-        @ColumnInfo(name = "prefEuro") var prefEuro: Boolean):Serializable
+        @ColumnInfo(name = "prefEuro") var prefEuro: Boolean
+        ):Serializable
 {
         companion object {
                 fun default() = Realtor(id = 0, name = "", prefEuro = false)

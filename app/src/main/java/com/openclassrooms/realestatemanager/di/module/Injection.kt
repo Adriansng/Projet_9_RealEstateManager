@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
 import com.openclassrooms.realestatemanager.repositories.RealtorRepository
+import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import com.openclassrooms.realestatemanager.viewModel.SimulatorLoanViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -36,5 +37,11 @@ val itemListModule = module {
 val simulatorModule = module {
     viewModel {
         SimulatorLoanViewModel(get())
+    }
+}
+
+val itemCreationModule = module {
+    viewModel {
+        ItemCreationViewModel(get())
     }
 }

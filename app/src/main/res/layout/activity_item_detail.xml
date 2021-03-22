@@ -22,21 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name"
-        app:titleTextColor="@color/colorAccentWhite">
-
-        <ImageView
-            android:id="@+id/item_detail_add_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_add_24"/>
-        <ImageView
-            android:id="@+id/item_detail_edit_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_edit_24" />
-
-
-    </androidx.appcompat.widget.Toolbar>
+        app:titleTextColor="@color/colorAccentWhite"/>
 
     <FrameLayout
         android:id="@+id/item_list_frameLayout"

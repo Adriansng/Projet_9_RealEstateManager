@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,11 +17,15 @@ import com.openclassrooms.realestatemanager.R
  */
 class ItemDetailActivity : AppCompatActivity() {
 
+
+    private var realtorId : Long = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         setSupportActionBar(findViewById(R.id.item_detail_toolbar))
-
+        realtorId = intent.getLongExtra("Realtor", 0)
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -51,9 +56,14 @@ class ItemDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar_detail_activity, menu)
+        return true
+    }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-            when (item.itemId) {
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
                 android.R.id.home -> {
                     // This ID represents the Home or Up button. In the case of this
                     // activity, the Up button is shown. For
@@ -64,6 +74,18 @@ class ItemDetailActivity : AppCompatActivity() {
                     navigateUpTo(Intent(this, ItemListActivity::class.java))
                     true
                 }
+                R.id.item_list_edit_toolbar -> {
+                    launchItemCreation()
+                    true
+                }
                 else -> super.onOptionsItemSelected(item)
             }
+    }
+
+    private fun launchItemCreation(){
+        val intent = Intent(this, ItemCreationRealEstate::class.java)
+        intent.putExtra("Realtor", realtorId)
+        startActivity(intent)
+    }
+
 }

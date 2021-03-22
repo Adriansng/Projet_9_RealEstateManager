@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -37,7 +36,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
-        title = R.string.loan_title.toString()
+        title = applicationContext.getString(R.string.loan_title)
 
         amountLayoutText = findViewById(R.id.loan_amount_txt)
         contributionLayoutText = findViewById(R.id.loan_contribution_txt)
@@ -46,32 +45,32 @@ class SimulatorLoanActivity : AppCompatActivity() {
         contributionEditText = findViewById(R.id.loan_contribution_edit_text)
         interestEditText = findViewById(R.id.loan_interest_edit_text)
         termEditText = findViewById(R.id.loan_term_edit_text)
-        interestText = findViewById(R.id.loan_interest_txt)
+        interestText = findViewById(R.id.loan_calcul_interest_txt)
         mountText = findViewById(R.id.loan_calcul_mount_txt)
         totalText = findViewById(R.id.loan_calcul_total_txt)
 
-        //val idRealtor = intent.getStringExtra("Realtor").toString().toLong()
-        //setupDevice(idRealtor)
+        val prefEuro = intent.getBooleanExtra("Realtor", false)
+        setupDevice(prefEuro)
         setupEditText()
-        displayResult()
+        displayResult(" $")
     }
 
     // ------------------
     // DEVICE
     // ------------------
 
-    private fun setupDevice(id: Long){
-        if(viewModel.getRealtor(id).prefEuro){
-            changeDevice("€")
+    private fun setupDevice(prefEuro: Boolean){
+        if(prefEuro){
+            changeDevice(" €")
         }else{
-            changeDevice("$")
+            changeDevice(" $")
         }
     }
 
     private fun changeDevice(device: String){
         amountLayoutText.suffixText = device
         contributionLayoutText.suffixText = device
-        displayResult()
+        displayResult(device)
     }
 
     // ------------------
@@ -126,15 +125,15 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // RESULT
     // ------------------
 
-    private fun displayResult() {
-        viewModel.interest.observe(this,  {
-            interestText.text = it.toString()
+    private fun displayResult(device :String) {
+        viewModel.interest.observe(this,  { it ->
+            (it.toString() + device).also { interestText.text = it }
         })
-        viewModel.mount.observe(this,  {
-            mountText.text = it.toString()
+        viewModel.mount.observe(this,  { it ->
+            (it.toString() + device).also { mountText.text = it }
         })
-        viewModel.total.observe(this, {
-            totalText.text = it.toString()
+        viewModel.total.observe(this, { it ->
+            (it.toString() + device).also { totalText.text = it }
         })
     }
 }

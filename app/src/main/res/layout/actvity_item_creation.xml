@@ -79,18 +79,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/add_device_switch"
-        style="@style/theme_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/euro"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_text"
-        app:layout_constraintEnd_toEndOf="@+id/add_RE_sold_switch"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_sold_switch"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_sold_switch" />
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_RE_surface_txt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -123,7 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:hint="@string/add_rooms"
-        app:layout_constraintEnd_toEndOf="@+id/add_device_switch"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_sold_switch"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/add_RE_surface_txt"
         app:layout_constraintTop_toTopOf="@+id/add_RE_surface_txt"
