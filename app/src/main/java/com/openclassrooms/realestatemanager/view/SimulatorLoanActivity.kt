@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.viewModel.SimulatorLoanViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -17,6 +18,9 @@ class SimulatorLoanActivity : AppCompatActivity() {
 
     private val viewModel : SimulatorLoanViewModel by viewModel()
 
+    private lateinit var amountLayoutText: TextInputLayout
+    private lateinit var contributionLayoutText: TextInputLayout
+
     private lateinit var amountEditText: TextInputEditText
     private lateinit var contributionEditText: TextInputEditText
     private lateinit var interestEditText: TextInputEditText
@@ -26,9 +30,6 @@ class SimulatorLoanActivity : AppCompatActivity() {
     private lateinit var mountText: TextView
     private lateinit var totalText: TextView
 
-    private lateinit var device1: TextView
-    private lateinit var device2: TextView
-
     // ------------------
     // TO CREATE
     // ------------------
@@ -36,7 +37,11 @@ class SimulatorLoanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
-        title = "Simulator Loan"
+        title = R.string.loan_title.toString()
+
+        amountLayoutText = findViewById(R.id.loan_amount_txt)
+        contributionLayoutText = findViewById(R.id.loan_contribution_txt)
+
         amountEditText = findViewById(R.id.loan_amount_edit_text)
         contributionEditText = findViewById(R.id.loan_contribution_edit_text)
         interestEditText = findViewById(R.id.loan_interest_edit_text)
@@ -45,12 +50,10 @@ class SimulatorLoanActivity : AppCompatActivity() {
         mountText = findViewById(R.id.loan_calcul_mount_txt)
         totalText = findViewById(R.id.loan_calcul_total_txt)
 
-        device1 = findViewById(R.id.loan_device_txt)
-        device2 = findViewById(R.id.loan_contribution_device_txt)
         //val idRealtor = intent.getStringExtra("Realtor").toString().toLong()
         //setupDevice(idRealtor)
         setupEditText()
-        displayResult("$")
+        displayResult()
     }
 
     // ------------------
@@ -66,9 +69,9 @@ class SimulatorLoanActivity : AppCompatActivity() {
     }
 
     private fun changeDevice(device: String){
-        device1.text = device
-        device2.text = device
-        displayResult(device)
+        amountLayoutText.suffixText = device
+        contributionLayoutText.suffixText = device
+        displayResult()
     }
 
     // ------------------
@@ -90,7 +93,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
                 if (s.isNullOrBlank()){
                     editText.error = "$text is required."
                 }else{
-                    editText.error = ""
+                    editText.error = null
                     checkCalculator()
                 }
             }
@@ -123,16 +126,15 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // RESULT
     // ------------------
 
-    @SuppressLint("SetTextI18n")
-    private fun displayResult(device: String) {
+    private fun displayResult() {
         viewModel.interest.observe(this,  {
-            interestText.text = it.toString() + device
+            interestText.text = it.toString()
         })
         viewModel.mount.observe(this,  {
-            mountText.text = it.toString() + device
+            mountText.text = it.toString()
         })
         viewModel.total.observe(this, {
-            totalText.text = it.toString() + device
+            totalText.text = it.toString()
         })
     }
 }

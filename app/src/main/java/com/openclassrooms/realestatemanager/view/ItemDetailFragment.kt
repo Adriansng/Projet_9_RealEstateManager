@@ -54,7 +54,6 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             rootView.findViewById<TextView>(R.id.item_detail_address_txt)
             rootView.findViewById<TextView>(R.id.item_detail_city_txt)
             rootView.findViewById<TextView>(R.id.item_detail_code_postal_txt)
-            rootView.findViewById<TextView>(R.id.item_detail_country_txt)
             // close
             rootView.findViewById<ImageView>(R.id.item_detail_school_check_iv)
             rootView.findViewById<ImageView>(R.id.item_detail_commerce_check_iv)

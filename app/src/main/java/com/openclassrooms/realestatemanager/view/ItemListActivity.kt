@@ -211,7 +211,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val device : String = listItems[i]
             dialogueInterface.dismiss()
             inEuro = device == "Euro"
-            realtor?.id?.let { viewModel.updateDeviceForRealtor(it, inEuro) }
+            realtor.id.let { viewModel.updateDeviceForRealtor(it, inEuro) }
         }
         // Set the neutral/cancel button click listener
         builder.setNeutralButton("Cancel") { dialog, _ ->
@@ -326,7 +326,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun launchSimulatorLoan(){
         val intent = Intent(this, SimulatorLoanActivity::class.java)
-        intent.putExtra("Realtor", realtor?.id)
+        intent.putExtra("Realtor", realtor.id)
         startActivity(intent)
     }
 
@@ -348,7 +348,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
                     arguments = Bundle().apply {
-                        putParcelable(ItemDetailFragment.ARG_ITEM_ID, item)
+                        putSerializable(ItemDetailFragment.ARG_ITEM_ID, item)
                     }
                 }
                 parentActivity.supportFragmentManager

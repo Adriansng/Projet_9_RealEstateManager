@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     // ------------------
     // ITEM LIST
     // ------------------
@@ -52,6 +53,9 @@
     <string name="add_price">Prix</string>
     <string name="add_sold">Vendu</string>
     <string name="add_school">Ecole</string>
+    <string name="add_address">Adresse</string>
+    <string name="add_city">Ville</string>
+    <string name="add_zip_code">Code Postal</string>
 
     // ------------------
     // SEARCH REAL ESTATE
@@ -62,11 +66,12 @@
     <string name="search_bathrooms">Salles de bain</string>
     <string name="search_bedrooms">Chambres</string>
     <string name="search_rooms">Pièces</string>
-    <string name="search_price">Prix</string>
     <string name="search_sold">Vendu</string>
     <string name="search_flat">Appartement</string>
     <string name="search_house">Maison</string>
     <string name="search_title">Filtre Bien Immobillier</string>
+    <string name="search_min" >Prix min</string>
+    <string name="search_max">Prix max</string>
     // ------------------
     // LOAN
     // ------------------
@@ -86,6 +91,9 @@
     <string name="menu_item_add_realtor">Ajouter un agent </string>
     <string name="menu_item_change_device">Changer de device</string>
     <string name="menu_item_simulator_loan">Simulateur de Prêt </string>
+    <string name="menu_fitler">filter list</string>
+    <string name="menu_edit_real_estate">edit real estate</string>
+    <string name="menu_add_real_estate">add real estate</string>
 
     // ------------------
     // DESCRIPTIONS
@@ -101,9 +109,4 @@
     <string name="description_item_detail_approximate">icone proche de </string>
     <string name="description_item_detail_sale">icone vente</string>
     <string name="description_button_calcul">boutton pour le calcul</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="menu_fitler">filter list</string>
-    <string name="menu_edit_real_estate">edit real estate</string>
-    <string name="menu_add_real_estate">add real estate</string>
 </resources>

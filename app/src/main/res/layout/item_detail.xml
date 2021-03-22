@@ -433,15 +433,6 @@
         app:layout_constraintStart_toStartOf="@+id/item_detail_city_txt"
         app:layout_constraintTop_toBottomOf="@+id/item_detail_city_txt" />
 
-    <TextView
-        android:id="@+id/item_detail_country_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="@string/item_detail_country"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/item_detail_code_postal_txt"
-        app:layout_constraintTop_toBottomOf="@+id/item_detail_code_postal_txt" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/item_detail_card_view"
@@ -450,8 +441,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/item_detail_country_txt"
-        app:layout_constraintTop_toBottomOf="@+id/item_detail_country_txt">
+        app:layout_constraintStart_toStartOf="@+id/item_detail_code_postal_txt"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_code_postal_txt">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/item_detail_map_location_iv"

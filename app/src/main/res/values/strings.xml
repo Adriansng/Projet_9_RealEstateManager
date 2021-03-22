@@ -6,6 +6,8 @@
 
     <string name="dollar" translatable="false">$</string>
     <string name="euro" translatable="false">Euro</string>
+    <string name="drawer_open" translatable="false">Open</string>
+    <string name="drawer_close" translatable="false">Close</string>
 
     // ------------------
     // ITEM LIST
@@ -69,6 +71,9 @@
     <string name="add_price">Price</string>
     <string name="add_sold">Sold</string>
     <string name="add_type" translatable="false">Type</string>
+    <string name="add_address">Address</string>
+    <string name="add_city">City</string>
+    <string name="add_zip_code">Zip code</string>
 
     // ------------------
     // SEARCH REAL ESTATE
@@ -88,15 +93,14 @@
     <string name="search_rooms">Rooms min</string>
     <string name="search_m" translatable="false">m²</string>
     <string name="search_surface" translatable="false">Surface</string>
-    <string name="search_price">Price</string>
     <string name="search_sold">Sold</string>
     <string name="search_duplex" translatable="false">Duplex</string>
     <string name="search_penthouse" translatable="false">Penthouse</string>
     <string name="search_flat">Flat</string>
     <string name="search_house">House</string>
     <string name="search_type" translatable="false">Type</string>
-    <string name="search_min" translatable="false">min</string>
-    <string name="search_max" translatable="false">max</string>
+    <string name="search_min" >Price min</string>
+    <string name="search_max">Price max</string>
 
     // ------------------
     // MENU
@@ -107,6 +111,9 @@
     <string name="menu_item_simulator_loan">Simulator of Loan</string>
     <string name="menu_header_first_name" translatable="false">John</string>
     <string name="menu_header_name" translatable="false">SMITH</string>
+    <string name="menu_fitler">filter list</string>
+    <string name="menu_edit_real_estate">edit real estate</string>
+    <string name="menu_add_real_estate">add real estate</string>
 
     // ------------------
     // LOAN
@@ -135,9 +142,4 @@
     <string name="description_item_detail_approximate">icon approximate</string>
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="menu_fitler">filter list</string>
-    <string name="menu_edit_real_estate">edit real estate</string>
-    <string name="menu_add_real_estate">add real estate</string>
 </resources>

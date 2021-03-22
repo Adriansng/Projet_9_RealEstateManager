@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -18,26 +19,27 @@
         app:title="@string/add_title"
         app:titleTextColor="@color/colorAccentWhite" />
 
-    <TextView
-        android:id="@+id/add_RE_type_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_type"
-        style="@style/theme_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_toolbar" />
 
-    <Spinner
-        android:id="@+id/add_RE_type_spinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_type_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_type_txt"
-        app:layout_constraintEnd_toEndOf="@+id/add_RE_park_cb"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_type_txt" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_toolbar"
+        app:startIconDrawable="@drawable/ic_baseline_home_work_24">
+
+        <AutoCompleteTextView
+            android:id="@+id/add_RE_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_type"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -45,184 +47,222 @@
         style="@style/theme_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/add_sold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/add_device_switch"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_toolbar" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_price_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_type_txt" />
 
-    <TextView
-        android:id="@+id/add_RE_price_txt"
-        style="@style/theme_title"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_price_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_price"
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_price"
         app:layout_constraintStart_toStartOf="@+id/add_RE_type_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_type_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_type_txt"
+        app:startIconDrawable="@drawable/ic_baseline_dollar">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_price_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:maxEms="10"
-        android:singleLine="true"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_txt"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_type_spinner"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_price_txt" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_price_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/add_device_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_price_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_price_edit_text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/add_device_switch"
         style="@style/theme_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="@string/euro"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_device_txt"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_price_edit_text" />
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_price_text"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_sold_switch"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_sold_switch"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_sold_switch" />
 
-    <TextView
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_RE_surface_txt"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="@string/add_surface"
-        style="@style/theme_title"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_price_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_price_edit_text" />
+        android:hint="@string/add_surface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_price_text"
+        app:startIconDrawable="@drawable/baseline_aspect_ratio_24"
+        app:suffixText="@string/add_m">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_surface_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        android:inputType="number"
-        android:maxEms="2"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_surface_txt"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_price_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_surface_txt" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_surface_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="5"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/add_RE_surface_unity_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/add_m"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_surface_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_surface_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_surface_edit_text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_RE_room_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_rooms"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_surface_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_surface_edit_text" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_room_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_room_txt"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_surface_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_room_txt" />
-
-    <TextView
-        android:id="@+id/add_RE_room_nb_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/add_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_room_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_room_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_room_edit_text" />
-
-    <TextView
-        android:id="@+id/add_RE_bedrooms_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_bedrooms"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_room_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_edit_text" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_bedrooms_edit_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_txt"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_txt" />
+        android:hint="@string/add_rooms"
+        app:layout_constraintEnd_toEndOf="@+id/add_device_switch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_surface_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_surface_txt"
+        app:startIconDrawable="@drawable/baseline_home_24"
+        app:suffixText="@string/add_nb">
 
-    <TextView
-        android:id="@+id/add_RE_bedrooms_nb_txt"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_room_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="2"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_bedrooms_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/add_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_bedrooms_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_edit_text" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_bedrooms"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_surface_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_txt"
+        app:startIconDrawable="@drawable/baseline_bedroom_child_24"
+        app:suffixText="@string/add_nb">
 
-    <TextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_bedrooms_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="2"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_RE_bathrooms_txt"
-        style="@style/theme_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_bathrooms"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_room_txt"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_txt"
+        app:startIconDrawable="@drawable/baseline_bathroom_24"
+        app:suffixText="@string/add_nb">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_bathrooms_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="2"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_address_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/add_bathrooms"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_nb_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_room_edit_text" />
+        android:hint="@string/add_address"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_bathrooms_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_bedrooms_txt"
+        app:startIconDrawable="@drawable/baseline_location_on_24">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_bathrooms_edit_text"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_address_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="155"
+            android:inputType="textPostalAddress"
+            android:maxEms="2"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_city_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_room_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintVertical_bias="0.652" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_city"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_address_text">
 
-    <TextView
-        android:id="@+id/add_RE_bathrooms_nb_txt"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_city_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="155"
+            android:inputType="textPostalAddress"
+            android:maxEms="2"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_zip_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/add_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/add_RE_bedrooms_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/add_RE_bathrooms_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/add_RE_bedrooms_edit_text" />
+        android:layout_marginStart="8dp"
+        android:hint="@string/add_zip_code"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_address_text"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_city_text"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_city_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_zip_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="textPostalAddress"
+            android:maxEms="2"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/add_RE_approximate_txt"
@@ -232,7 +272,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/add_approximate"
         app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_bedrooms_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_city_text" />
 
     <CheckBox
         android:id="@+id/add_RE_school_cb"
@@ -263,29 +303,29 @@
         app:layout_constraintStart_toEndOf="@+id/add_RE_commerce_cb"
         app:layout_constraintTop_toBottomOf="@+id/add_RE_approximate_txt" />
 
-    <TextView
-        android:id="@+id/add_RE_description_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_description"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_photo_recyclerview" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/add_RE_description_edit_text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_RE_description_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:ems="2000"
-        android:inputType="number"
-        android:maxEms="2000"
-        android:singleLine="false"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/add_RE_description_txt"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_description_txt" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/add_description"
+        app:layout_constraintEnd_toEndOf="@+id/add_RE_zip_text"
+        app:layout_constraintStart_toStartOf="@+id/add_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_photo_recyclerview">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_RE_description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:maxEms="2"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/add_RE_photo_txt"
@@ -324,6 +364,6 @@
         android:src="@drawable/ic_baseline_add_business_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_RE_description_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/add_RE_description_txt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

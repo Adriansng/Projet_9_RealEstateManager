@@ -4,149 +4,115 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loan_amount_txt"
-        style="@style/theme_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/loan_amount"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/loan_amount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:suffixText="@string/dollar">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loan_amount_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_amount_txt"
-        app:layout_constraintStart_toEndOf="@+id/loan_amount_txt"
-        app:layout_constraintTop_toTopOf="@+id/loan_amount_txt" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loan_amount_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/loan_device_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_amount_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/loan_amount_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/loan_amount_edit_text" />
-
-
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loan_contribution_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/loan_contribution"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loan_amount_edit_text" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/loan_contribution"
+        app:layout_constraintStart_toStartOf="@+id/loan_amount_txt"
+        app:layout_constraintTop_toBottomOf="@+id/loan_amount_txt"
+        app:suffixText="@string/dollar">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loan_contribution_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:maxEms="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_contribution_txt"
-        app:layout_constraintEnd_toStartOf="@+id/loan_device_txt"
-        app:layout_constraintStart_toEndOf="@+id/loan_contribution_txt"
-        app:layout_constraintTop_toTopOf="@+id/loan_contribution_txt" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loan_contribution_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/loan_contribution_device_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_contribution_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/loan_contribution_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/loan_contribution_edit_text" />
-
-
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loan_interest_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/loan_interest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loan_contribution_edit_text" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loan_interest_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="4"
-        android:maxEms="4"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_interest_txt"
-        app:layout_constraintStart_toEndOf="@+id/loan_interest_txt"
-        app:layout_constraintTop_toTopOf="@+id/loan_interest_txt" />
-
-
-    <TextView
-        android:id="@+id/loan_interest_device_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/loan_pourcentage"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_interest_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/loan_interest_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/loan_interest_edit_text" />
-
-    <TextView
-        android:id="@+id/loan_term_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/loan_term"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_interest_device_txt"
-        app:layout_constraintStart_toEndOf="@+id/loan_interest_device_txt"
-        app:layout_constraintTop_toTopOf="@+id/loan_interest_device_txt" />
+        android:layout_marginEnd="16dp"
+        android:hint="@string/loan_interest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/loan_amount_txt"
+        app:layout_constraintTop_toTopOf="@+id/loan_amount_txt"
+        app:suffixText="@string/loan_pourcentage">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loan_term_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="2"
-        android:maxEms="2"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_term_txt"
-        app:layout_constraintStart_toEndOf="@+id/loan_term_txt"
-        app:layout_constraintTop_toTopOf="@+id/loan_term_txt" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loan_interest_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="numberDecimal"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/loan_term_device_txt"
-        android:layout_width="0dp"
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loan_term_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loan_years"
-        app:layout_constraintBottom_toBottomOf="@+id/loan_term_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/loan_term_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/loan_term_edit_text" />
+        android:layout_marginEnd="16dp"
+        android:hint="@string/loan_term"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/loan_interest_txt"
+        app:layout_constraintTop_toTopOf="@+id/loan_contribution_txt"
+        app:suffixText="@string/loan_years">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loan_term_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="7"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/loan_button_calcul_iv"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/description_button_calcul"
         android:src="@drawable/ic_baseline_calculate_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loan_interest_edit_text"
-        android:contentDescription="@string/description_button_calcul" />
+        app:layout_constraintTop_toBottomOf="@+id/loan_contribution_txt" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"

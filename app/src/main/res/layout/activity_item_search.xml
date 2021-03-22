@@ -76,62 +76,55 @@
         app:layout_constraintStart_toEndOf="@+id/search_RE_type_penthouse_cb"
         app:layout_constraintTop_toTopOf="@+id/search_RE_type_txt" />
 
-    <TextView
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_RE_price_txt"
-        style="@style/theme_title"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/search_price"
+        android:layout_marginTop="24dp"
+        android:hint="@string/search_min"
         app:layout_constraintStart_toStartOf="@+id/search_RE_type_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_flat_cb" />
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_flat_cb"
+        app:suffixText="@string/dollar">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_price_min_edit_text"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_price_min_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_RE_price_max_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxEms="10"
-        android:text="@string/search_min"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_txt"
-        app:layout_constraintEnd_toStartOf="@+id/search_device_min_txt"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_type_flat_cb"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_price_txt" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/search_max"
+        app:suffixText="@string/dollar"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_price_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_txt">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_price_max_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:maxEms="10"
-        android:singleLine="true"
-        android:text="@string/search_max"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/search_device_min_txt"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_price_min_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_min_edit_text" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_price_max_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/search_device_min_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_min_edit_text"
-        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_duplex_cb"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_price_min_edit_text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/search_device_max_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_max_edit_text"
-        app:layout_constraintEnd_toEndOf="@+id/search_RE_type_duplex_cb"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_price_max_edit_text" />
+
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/search_device_switch"
@@ -140,10 +133,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="@string/euro"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_min_edit_text"
+        app:layout_constraintBottom_toBottomOf="@+id/search_RE_price_txt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/search_device_min_txt"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_price_min_edit_text" />
+        app:layout_constraintStart_toEndOf="@+id/search_RE_price_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_price_txt" />
 
     <TextView
         android:id="@+id/search_RE_surface_txt"
@@ -153,143 +146,93 @@
         android:text="@string/search_surface"
         style="@style/theme_title"
         app:layout_constraintStart_toStartOf="@+id/search_RE_price_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_max_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_max_text" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_surface_min_edit_text"
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/search_RE_surface_Slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="5"
-        android:inputType="number"
-        android:maxEms="2"
-        android:text="@string/search_min"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_txt"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_price_max_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_txt" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_surface_max_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        android:inputType="number"
-        android:maxEms="2"
-        android:text="@string/search_max"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_surface_min_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_min_edit_text" />
-
-    <TextView
-        android:id="@+id/search_RE_surface_min_unity_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/search_m"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_min_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_min_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_min_edit_text" />
-
-    <TextView
-        android:id="@+id/search_RE_surface_max_unity_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/search_m"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_surface_max_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_max_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_surface_max_edit_text" />
-
-    <TextView
-        android:id="@+id/search_RE_room_txt"
-        style="@style/theme_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/search_rooms"
+        app:values="@array/initial_range_slider_values"
+        android:valueFrom="20.0"
+        android:valueTo="1000.0"
+        android:stepSize="10.0"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_sold_switch"
         app:layout_constraintStart_toStartOf="@+id/search_RE_surface_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_max_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_txt" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_room_edit_text"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_RE_room_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_room_txt"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_txt"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_room_txt" />
+        android:hint="@string/search_rooms"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_surface_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_surface_Slider"
+        app:suffixText="@string/search_nb">
 
-    <TextView
-        android:id="@+id/search_RE_room_nb_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/search_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_room_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_room_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_room_edit_text" />
 
-    <TextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_room_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="7"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_RE_bedrooms_txt"
-        style="@style/theme_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/search_bedrooms"
+        android:layout_marginTop="8dp"
+        android:hint="@string/search_bedrooms"
+        app:suffixText="@string/search_nb"
         app:layout_constraintStart_toStartOf="@+id/search_RE_room_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_txt" >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_bedrooms_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_txt"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_room_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_txt" />
 
-    <TextView
-        android:id="@+id/search_RE_bedrooms_nb_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/search_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_edit_text" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_bedrooms_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-    <TextView
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_RE_bathrooms_txt"
-        style="@style/theme_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/search_bathrooms"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_nb_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_edit_text" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/search_bathrooms"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_bedrooms_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_room_txt"
+        app:suffixText="@string/search_nb">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_RE_bathrooms_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="2"
-        android:inputType="number"
-        android:maxEms="2"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_txt"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_bathrooms_txt"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_txt" />
 
-    <TextView
-        android:id="@+id/search_RE_bathrooms_nb_txt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/search_nb"
-        app:layout_constraintBottom_toBottomOf="@+id/search_RE_bedrooms_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_bathrooms_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_bedrooms_edit_text" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_bathrooms_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:inputType="number"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/search_RE_approximate_txt"
@@ -299,7 +242,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/search_approximate"
         app:layout_constraintStart_toStartOf="@+id/search_RE_bedrooms_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_bedrooms_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_bedrooms_txt" />
 
     <CheckBox
         android:id="@+id/search_RE_school_cb"
