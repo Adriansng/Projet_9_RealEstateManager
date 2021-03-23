@@ -12,7 +12,7 @@ interface RealEstateDao {
     @Query("SELECT * FROM Real_Estate WHERE id = :id")
     fun getRealEstate(id: Long): RealEstate
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRealEstates(vararg realEstates: RealEstate)
 
     @Update

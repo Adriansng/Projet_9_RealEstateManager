@@ -12,10 +12,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single {
-        Room.databaseBuilder(
-                get(),
-                RealEstateDatabase::class.java, "rem_database"
-        ).build()
+        RealEstateDatabase.buildDatabase(get())
     }
     single { get<RealEstateDatabase>().realEstateDao() }
     single { get<RealEstateDatabase>().realtorDao() }
