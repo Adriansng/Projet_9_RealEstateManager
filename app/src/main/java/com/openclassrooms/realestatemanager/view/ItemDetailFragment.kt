@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.R.drawable
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * A fragment representing a single Item detail screen.
@@ -20,20 +21,25 @@ import com.openclassrooms.realestatemanager.model.RealEstate
  */
 class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
+
+    // --- FOR DATA ---
+
+    private val viewModel : ItemDetailFragmentViewModel by viewModel()
     private var item: RealEstate? = null
+
+    // ------------------
+    // TO CREATE
+    // ------------------
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            if (it.containsKey("RealEstate")) {
+            if (it.containsKey(ARG_ITEM_ID)) {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                item = it.getSerializable(ARG_ITEM_ID) as RealEstate?
+                item = setUpRealEstates(it.getString(ARG_ITEM_ID))
                 activity?.findViewById<Toolbar>(R.id.item_detail_toolbar)?.title = item?.type
             }
         }
@@ -82,5 +88,13 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
          * represents.
          */
         const val ARG_ITEM_ID = "item_id"
+    }
+
+    // ------------------
+    // REAL ESTATE
+    // ------------------
+
+    private fun setUpRealEstates(id: String?): RealEstate {
+        return viewModel.getRealEstate(id.toString().toLong())
     }
 }

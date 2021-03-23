@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- FOR DATA ---
 
-
     private val viewModel : ItemListViewModel by viewModel()
 
     private lateinit var recyclerView: RecyclerView
@@ -49,12 +49,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var drawerView: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var spinnerRealtors: AutoCompleteTextView
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private var twoPane: Boolean = false
 
+    private var twoPane: Boolean = false
     private var inEuro: Boolean = false
 
     private lateinit var realEstates: List<RealEstate>
@@ -69,26 +65,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-        recyclerView = findViewById(R.id.item_list)
-        toolbar = findViewById(R.id.item_list_toolbar)
-        drawerView = findViewById(R.id.drawer_layout)
-        navView = findViewById(R.id.nav_view_menu)
         setSupportActionBar(toolbar)
+        setUpUI()
         setUpRealEstates()
         setUpRealtors()
         setUpRealtor()
-        setupToolbar()
-        setupOpenNavDrawer()
-
-
-        if (findViewById<FrameLayout>(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            twoPane = true
-        }
-
 
     }
 
@@ -108,7 +89,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpRealtors(){
         viewModel.getRealtors().observe(this, {
-             realtors= it
+            realtors= it
         })
     }
 
@@ -119,6 +100,25 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // ------------------
     // UI
     // ------------------
+
+    // --- SETUP ---
+
+    private fun setUpUI(){
+        if (findViewById<FrameLayout>(R.id.item_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            twoPane = true
+        }
+        recyclerView = findViewById(R.id.item_list)
+        toolbar = findViewById(R.id.item_list_toolbar)
+        drawerView = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view_menu)
+        setSupportActionBar(toolbar)
+        setupToolbar()
+        setupOpenNavDrawer()
+    }
 
     // --- TOOLBAR ---
 
@@ -131,7 +131,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_list_activity, menu)
-       return true
+        menu?.findItem(R.id.item_list_edit_toolbar)?.isVisible = !twoPane
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -206,7 +207,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             realtor = viewModel.getRealtor(item.id)
         }
     }
-
 
     // --- POPUP ---
 
@@ -288,7 +288,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     // get edit text layout
-    private fun getEditTextLayout(context: Context):ConstraintLayout{
+    private fun getEditTextLayout(context: Context): ConstraintLayout {
         val constraintLayout = ConstraintLayout(context)
         val layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -351,8 +351,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
 
-
-
     // --- RECYCLER VIEW REAL ESTATE---
 
     private fun setupRecyclerView(realEstates: List<RealEstate>) {
@@ -371,7 +369,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable("RealEstate", item)
+                        putString(ItemDetailFragment.ARG_ITEM_ID, item.id.toString())
                     }
                 }
                 parentActivity.supportFragmentManager
@@ -380,7 +378,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                         .commit()
             } else {
                 val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                    putExtra("RealEstate", item)
+                    putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id.toString())
                     putExtra("Realtor", realtor)
                 }
                 v.context.startActivity(intent)
@@ -399,9 +397,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             holder.type.text = item.type
             holder.address.text = item.address
             if(inEuro){
-                "${Utils.convertDollarToEuro(item.price.toInt())} €".also { holder.price.text = it }
+                "${Utils.convertDollarToEuro(item.price)} €".also { holder.price.text = it }
             }else{
-                "${item.price.toInt()} $".also { holder.price.text = it }
+                "${item.price} $".also { holder.price.text = it }
             }
             with(holder.itemView) {
                 tag = item

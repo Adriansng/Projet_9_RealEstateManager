@@ -25,7 +25,6 @@ class ItemDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         setSupportActionBar(findViewById(R.id.item_detail_toolbar))
-        realtorId = intent.getLongExtra("Realtor", 0)
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -47,7 +46,10 @@ class ItemDetailActivity : AppCompatActivity() {
                         intent.getStringExtra("RealEstate"))
 
             val fragment = ItemDetailFragment().apply {
-                bundle.apply {  }
+               arguments = Bundle().apply {
+                   putString(ItemDetailFragment.ARG_ITEM_ID,
+                           intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
+               }
             }
 
             supportFragmentManager.beginTransaction()
@@ -84,7 +86,8 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private fun launchItemCreation(){
         val intent = Intent(this, ItemCreationRealEstate::class.java)
-        intent.putExtra("Realtor", realtorId)
+        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID,
+                intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
         startActivity(intent)
     }
 
