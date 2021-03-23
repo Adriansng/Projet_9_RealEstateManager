@@ -12,14 +12,12 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.view.ItemListActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 
 class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
                                   private val values: List<RealEstate>,
                                   private val twoPane: Boolean,
-                                  private val realtor: Realtor,
                                   private val inEuro: Boolean) :
         RecyclerView.Adapter<ItemListRecyclerViewAdapter.ViewHolder>() {
 
@@ -38,7 +36,6 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
         } else {
             val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
                 putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id.toString())
-                putExtra("Realtor", realtor)
             }
             v.context.startActivity(intent)
         }

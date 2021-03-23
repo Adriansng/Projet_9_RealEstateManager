@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.ItemList
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
-import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +24,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.view.ItemList.ItemListRecyclerViewAdapter
+import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
+import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
@@ -67,10 +66,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         setUpUI()
-        setUpRealEstates()
         setUpRealtors()
         setUpRealtor()
-
+        setUpRealEstates()
     }
 
     // ------------------
@@ -189,7 +187,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.menu_add_realtor_item -> popupAddRealtor()
-            R.id.menu_change_device_item -> popupChangeDevice()
+            R.id.menu_change_device_item -> popupChangeDevice(realtor)
             R.id.menu_loan_item -> launchSimulatorLoan()
         }
         drawerView.closeDrawer(GravityCompat.START)
@@ -200,7 +198,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpSpinnerRealtors() {
         val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
-        spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
+        spinnerRealtors = findViewById(R.id.nav_header_realtor_autocomplete)
         spinnerRealtors.setAdapter(adapter)
         spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
             val item = view.tag as Realtor
@@ -210,7 +208,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- POPUP ---
 
-    private fun popupChangeDevice(){
+    private fun popupChangeDevice(realtor: Realtor){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Change device")
         val listItems = arrayOf("Dollar", "Euro")
@@ -353,6 +351,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- RECYCLER VIEW REAL ESTATE---
 
     private fun setupRecyclerView(realEstates: List<RealEstate>) {
-            recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, realtor, inEuro)
+            recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
     }
 }
