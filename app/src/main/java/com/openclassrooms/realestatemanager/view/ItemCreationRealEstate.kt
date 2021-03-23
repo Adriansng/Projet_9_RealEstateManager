@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,12 @@ import java.util.*
     private lateinit var cityEdit: TextInputEditText
     private lateinit var zipEdit: TextInputEditText
     private lateinit var descriptionEdit: TextInputEditText
+
+
+     private lateinit var closeToSchool: CheckBox
+     private lateinit var closeToCommerce: CheckBox
+     private lateinit var closeToPark: CheckBox
+
 
     private lateinit var button: ImageView
 
@@ -75,11 +82,14 @@ import java.util.*
         cityEdit = findViewById(R.id.add_RE_city_edit_text)
         zipEdit = findViewById(R.id.add_RE_zip_edit_text)
         descriptionEdit = findViewById(R.id.add_RE_description_edit_text)
-        button = findViewById(R.id.add_RE_button_add_iv)
+        setUpEditText()
 
+        closeToSchool = findViewById(R.id.add_RE_school_cb)
+        closeToCommerce = findViewById(R.id.add_RE_commerce_cb)
+        closeToPark = findViewById(R.id.add_RE_park_cb)
+        button = findViewById(R.id.add_RE_button_add_iv)
         button.setOnClickListener { checkCalculator() }
 
-        setUpEditText()
     }
 
     // --- SWITCH ---
@@ -169,6 +179,9 @@ import java.util.*
         realEstate.city = cityEdit.text.toString()
         realEstate.zipCode = zipEdit.text.toString()
         realEstate.descriptionRealEstate = descriptionEdit.text.toString()
+        realEstate.closeToSchool = closeToSchool.isChecked
+        realEstate.closeToCommerce = closeToCommerce.isChecked
+        realEstate.closeToPark = closeToPark.isChecked
         realEstate.idRealtor = this.realtorId
         viewModel.addRealEstate(realEstate)
         finishActivity()

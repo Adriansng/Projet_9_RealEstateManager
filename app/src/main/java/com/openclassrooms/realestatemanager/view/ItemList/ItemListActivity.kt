@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.view.ItemList
+package com.openclassrooms.realestatemanager.view
 
 import android.content.Context
 import android.content.Intent
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
-import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
