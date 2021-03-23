@@ -48,7 +48,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var toolbar: Toolbar1
     private lateinit var drawerView: DrawerLayout
     private lateinit var navView: NavigationView
-    private lateinit var spinnerRealtors: Spinner
+    private lateinit var spinnerRealtors: AutoCompleteTextView
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -113,7 +113,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun setUpRealtor(){
-       // realtor = viewModel.getRealtor(realtors[0].id)
+        realtor = viewModel.getRealtor(realtors[0].id)
     }
 
     // ------------------
@@ -195,11 +195,18 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
+    // --- SPINNER REALTORS ---
+
     private fun setUpSpinnerRealtors() {
-        val adapter = ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, realtors)
+        val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
-        spinnerRealtors.adapter = adapter
+        spinnerRealtors.setAdapter(adapter)
+        spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
+            val item = view.tag as Realtor
+            realtor = viewModel.getRealtor(item.id)
+        }
     }
+
 
     // --- POPUP ---
 

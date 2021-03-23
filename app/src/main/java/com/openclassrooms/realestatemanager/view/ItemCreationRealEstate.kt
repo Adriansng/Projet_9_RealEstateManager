@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -50,6 +51,7 @@ import java.util.*
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_item_creation)
         title = this.getString(R.string.add_title)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         realtorId = intent.getLongExtra("Realtor", 0)
         //realEstate = intent.getSerializableExtra("RealEstate") as RealEstate
         setUpUi()
@@ -167,6 +169,15 @@ import java.util.*
         realEstate.descriptionRealEstate = descriptionEdit.text.toString()
         realEstate.idRealtor = this.realtorId
         viewModel.addRealEstate(realEstate)
-
+        finishActivity()
     }
+
+     // ------------------
+     // FINISH ACTIVITY
+     // ------------------
+
+     private fun finishActivity(){
+         navigateUpTo(Intent(this, ItemListActivity::class.java))
+     }
+
 }
