@@ -26,6 +26,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.ItemList.ItemListRecyclerViewAdapter
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1

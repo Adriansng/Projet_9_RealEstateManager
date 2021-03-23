@@ -12,6 +12,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.ItemListActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 
