@@ -12,7 +12,7 @@ import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 
 @Database(entities = [Photo::class, RealEstate::class, Realtor::class],
-        version = 1)
+        version = 1, exportSchema = false)
 abstract class RealEstateDatabase : RoomDatabase() {
     abstract fun realEstateDao() : RealEstateDao
     abstract fun realtorDao() : RealtorDao
@@ -37,7 +37,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
                         RealEstateDatabase::class.java,
-                        "realty_database"
+                        "rem_database"
                 ).build()
                 INSTANCE = instance
                 return instance

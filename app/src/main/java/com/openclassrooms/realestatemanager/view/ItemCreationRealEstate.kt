@@ -5,7 +5,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.ImageViewCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.openclassrooms.realestatemanager.R
@@ -15,7 +17,7 @@ import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-abstract class ItemCreationRealEstate : AppCompatActivity() {
+ class ItemCreationRealEstate : AppCompatActivity() {
 
 
     private val viewModel : ItemCreationViewModel by viewModel()
@@ -35,6 +37,8 @@ abstract class ItemCreationRealEstate : AppCompatActivity() {
     private lateinit var zipEdit: TextInputEditText
     private lateinit var descriptionEdit: TextInputEditText
 
+    private lateinit var button: ImageView
+
     private var realEstate = RealEstate.default()
     private var realtorId : Long = 0
 
@@ -45,10 +49,10 @@ abstract class ItemCreationRealEstate : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_item_creation)
+        title = this.getString(R.string.add_title)
         realtorId = intent.getLongExtra("Realtor", 0)
-        realEstate = intent.getSerializableExtra("RealEstate") as RealEstate
+        //realEstate = intent.getSerializableExtra("RealEstate") as RealEstate
         setUpUi()
-
     }
 
     // ------------------
@@ -69,6 +73,10 @@ abstract class ItemCreationRealEstate : AppCompatActivity() {
         cityEdit = findViewById(R.id.add_RE_city_edit_text)
         zipEdit = findViewById(R.id.add_RE_zip_edit_text)
         descriptionEdit = findViewById(R.id.add_RE_description_edit_text)
+        button = findViewById(R.id.add_RE_button_add_iv)
+
+        button.setOnClickListener { checkCalculator() }
+
         setUpEditText()
     }
 
@@ -101,7 +109,6 @@ abstract class ItemCreationRealEstate : AppCompatActivity() {
                     editText.error = "$text is required."
                 }else{
                     editText.error = null
-                    checkCalculator()
                 }
             }
             override fun afterTextChanged(s: Editable?) {
@@ -112,8 +119,12 @@ abstract class ItemCreationRealEstate : AppCompatActivity() {
     // --- DROPDOWN MENU ---
 
     private fun setUpDropDownMenu(){
-        val items = listOf(Enum.TypeRealEstate.values())
-        val adapter = ArrayAdapter(applicationContext, R.layout.item_list, items)
+        val items = listOf(
+                "House",
+                "Flat",
+                "Duplex",
+                "Penthouse",)
+        val adapter = ArrayAdapter(applicationContext, R.layout.item_spinner, items)
         typeAutoCompleteTextView.setAdapter(adapter)
     }
     // ------------------
