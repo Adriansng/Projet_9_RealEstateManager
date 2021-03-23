@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,17 +12,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-/**
- * A fragment representing a single Item detail screen.
- * This fragment is either contained in a [ItemListActivity]
- * in two-pane mode (on tablets) or a [ItemDetailActivity]
- * on handsets.
- */
 class ItemDetailFragment : androidx.fragment.app.Fragment() {
-
 
     // --- FOR DATA ---
 
@@ -52,6 +48,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         // Show the dummy content as text in a TextView.
         item?.let {
             item!!.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
+            item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = it.toString() }
             item!!.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
             (item!!.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
             // room
@@ -66,17 +63,40 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             if(!item!!.closeToSchool){
             rootView.findViewById<ImageView>(R.id.item_detail_school_check_iv)
                     .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
+            }else{
+                rootView.findViewById<ImageView>(R.id.item_detail_school_check_iv)
+                        .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             if(!item!!.closeToCommerce){
             rootView.findViewById<ImageView>(R.id.item_detail_commerce_check_iv)
                     .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
+            }else{
+                rootView.findViewById<ImageView>(R.id.item_detail_commerce_check_iv)
+                        .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             if(!item!!.closeToPark){
                 rootView.findViewById<ImageView>(R.id.item_detail_park_check_iv)
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
+            }else{
+                rootView.findViewById<ImageView>(R.id.item_detail_park_check_iv)
+                        .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             // map
             rootView.findViewById<ImageView>(R.id.item_detail_map_location_iv)
+            // date
+            item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
+            if(item!!.saleCreation != null){
+                item!!.saleCreation.also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_txt). text = Utils.getFormatDate(it) }
+                VISIBLE.also { rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = it }
+            }else{
+                "".also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_txt). text = it }
+                "".also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_title_txt).text = it }
+                rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = INVISIBLE
+            }
+            // realtor
+            item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
+
+
         }
 
         return rootView
@@ -97,4 +117,13 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     private fun setUpRealEstates(id: String?): RealEstate {
         return viewModel.getRealEstate(id.toString().toLong())
     }
+
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    private fun setUpRealtor(id: Long): String {
+        return viewModel.getRealtor(id).name
+    }
+
 }

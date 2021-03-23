@@ -41,9 +41,6 @@ class ItemDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-                val bundle : Bundle = Bundle()
-                        bundle.putString("RealEstate",
-                        intent.getStringExtra("RealEstate"))
 
             val fragment = ItemDetailFragment().apply {
                arguments = Bundle().apply {
@@ -53,7 +50,7 @@ class ItemDetailActivity : AppCompatActivity() {
             }
 
             supportFragmentManager.beginTransaction()
-                    .add(R.id.item_list_frameLayout, fragment)
+                    .add(R.id.item_detail_container, fragment)
                     .commit()
         }
     }

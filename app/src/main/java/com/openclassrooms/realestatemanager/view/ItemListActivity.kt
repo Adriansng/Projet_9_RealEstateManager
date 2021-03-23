@@ -65,7 +65,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-        setSupportActionBar(toolbar)
         setUpUI()
         setUpRealEstates()
         setUpRealtors()
