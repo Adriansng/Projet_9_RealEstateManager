@@ -33,7 +33,7 @@ class RealtorRepository(
     fun updateDeviceForRealtor(id: Long, device: Boolean){
         val realtor = getRealtor(id)
         realtor.prefEuro = device
-        realtorDao.updateRealtor(realtor)
+        realtorDao.insertRealtors(realtor)
     }
 
     // --- CHANGE NAME ---

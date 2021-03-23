@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -103,10 +103,6 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
         const val ARG_ITEM_ID = "item_id"
     }
 

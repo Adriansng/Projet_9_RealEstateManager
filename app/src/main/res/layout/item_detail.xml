@@ -5,7 +5,7 @@
     android:id="@+id/item_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ItemDetailFragment">
+    tools:context=".view.itemDetail.ItemDetailFragment">
 
     <TextView
         android:id="@+id/item_detail_date_creation_title_txt"
@@ -65,13 +65,14 @@
         android:id="@+id/item_detail_realtor_creation_txt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/item_detail_realtor_creation"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/item_detail_date_sold_txt"
-        app:layout_constraintTop_toBottomOf="@+id/item_detail_date_sold_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_date_creation_txt" />
 
     <TextView
         android:id="@+id/item_detail_media_txt"

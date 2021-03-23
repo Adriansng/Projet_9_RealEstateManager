@@ -1,13 +1,13 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
+import com.openclassrooms.realestatemanager.view.ItemList.ItemListActivity
 
 /**
  * An activity representing a single Item detail screen. This

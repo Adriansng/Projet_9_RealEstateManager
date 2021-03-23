@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".view.ItemDetailActivity"
+    tools:context=".view.itemDetail.ItemDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <androidx.appcompat.widget.Toolbar
@@ -27,8 +27,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/item_detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_detail_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,13 +7,13 @@ import android.text.TextWatcher
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.ImageViewCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
-import com.openclassrooms.realestatemanager.utils.Enum
+import com.openclassrooms.realestatemanager.view.ItemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -145,6 +145,8 @@ import java.util.*
                 zipEdit.text.toString() != ("") &&
                 descriptionEdit.text.toString() != ("")){
             addRealEstate()
+        }else{
+            Toast.makeText(this, "Fill in all the fields", Toast.LENGTH_SHORT).show()
         }
     }
 
