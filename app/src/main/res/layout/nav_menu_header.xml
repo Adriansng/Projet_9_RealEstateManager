@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="@+id/nav_header_image_view">
 
         <AutoCompleteTextView
-            android:id="@+id/add_RE_type_spinner"
+            android:id="@+id/nav_header_realtor_autocomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/add_type"
