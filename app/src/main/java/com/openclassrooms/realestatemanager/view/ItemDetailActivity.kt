@@ -43,8 +43,8 @@ class ItemDetailActivity : AppCompatActivity() {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
                 val bundle : Bundle = Bundle()
-                        bundle.putString(ItemDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
+                        bundle.putString("RealEstate",
+                        intent.getStringExtra("RealEstate"))
 
             val fragment = ItemDetailFragment().apply {
                 bundle.apply {  }

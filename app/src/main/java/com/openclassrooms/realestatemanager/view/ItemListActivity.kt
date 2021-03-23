@@ -371,7 +371,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable(ItemDetailFragment.ARG_ITEM_ID, item)
+                        putSerializable("RealEstate", item)
                     }
                 }
                 parentActivity.supportFragmentManager
@@ -380,7 +380,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                         .commit()
             } else {
                 val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                    putExtra(ItemDetailFragment.ARG_ITEM_ID, item)
+                    putExtra("RealEstate", item)
                     putExtra("Realtor", realtor)
                 }
                 v.context.startActivity(intent)
@@ -399,9 +399,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             holder.type.text = item.type
             holder.address.text = item.address
             if(inEuro){
-                "${Utils.convertDollarToEuro(item.price.toInt())}+ €".also { holder.price.text = it }
+                "${Utils.convertDollarToEuro(item.price.toInt())} €".also { holder.price.text = it }
             }else{
-                "${item.price.toInt()}+ $".also { holder.price.text = it }
+                "${item.price.toInt()} $".also { holder.price.text = it }
             }
             with(holder.itemView) {
                 tag = item
