@@ -82,7 +82,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             // map
-            rootView.findViewById<ImageView>(R.id.item_detail_map_location_iv)
+            //rootView.findViewById<ImageView>(R.id.item_detail_map_location_iv)
             // date
             item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
             if(item!!.saleCreation != null){
@@ -94,7 +94,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = INVISIBLE
             }
             // realtor
-            item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
+            //item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
 
 
         }

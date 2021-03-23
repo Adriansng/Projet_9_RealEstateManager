@@ -93,7 +93,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun setUpRealtor(){
-        realtor = viewModel.getRealtor(realtors[0].id)
+        //realtor = viewModel.getRealtor(realtors[0].id)
     }
 
     // ------------------
@@ -199,7 +199,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpSpinnerRealtors() {
         val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
-        spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
+        spinnerRealtors = findViewById(R.id.nav_header_realtor_autocomplete)
         spinnerRealtors.setAdapter(adapter)
         spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
             val item = view.tag as Realtor
