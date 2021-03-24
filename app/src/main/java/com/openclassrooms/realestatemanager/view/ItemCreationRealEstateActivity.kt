@@ -10,20 +10,26 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
- class ItemCreationRealEstate : AppCompatActivity() {
+class ItemCreationRealEstateActivity : AppCompatActivity() {
 
 
     private val viewModel : ItemCreationViewModel by viewModel()
 
+    private lateinit var currentRealtor: Realtor
 
     private lateinit var soldSwitchMaterial: SwitchMaterial
 
@@ -47,8 +53,7 @@ import java.util.*
 
     private lateinit var button: ImageView
 
-    private var realEstate = RealEstate.default()
-    private var realtorId : Long = 0
+    private lateinit var realEstate : RealEstate
 
     // ------------------
     // TO CREATE
@@ -59,9 +64,13 @@ import java.util.*
         setContentView(R.layout.actvity_item_creation)
         title = this.getString(R.string.add_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        realtorId = intent.getLongExtra("Realtor", 0)
-        //realEstate = intent.getSerializableExtra("RealEstate") as RealEstate
+        getCurrentRealtor()
         setUpUi()
+        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+        if (realEstateId != null ){
+            realEstate = getRealEstate(realEstateId.toString().toLong())
+            editRealEstate(realEstate)
+        }
     }
 
     // ------------------
@@ -74,6 +83,7 @@ import java.util.*
         typeAutoCompleteTextView = findViewById(R.id.add_RE_type_spinner)
         setUpDropDownMenu()
         priceEdit = findViewById(R.id.add_RE_price_edit_text)
+        setUpDevice()
         surfaceEdit = findViewById(R.id.add_RE_surface_edit_text)
         roomEdit = findViewById(R.id.add_RE_room_edit_text)
         bedroomEdit = findViewById(R.id.add_RE_bedrooms_edit_text)
@@ -136,9 +146,46 @@ import java.util.*
                 "Flat",
                 "Duplex",
                 "Penthouse",)
-        val adapter = ArrayAdapter(applicationContext, R.layout.item_spinner, items)
+        val adapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, items)
         typeAutoCompleteTextView.setAdapter(adapter)
     }
+
+    // --- DEVICE ---
+
+    private fun setUpDevice(){
+        if(currentRealtor.prefEuro){
+            val priceLayout = findViewById<TextInputLayout>(R.id.add_RE_price_text)
+            priceLayout.startIconDrawable = ContextCompat.getDrawable(this,R.drawable.ic_baseline_euro_24)
+        }
+    }
+
+
+    // ------------------
+    // SET UP EDIT
+    // ------------------
+
+    private fun editRealEstate(realEstate: RealEstate){
+        typeAutoCompleteTextView.setText(realEstate.type)
+        if(currentRealtor.prefEuro){
+            priceEdit.setText(Utils.convertDollarToEuro(realEstate.price))
+        }else{
+            priceEdit.setText(realEstate.price)
+        }
+        surfaceEdit.setText(realEstate.area)
+        roomEdit.setText(realEstate.price)
+        bedroomEdit.setText(realEstate.numberBedroom)
+        bathroomEdit.setText(realEstate.numberBathroom)
+        addressEdit.setText(realEstate.address)
+        cityEdit.setText(realEstate.city)
+        zipEdit.setText(realEstate.zipCode)
+        descriptionEdit.setText(realEstate.descriptionRealEstate)
+        closeToSchool.isChecked = realEstate.closeToSchool
+        closeToCommerce.isChecked = realEstate.closeToCommerce
+        closeToPark.isChecked = realEstate.closeToPark
+        if(realEstate.saleCreation!= null) soldSwitchMaterial.isChecked = true
+    }
+
+
     // ------------------
     // CHECK FORM
     // ------------------
@@ -146,7 +193,7 @@ import java.util.*
     private fun checkCalculator(){
         if(typeAutoCompleteTextView.text.toString() != ("") &&
                 priceEdit.text.toString() != ("") &&
-                addressEdit.text.toString() != ("") &&
+                cityEdit.text.toString() != ("") &&
                 surfaceEdit.text.toString() != ("")&&
                 roomEdit.text.toString() != ("") &&
                 bathroomEdit.text.toString() != ("") &&
@@ -160,7 +207,6 @@ import java.util.*
         }
     }
 
-
     // ------------------
     // ADD REAL ESTATE
     // ------------------
@@ -170,7 +216,11 @@ import java.util.*
             realEstate.saleCreation = Date().time
         }
         realEstate.type = typeAutoCompleteTextView.text.toString()
-        realEstate.price = priceEdit.text.toString().toInt()
+        if(currentRealtor.prefEuro){
+        realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
+        }else{
+            realEstate.price = priceEdit.text.toString().toInt()
+        }
         realEstate.area = surfaceEdit.text.toString().toInt()
         realEstate.numberRoom = roomEdit.text.toString().toInt()
         realEstate.numberBedroom = bedroomEdit.text.toString().toInt()
@@ -182,17 +232,30 @@ import java.util.*
         realEstate.closeToSchool = closeToSchool.isChecked
         realEstate.closeToCommerce = closeToCommerce.isChecked
         realEstate.closeToPark = closeToPark.isChecked
-        realEstate.idRealtor = this.realtorId
+        realEstate.idRealtor = this.currentRealtor.id
         viewModel.addRealEstate(realEstate)
         finishActivity()
     }
 
-     // ------------------
-     // FINISH ACTIVITY
-     // ------------------
 
-     private fun finishActivity(){
-         navigateUpTo(Intent(this, ItemListActivity::class.java))
-     }
+    // ------------------
+    // REAL ESTATE
+    // ------------------
 
+    private fun getRealEstate(id : Long): RealEstate = viewModel.getRealEstate(id)
+
+    // ------------------
+    // REALTOR
+    // ------------------
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(this, {
+            currentRealtor = it
+        })
+    }
+    // ------------------
+    // FINISH ACTIVITY
+    // ------------------
+    private fun finishActivity(){
+        navigateUpTo(Intent(this, ItemListActivity::class.java))
+    }
 }

@@ -47,6 +47,6 @@ val simulatorModule = module {
 
 val itemCreationModule = module {
     viewModel {
-        ItemCreationViewModel(get())
+        ItemCreationViewModel(get(), get())
     }
 }

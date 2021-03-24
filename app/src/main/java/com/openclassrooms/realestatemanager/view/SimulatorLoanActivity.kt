@@ -14,7 +14,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class SimulatorLoanActivity : AppCompatActivity() {
 
     // --- FOR DATA ---
-
     private val viewModel : SimulatorLoanViewModel by viewModel()
 
     private lateinit var amountLayoutText: TextInputLayout
@@ -48,9 +47,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
         interestText = findViewById(R.id.loan_calcul_interest_txt)
         mountText = findViewById(R.id.loan_calcul_mount_txt)
         totalText = findViewById(R.id.loan_calcul_total_txt)
-
-        val prefEuro = intent.getBooleanExtra("Realtor", false)
-        setupDevice(prefEuro)
+        getCurrentRealtor()
         setupEditText()
         displayResult(" $")
     }
@@ -136,4 +133,16 @@ class SimulatorLoanActivity : AppCompatActivity() {
             (it.toString() + device).also { totalText.text = it }
         })
     }
+
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(this, {
+            val currentRealtor = it
+            setupDevice(currentRealtor.prefEuro)
+        })
+    }
+
 }

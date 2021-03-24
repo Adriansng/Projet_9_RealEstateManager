@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
+import com.openclassrooms.realestatemanager.view.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 
 /**
@@ -82,7 +82,7 @@ class ItemDetailActivity : AppCompatActivity() {
     }
 
     private fun launchItemCreation(){
-        val intent = Intent(this, ItemCreationRealEstate::class.java)
+        val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
         intent.putExtra(ItemDetailFragment.ARG_ITEM_ID,
                 intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
         startActivity(intent)

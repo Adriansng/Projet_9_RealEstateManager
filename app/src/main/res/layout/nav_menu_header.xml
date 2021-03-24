@@ -32,27 +32,16 @@
         android:layout_marginStart="16dp"
         android:contentDescription="@null" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <Spinner
         android:id="@+id/nav_header_realtor_spinner"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:hint="@string/add_type"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/nav_header_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nav_header_image_view"
-        app:layout_constraintTop_toTopOf="@+id/nav_header_image_view">
-
-        <AutoCompleteTextView
-            android:id="@+id/nav_header_realtor_autocomplete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/add_type"
-            android:inputType="none" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
+        app:layout_constraintTop_toTopOf="@+id/nav_header_image_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

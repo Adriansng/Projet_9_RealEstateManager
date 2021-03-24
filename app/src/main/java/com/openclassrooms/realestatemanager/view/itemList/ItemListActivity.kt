@@ -6,8 +6,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
-import android.view.*
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.Spinner
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
+import com.openclassrooms.realestatemanager.view.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,7 +45,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var toolbar: Toolbar1
     private lateinit var drawerView: DrawerLayout
     private lateinit var navView: NavigationView
-    private lateinit var spinnerRealtors: AutoCompleteTextView
+    private lateinit var spinnerRealtors: Spinner
 
     private var twoPane: Boolean = false
     private var inEuro: Boolean = false
@@ -66,7 +71,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // REAL ESTATE
     // ------------------
 
-    private fun setUpRealEstates(inEuro : Boolean){
+    private fun setUpRealEstates(inEuro: Boolean){
         viewModel.getRealEstates().observe(this, {
             realEstates = it
             setupRecyclerView(realEstates, inEuro)
@@ -78,12 +83,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpRealtors(){
         viewModel.getRealtors().observe(this, {
-            realtors= it
+            realtors = it
         })
     }
 
     private fun setUpRealtor(id: Long){
         realtor = viewModel.getRealtor(id)
+        viewModel.setRealtorCurrent(realtor)
         setUpRealEstates(realtor.prefEuro)
     }
 
@@ -167,6 +173,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             override fun onDrawerOpened(drawerView: View) {
                 setUpSpinnerRealtors()
             }
+
             override fun onDrawerClosed(drawerView: View) {}
             override fun onDrawerStateChanged(newState: Int) {}
         })
@@ -193,12 +200,21 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- SPINNER REALTORS ---
 
     private fun setUpSpinnerRealtors() {
-        val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
-        spinnerRealtors = findViewById(R.id.nav_header_realtor_autocomplete)
-        spinnerRealtors.setAdapter(adapter)
-        spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
-            val item = view.tag as? Realtor
-            item?.id?.let { setUpRealtor(it) }
+        val adapter: ArrayAdapter<Realtor> = ArrayAdapter<Realtor>(this, android.R.layout.simple_spinner_item, realtors)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
+        spinnerRealtors.adapter = adapter
+        spinnerRealtors.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                setUpRealtor(spinnerRealtors.selectedItemId)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
         }
     }
 
@@ -266,12 +282,16 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             override fun afterTextChanged(p0: Editable?) {
             }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int,
-                                           p2: Int, p3: Int) {
+            override fun beforeTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
             }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int,
-                                       p2: Int, p3: Int) {
+            override fun onTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
                 if (p0.isNullOrBlank()) {
                     textInputLayout.error = "Name is required."
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -342,8 +362,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- LAUNCH ITEM CREATION  ---
 
     private fun launchItemCreation(){
-        val intent = Intent(this, ItemCreationRealEstate::class.java)
-        intent.putExtra("Realtor", realtor.id)
+        val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
         startActivity(intent)
     }
 

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.view.itemDetail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     private val viewModel : ItemDetailFragmentViewModel by viewModel()
     private var item: RealEstate? = null
+    private var inEuro: Boolean = false
 
     // ------------------
     // TO CREATE
@@ -29,7 +31,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        getCurrentRealtor()
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 // Load the dummy content specified by the fragment
@@ -41,6 +43,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
@@ -48,7 +51,11 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         // Show the dummy content as text in a TextView.
         item?.let {
             item!!.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
-            item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = it.toString() }
+            if(inEuro){
+                item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = Utils.convertDollarToEuro(it).toString() + "€" }
+            }else{
+                item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = "$$it" }
+            }
             item!!.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
             (item!!.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
             // room
@@ -94,7 +101,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = INVISIBLE
             }
             // realtor
-            //item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
+            item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
 
 
         }
@@ -120,6 +127,13 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     private fun setUpRealtor(id: Long): String {
         return viewModel.getRealtor(id).name
+    }
+
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(viewLifecycleOwner, {
+            val currentRealtor = it
+            inEuro = currentRealtor.prefEuro
+        })
     }
 
 }
