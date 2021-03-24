@@ -25,7 +25,7 @@ class ItemListViewModel(private val realtorRepository: RealtorRepository,
 
     // --- ADD ---
 
-    fun addRealtor(name: String) = realtorRepository.createRealtor(Realtor(id = 0, name = name, prefEuro = false) )
+    fun addRealtor(realtor: Realtor) = realtorRepository.createRealtor(realtor )
 
     // --- UPDATE ---
 

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.ItemList.ItemListActivity"
+            android:name=".view.itemList.ItemListActivity"
             android:label="@string/title_item_list"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,11 +28,11 @@
         <activity
             android:name=".view.itemDetail.ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".view.ItemList.ItemListActivity"
+            android:parentActivityName=".view.itemList.ItemListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.openclassrooms.realestatemanager.view.ItemList.ItemListActivity" />
+                android:value="com.openclassrooms.realestatemanager.view.itemList.ItemListActivity" />
         </activity>
         <activity
         android:name=".view.SimulatorLoanActivity"

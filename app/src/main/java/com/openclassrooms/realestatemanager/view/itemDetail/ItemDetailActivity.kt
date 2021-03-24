@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.view.ItemCreationRealEstate
-import com.openclassrooms.realestatemanager.view.ItemList.ItemListActivity
+import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 
 /**
  * An activity representing a single Item detail screen. This

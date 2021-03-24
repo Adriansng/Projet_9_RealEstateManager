@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.view.ItemList
+package com.openclassrooms.realestatemanager.view.itemList
 
 import android.content.Context
 import android.content.Intent
@@ -30,14 +30,6 @@ import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // --- FOR DATA ---
@@ -66,19 +58,17 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         setUpUI()
-        setUpRealtors()
-        setUpRealtor()
-        setUpRealEstates()
+        setUpRealtor(0)
     }
 
     // ------------------
     // REAL ESTATE
     // ------------------
 
-    private fun setUpRealEstates(){
+    private fun setUpRealEstates(inEuro : Boolean){
         viewModel.getRealEstates().observe(this, {
             realEstates = it
-            setupRecyclerView(realEstates)
+            setupRecyclerView(realEstates, inEuro)
         })
     }
     // ------------------
@@ -91,8 +81,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
     }
 
-    private fun setUpRealtor(){
-        realtor = viewModel.getRealtor(0)
+    private fun setUpRealtor(id: Long){
+        realtor = viewModel.getRealtor(id)
+        setUpRealEstates(realtor.prefEuro)
+    }
+
+    private fun updateRealtor(realtor: Realtor){
+        viewModel.addRealtor(realtor)
     }
 
     // ------------------
@@ -197,12 +192,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- SPINNER REALTORS ---
 
     private fun setUpSpinnerRealtors() {
+        setUpRealtors()
         val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_autocomplete)
         spinnerRealtors.setAdapter(adapter)
         spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
             val item = view.tag as Realtor
-            realtor = viewModel.getRealtor(item.id)
+            setUpRealtor(item.id)
         }
     }
 
@@ -216,7 +212,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val device : String = listItems[i]
             dialogueInterface.dismiss()
             inEuro = device == "Euro"
-            realtor.id.let { viewModel.updateDeviceForRealtor(it, inEuro) }
+            realtor.prefEuro = inEuro
+            updateRealtor(realtor)
+            setUpRealtor(realtor.id)
         }
         // Set the neutral/cancel button click listener
         builder.setNeutralButton("Cancel") { dialog, _ ->
@@ -241,7 +239,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
-            viewModel.addRealtor(textInputEditText.text.toString())
+            val realtorAdd : Realtor= Realtor.default()
+            realtorAdd.name = textInputEditText.text.toString()
+            updateRealtor(realtorAdd)
             setUpSpinnerRealtors()
             dialog.dismiss()
         }
@@ -350,7 +350,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- RECYCLER VIEW REAL ESTATE---
 
-    private fun setupRecyclerView(realEstates: List<RealEstate>) {
+    private fun setupRecyclerView(realEstates: List<RealEstate>, inEuro: Boolean) {
             recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
     }
 }

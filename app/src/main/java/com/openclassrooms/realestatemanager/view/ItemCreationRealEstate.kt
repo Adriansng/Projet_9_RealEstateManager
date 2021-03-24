@@ -14,7 +14,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
-import com.openclassrooms.realestatemanager.view.ItemList.ItemListActivity
+import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
