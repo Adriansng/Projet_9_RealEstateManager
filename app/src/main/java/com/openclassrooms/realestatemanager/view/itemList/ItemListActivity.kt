@@ -64,7 +64,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         setUpUI()
-        setUpRealtor(idRealtor)
+        setUpRealtorCurrent(idRealtor)
         initRealtorCurrent()
         setUpRealtors()
     }

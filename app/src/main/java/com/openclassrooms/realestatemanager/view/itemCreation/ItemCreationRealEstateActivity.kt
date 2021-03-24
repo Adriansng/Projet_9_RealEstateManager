@@ -42,12 +42,12 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
     private val rcImagePerms = 100
-    private val rcChoosePhoto = 200
+    private val rcChoosePhoto = -1
     private var uriImageSelected: Uri? = null
 
     private lateinit var currentRealtor: Realtor
 
-    private var listPhoto = mutableListOf<String>()
+    private var listPhoto = mutableListOf<Photo>()
 
     private lateinit var soldSwitchMaterial: SwitchMaterial
 
@@ -201,7 +201,10 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun setUpPhotoRealEstate(idRealEstate: Long){
         viewModel.getListPhoto(idRealEstate).observe(this) {
-            setUpRecyclerView(it)
+            for (element in it ){
+                listPhoto.add(element)
+            }
+            setUpRecyclerView(listPhoto)
         }
     }
 
@@ -245,7 +248,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
             photo.descriptionPhoto = textInputEditText.text.toString()
-            updateDescription(photo)
+            listPhoto.add(photo)
+            setUpRecyclerView(listPhoto)
             dialog.dismiss()
         }
 
@@ -337,7 +341,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == rcChoosePhoto) {
-            chooseImageFromPhone()
             if (result.resultCode == RESULT_OK) { //SUCCESS
                 this.uriImageSelected = result.data?.data
                 photoCreate.uri =  uriImageSelected.toString()
@@ -413,6 +416,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         realEstate.closeToPark = closeToPark.isChecked
         realEstate.idRealtor = this.currentRealtor.id
         viewModel.addRealEstate(realEstate)
+        for(element in listPhoto){
+            viewModel.insertPhoto(element)
+        }
         finishActivity()
     }
 

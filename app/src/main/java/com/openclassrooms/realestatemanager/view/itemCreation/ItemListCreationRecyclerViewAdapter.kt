@@ -28,11 +28,11 @@ class ItemListCreationRecyclerViewAdapter(private val listPhoto: List<Photo>,
 
     override fun getItemCount() =  listPhoto.size
 
-    inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view.rootView) {
+    inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         private var image: ImageView = view.findViewById(R.id.photo_edit_image_iv)
         private val buttonEdit: ImageView = view.findViewById(R.id.photo_edit_name_iv)
         private val buttonDelete: ImageView = view.findViewById(R.id.photo_edit_delete_iv)
-        private var description: TextView = view.findViewById(R.id.photo_description_txt)
+        private var description: TextView = view.findViewById(R.id.photo_edit_description_txt)
         fun bind(photo : Photo,  onDeletePhoto: (photo: Photo) -> Unit, onDescriptionPhoto: (photo: Photo) -> Unit){
             image.setImageURI(Uri.parse(photo.uri))
             description.text = photo.descriptionPhoto
