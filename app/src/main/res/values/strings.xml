@@ -142,4 +142,5 @@
     <string name="description_item_detail_approximate">icon approximate</string>
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
+    <string name="add_title_edit">Edit Real Estate</string>
 </resources>

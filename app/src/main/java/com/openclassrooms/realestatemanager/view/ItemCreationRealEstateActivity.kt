@@ -4,11 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.MenuItem
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -53,7 +50,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private lateinit var button: ImageView
 
-    private lateinit var realEstate : RealEstate
+    private var realEstate : RealEstate = RealEstate.default()
 
     // ------------------
     // TO CREATE
@@ -65,12 +62,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         title = this.getString(R.string.add_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         getCurrentRealtor()
-        setUpUi()
-        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
-        if (realEstateId != null ){
-            realEstate = getRealEstate(realEstateId.toString().toLong())
-            editRealEstate(realEstate)
-        }
     }
 
     // ------------------
@@ -79,7 +70,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun setUpUi(){
         soldSwitchMaterial = findViewById(R.id.add_RE_sold_switch)
-        setUpSwitch()
         typeAutoCompleteTextView = findViewById(R.id.add_RE_type_spinner)
         setUpDropDownMenu()
         priceEdit = findViewById(R.id.add_RE_price_edit_text)
@@ -100,12 +90,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         button = findViewById(R.id.add_RE_button_add_iv)
         button.setOnClickListener { checkCalculator() }
 
-    }
-
-    // --- SWITCH ---
-
-    private fun setUpSwitch(){
-        soldSwitchMaterial.isChecked = realEstate.saleCreation != null
     }
 
     // --- EDIT TEXT ---
@@ -165,26 +149,26 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // ------------------
 
     private fun editRealEstate(realEstate: RealEstate){
+        title = getString(R.string.add_title_edit)
         typeAutoCompleteTextView.setText(realEstate.type)
         if(currentRealtor.prefEuro){
-            priceEdit.setText(Utils.convertDollarToEuro(realEstate.price))
+            priceEdit.setText(Utils.convertDollarToEuro(realEstate.price).toString(), TextView.BufferType.EDITABLE)
         }else{
-            priceEdit.setText(realEstate.price)
+            priceEdit.setText(realEstate.price.toString(), TextView.BufferType.EDITABLE)
         }
-        surfaceEdit.setText(realEstate.area)
-        roomEdit.setText(realEstate.price)
-        bedroomEdit.setText(realEstate.numberBedroom)
-        bathroomEdit.setText(realEstate.numberBathroom)
-        addressEdit.setText(realEstate.address)
-        cityEdit.setText(realEstate.city)
-        zipEdit.setText(realEstate.zipCode)
-        descriptionEdit.setText(realEstate.descriptionRealEstate)
+        surfaceEdit.setText(realEstate.area.toString(), TextView.BufferType.EDITABLE)
+        roomEdit.setText(realEstate.numberRoom.toString(), TextView.BufferType.EDITABLE)
+        bedroomEdit.setText(realEstate.numberBedroom.toString(), TextView.BufferType.EDITABLE)
+        bathroomEdit.setText(realEstate.numberBathroom.toString(), TextView.BufferType.EDITABLE)
+        addressEdit.setText(realEstate.address, TextView.BufferType.EDITABLE)
+        cityEdit.setText(realEstate.city, TextView.BufferType.EDITABLE)
+        zipEdit.setText(realEstate.zipCode.toString(), TextView.BufferType.EDITABLE)
+        descriptionEdit.setText(realEstate.descriptionRealEstate, TextView.BufferType.EDITABLE)
         closeToSchool.isChecked = realEstate.closeToSchool
         closeToCommerce.isChecked = realEstate.closeToCommerce
         closeToPark.isChecked = realEstate.closeToPark
         if(realEstate.saleCreation!= null) soldSwitchMaterial.isChecked = true
     }
-
 
     // ------------------
     // CHECK FORM
@@ -214,10 +198,12 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun addRealEstate(){
         if(soldSwitchMaterial.isChecked){
             realEstate.saleCreation = Date().time
+        }else{
+            realEstate.saleCreation = null
         }
         realEstate.type = typeAutoCompleteTextView.text.toString()
         if(currentRealtor.prefEuro){
-        realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
+            realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
         }else{
             realEstate.price = priceEdit.text.toString().toInt()
         }
@@ -244,18 +230,41 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun getRealEstate(id : Long): RealEstate = viewModel.getRealEstate(id)
 
+    private fun setUpEditRealEstate(){
+        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+        if (realEstateId != null) {
+            realEstate = getRealEstate(realEstateId.toString().toLong())
+            editRealEstate(realEstate)
+        }
+    }
+
     // ------------------
     // REALTOR
     // ------------------
     private fun getCurrentRealtor(){
         viewModel.getRealtorCurrent().observe(this, {
             currentRealtor = it
+            setUpUi()
+            setUpEditRealEstate()
         })
     }
+
     // ------------------
     // FINISH ACTIVITY
     // ------------------
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finishActivity()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun finishActivity(){
-        navigateUpTo(Intent(this, ItemListActivity::class.java))
+        intent = Intent(this, ItemListActivity::class.java)
+        startActivity(intent)
     }
 }

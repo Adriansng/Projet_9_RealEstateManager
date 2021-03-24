@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -36,6 +37,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
         title = applicationContext.getString(R.string.loan_title)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         amountLayoutText = findViewById(R.id.loan_amount_txt)
         contributionLayoutText = findViewById(R.id.loan_contribution_txt)
@@ -145,4 +147,17 @@ class SimulatorLoanActivity : AppCompatActivity() {
         })
     }
 
+    // ------------------
+    // FINISH ACTIVITY
+    // ------------------
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

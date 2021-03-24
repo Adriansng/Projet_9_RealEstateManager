@@ -71,7 +71,7 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/item_detail_date_sold_txt"
+        app:layout_constraintStart_toStartOf="@+id/item_detail_date_creation_txt"
         app:layout_constraintTop_toBottomOf="@+id/item_detail_date_creation_txt" />
 
     <TextView

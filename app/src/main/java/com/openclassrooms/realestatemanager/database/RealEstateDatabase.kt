@@ -33,7 +33,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         .addCallback(object : Callback(){
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
-                                thread { buildDatabase(context)?.realtorDao()?.insertRealtors(Realtor.default()) }
+                                thread { buildDatabase(context)?.realtorDao()?.insertRealtors(Realtor(1,"John",false)) }
                             }
                         })
                         .allowMainThreadQueries()

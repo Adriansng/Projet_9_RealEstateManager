@@ -18,7 +18,7 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 class ItemDetailActivity : AppCompatActivity() {
 
 
-    private var realtorId : Long = 0
+    private lateinit var realEstateId : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +28,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID).toString()
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -70,7 +71,8 @@ class ItemDetailActivity : AppCompatActivity() {
                     //
                     // http://developer.android.com/design/patterns/navigation.html#up-vs-back
 
-                    navigateUpTo(Intent(this, ItemListActivity::class.java))
+                    intent = Intent(this, ItemListActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.item_list_edit_toolbar -> {
@@ -83,8 +85,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private fun launchItemCreation(){
         val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
-        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID,
-                intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
+        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstateId)
         startActivity(intent)
     }
 

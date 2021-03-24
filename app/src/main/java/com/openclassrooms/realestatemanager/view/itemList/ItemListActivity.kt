@@ -33,6 +33,7 @@ import com.openclassrooms.realestatemanager.view.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 import androidx.appcompat.widget.Toolbar as Toolbar1
 
 class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +53,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private lateinit var realEstates: List<RealEstate>
     lateinit var realtor : Realtor
+    private var idRealtor : Long = 1
     private lateinit var realtors : List<Realtor>
 
 
@@ -63,7 +65,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         setUpUI()
-        setUpRealtor(1)
+        setUpRealtor(idRealtor)
+        initRealtorCurrent()
         setUpRealtors()
     }
 
@@ -81,6 +84,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // REALTOR
     // ------------------
 
+    private fun initRealtorCurrent(){
+        viewModel.getRealtorCurrent().observe(this){
+            realtor = it
+            idRealtor = realtor.id
+            setUpRealEstates(realtor.prefEuro)
+        }
+    }
     private fun setUpRealtors(){
         viewModel.getRealtors().observe(this, {
             realtors = it
@@ -89,8 +99,12 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun setUpRealtor(id: Long){
         realtor = viewModel.getRealtor(id)
-        viewModel.setRealtorCurrent(realtor)
         setUpRealEstates(realtor.prefEuro)
+    }
+
+    private fun setUpRealtorCurrent(id: Long){
+        realtor = viewModel.getRealtor(id)
+        viewModel.setRealtorCurrent(realtor)
     }
 
     private fun updateRealtor(realtor: Realtor){
@@ -167,7 +181,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         navView.setNavigationItemSelectedListener(this)
         drawerView.addDrawerListener(object : DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                setUpSpinnerRealtors()
             }
 
             override fun onDrawerOpened(drawerView: View) {
@@ -200,16 +213,23 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- SPINNER REALTORS ---
 
     private fun setUpSpinnerRealtors() {
-        val adapter: ArrayAdapter<Realtor> = ArrayAdapter<Realtor>(this, android.R.layout.simple_spinner_item, realtors)
+        // --- FOR DATA ---
+        val names  = mutableListOf<String>()
+        realtors.forEachIndexed{ _, realtor ->
+            names.add(realtor.name)
+        }
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, names)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
         spinnerRealtors.adapter = adapter
+        spinnerRealtors.setSelection(idRealtor.toInt()-1)
         spinnerRealtors.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
             override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                setUpRealtor(spinnerRealtors.selectedItemId)
+                idRealtor = id +1
+                setUpRealtorCurrent(idRealtor)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -226,11 +246,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val listItems = arrayOf("Dollar", "Euro")
         builder.setSingleChoiceItems(listItems, -1){ dialogueInterface, i ->
             val device : String = listItems[i]
-            dialogueInterface.dismiss()
             inEuro = device == "Euro"
             realtor.prefEuro = inEuro
             updateRealtor(realtor)
             setUpRealtor(realtor.id)
+            dialogueInterface.dismiss()
         }
         // Set the neutral/cancel button click listener
         builder.setNeutralButton("Cancel") { dialog, _ ->

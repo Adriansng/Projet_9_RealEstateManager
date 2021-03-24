@@ -31,7 +31,6 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getCurrentRealtor()
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 // Load the dummy content specified by the fragment
@@ -47,15 +46,10 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
-
         // Show the dummy content as text in a TextView.
         item?.let {
             item!!.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
-            if(inEuro){
-                item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = Utils.convertDollarToEuro(it).toString() + "€" }
-            }else{
-                item!!.price.also { rootView.findViewById<TextView>(R.id.item_detail_price_txt).text = "$$it" }
-            }
+            getCurrentRealtor(item!!, rootView.findViewById<TextView>(R.id.item_detail_price_txt))
             item!!.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
             (item!!.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
             // room
@@ -129,11 +123,20 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         return viewModel.getRealtor(id).name
     }
 
-    private fun getCurrentRealtor(){
-        viewModel.getRealtorCurrent().observe(viewLifecycleOwner, {
+    private fun getCurrentRealtor(itemView: RealEstate, textView: TextView){
+        viewModel.getRealtorCurrent().observe(requireActivity()) {
             val currentRealtor = it
-            inEuro = currentRealtor.prefEuro
-        })
+            changeDevice(currentRealtor.prefEuro, itemView, textView  )
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun changeDevice(prefEuro: Boolean, itemView: RealEstate, textView: TextView) {
+        if (prefEuro) {
+            textView.text = Utils.convertDollarToEuro(itemView.price).toString() + "€"
+        } else {
+            textView.text = "$ "+ itemView.price
+        }
     }
 
 }

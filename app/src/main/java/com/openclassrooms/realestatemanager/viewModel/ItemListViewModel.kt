@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.viewModel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
@@ -21,7 +22,9 @@ class ItemListViewModel(private val realtorRepository: RealtorRepository,
 
     fun getRealtor(id: Long): Realtor = realtorRepository.getRealtor(id)
 
-    fun setRealtorCurrent(realtor : Realtor): Realtor = realtorRepository.setCurrentRealtor(realtor)
+    fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
+
+    fun setRealtorCurrent(realtor : Realtor) = realtorRepository.setCurrentRealtor(realtor)
 
     fun getRealtors(): LiveData<List<Realtor>> = realtorRepository.getRealtors()
 
