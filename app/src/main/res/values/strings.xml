@@ -8,6 +8,8 @@
     <string name="euro" translatable="false">Euro</string>
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
+    <string name="popup_perms">This app needs permission to work</string>
+    <string name="toast_choose_image">No image chosen</string>
 
     // ------------------
     // ITEM LIST
@@ -143,4 +145,5 @@
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
     <string name="add_title_edit">Edit Real Estate</string>
+    <string name="dialog_description" translatable="false">Description</string>
 </resources>

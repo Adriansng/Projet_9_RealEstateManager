@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.view.ItemCreationRealEstateActivity
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 
 /**

@@ -1,9 +1,12 @@
 package com.openclassrooms.realestatemanager.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.repositories.PhotoRepository
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
 import com.openclassrooms.realestatemanager.repositories.RealtorRepository
 
@@ -11,7 +14,8 @@ import com.openclassrooms.realestatemanager.repositories.RealtorRepository
  * Created by Adrian SENEGAS 22/03/2021.
  */
 class ItemCreationViewModel(private var realEstateRepository: RealEstateRepository,
-                            private var realtorRepository: RealtorRepository) : ViewModel() {
+                            private var realtorRepository: RealtorRepository,
+                            private var photoRepository: PhotoRepository) : ViewModel() {
 
     // --- FOR DATA ---
 
@@ -19,8 +23,9 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
     // ------------------
     // PHOTO
     // ------------------
-
-
+    fun getListPhoto(idRealEstate: Long) : LiveData<List<Photo>> = photoRepository.getListPhoto(idRealEstate)
+    fun insertPhoto(photo: Photo) = photoRepository.insertPhoto(photo)
+    fun deletePhoto(photo : Photo) = photoRepository.deletePhoto(photo)
     // ------------------
     // REAL ESTATE
     // ------------------

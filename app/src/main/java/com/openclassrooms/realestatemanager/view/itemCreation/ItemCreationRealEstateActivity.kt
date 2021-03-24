@@ -1,17 +1,29 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.itemCreation
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.utils.Utils
@@ -19,14 +31,23 @@ import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
+
 
 class ItemCreationRealEstateActivity : AppCompatActivity() {
 
 
     private val viewModel : ItemCreationViewModel by viewModel()
 
+    private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
+    private val rcImagePerms = 100
+    private val rcChoosePhoto = 200
+    private var uriImageSelected: Uri? = null
+
     private lateinit var currentRealtor: Realtor
+
+    private var listPhoto = mutableListOf<String>()
 
     private lateinit var soldSwitchMaterial: SwitchMaterial
 
@@ -41,7 +62,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var cityEdit: TextInputEditText
     private lateinit var zipEdit: TextInputEditText
     private lateinit var descriptionEdit: TextInputEditText
-
+    private lateinit var recyclerView: RecyclerView
 
      private lateinit var closeToSchool: CheckBox
      private lateinit var closeToCommerce: CheckBox
@@ -49,8 +70,10 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
 
     private lateinit var button: ImageView
+    private lateinit var buttonAddPhoto: ImageView
 
     private var realEstate : RealEstate = RealEstate.default()
+    private var photoCreate : Photo = Photo.default()
 
     // ------------------
     // TO CREATE
@@ -83,10 +106,12 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         zipEdit = findViewById(R.id.add_RE_zip_edit_text)
         descriptionEdit = findViewById(R.id.add_RE_description_edit_text)
         setUpEditText()
-
         closeToSchool = findViewById(R.id.add_RE_school_cb)
         closeToCommerce = findViewById(R.id.add_RE_commerce_cb)
         closeToPark = findViewById(R.id.add_RE_park_cb)
+        recyclerView = findViewById(R.id.add_RE_photo_recyclerview)
+        buttonAddPhoto = findViewById(R.id.add_RE_button_image_iv)
+        setUpButtonAddImage()
         button = findViewById(R.id.add_RE_button_add_iv)
         button.setOnClickListener { checkCalculator() }
 
@@ -107,16 +132,18 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     }
 
     private fun editText(editText: TextInputEditText, text: String) {
-        editText.addTextChangedListener(object: TextWatcher {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrBlank()){
+                if (s.isNullOrBlank()) {
                     editText.error = "$text is required."
-                }else{
+                } else {
                     editText.error = null
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {
             }
         })
@@ -129,7 +156,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                 "House",
                 "Flat",
                 "Duplex",
-                "Penthouse",)
+                "Penthouse",
+        )
         val adapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, items)
         typeAutoCompleteTextView.setAdapter(adapter)
     }
@@ -139,7 +167,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun setUpDevice(){
         if(currentRealtor.prefEuro){
             val priceLayout = findViewById<TextInputLayout>(R.id.add_RE_price_text)
-            priceLayout.startIconDrawable = ContextCompat.getDrawable(this,R.drawable.ic_baseline_euro_24)
+            priceLayout.startIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_euro_24)
         }
     }
 
@@ -150,6 +178,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun editRealEstate(realEstate: RealEstate){
         title = getString(R.string.add_title_edit)
+        setUpPhotoRealEstate(realEstate.id)
         typeAutoCompleteTextView.setText(realEstate.type)
         if(currentRealtor.prefEuro){
             priceEdit.setText(Utils.convertDollarToEuro(realEstate.price).toString(), TextView.BufferType.EDITABLE)
@@ -168,6 +197,170 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         closeToCommerce.isChecked = realEstate.closeToCommerce
         closeToPark.isChecked = realEstate.closeToPark
         if(realEstate.saleCreation!= null) soldSwitchMaterial.isChecked = true
+    }
+
+    private fun setUpPhotoRealEstate(idRealEstate: Long){
+        viewModel.getListPhoto(idRealEstate).observe(this) {
+            setUpRecyclerView(it)
+        }
+    }
+
+    // ------------------
+    // PHOTO
+    // ------------------
+
+    private fun setUpButtonAddImage(){
+        buttonAddPhoto.setOnClickListener {
+            chooseImageFromPhone()
+        }
+    }
+
+    private fun setUpRecyclerView(list: List<Photo>) {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = ItemListCreationRecyclerViewAdapter(list,
+                onDeletePhoto = {
+                    viewModel.deletePhoto(it)
+                },
+                onRenamePhoto = {
+                    popupDescription(it)
+                })
+    }
+
+    private fun updateDescription(photo: Photo) {
+        viewModel.insertPhoto(photo)
+    }
+
+    private fun popupDescription(photo: Photo){
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setTitle("Photo description") // dialog message view
+        val constraintLayout = getEditTextLayout(this)
+        builder.setView(constraintLayout)
+
+        val textInputLayout = constraintLayout.
+        findViewWithTag<TextInputLayout>("textInputLayoutTag")
+        val textInputEditText = constraintLayout.
+        findViewWithTag<TextInputEditText>("textInputEditTextTag")
+
+        // alert dialog positive button
+        builder.setPositiveButton("Submit"){ dialog, _ ->
+            photo.descriptionPhoto = textInputEditText.text.toString()
+            updateDescription(photo)
+            dialog.dismiss()
+        }
+
+        // alert dialog other buttons
+        builder.setNegativeButton("No", null)
+        builder.setNeutralButton("Cancel", null)
+
+        // set dialog non cancelable
+        builder.setCancelable(false)
+
+        // finally, create the alert dialog and show it
+        val dialog = builder.create()
+
+        dialog.show()
+
+        // initially disable the positive button
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).isEnabled = false
+
+        // edit text text change listener
+        textInputEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
+            }
+
+            override fun onTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
+                if (p0.isNullOrBlank()) {
+                    textInputLayout.error = "Name is required."
+                    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                            .isEnabled = false
+                } else {
+                    textInputLayout.error = ""
+                    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                            .isEnabled = true
+                }
+            }
+        })
+    }
+
+    // get edit text layout
+    private fun getEditTextLayout(context: Context): ConstraintLayout {
+        val constraintLayout = ConstraintLayout(context)
+        val layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+        constraintLayout.layoutParams = layoutParams
+        constraintLayout.id = View.generateViewId()
+
+        val textInputLayout = TextInputLayout(context)
+        textInputLayout.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+        layoutParams.setMargins(
+                32.toDp(context),
+                8.toDp(context),
+                32.toDp(context),
+                8.toDp(context)
+        )
+        textInputLayout.layoutParams = layoutParams
+        textInputLayout.hint = "Input name"
+        textInputLayout.id = View.generateViewId()
+        textInputLayout.tag = "textInputLayoutTag"
+
+
+        val textInputEditText = TextInputEditText(context)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.tag = "textInputEditTextTag"
+
+        textInputLayout.addView(textInputEditText)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+
+        constraintLayout.addView(textInputLayout)
+        return constraintLayout
+    }
+
+    // extension method to convert pixels to dp
+    private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
+    ).toInt()
+
+
+    private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == rcChoosePhoto) {
+            chooseImageFromPhone()
+            if (result.resultCode == RESULT_OK) { //SUCCESS
+                this.uriImageSelected = result.data?.data
+                photoCreate.uri =  uriImageSelected.toString()
+                photoCreate.idRealEstate = realEstate.id
+                popupDescription(photoCreate)
+            } else {
+                Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun chooseImageFromPhone() {
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
+            return
+        }
+        val i = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        launcher.launch(i)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     // ------------------
@@ -228,7 +421,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // REAL ESTATE
     // ------------------
 
-    private fun getRealEstate(id : Long): RealEstate = viewModel.getRealEstate(id)
+    private fun getRealEstate(id: Long): RealEstate = viewModel.getRealEstate(id)
 
     private fun setUpEditRealEstate(){
         val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)

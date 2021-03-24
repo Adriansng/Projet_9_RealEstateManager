@@ -7,14 +7,11 @@ import com.openclassrooms.realestatemanager.model.Photo
 
 @Dao
 interface PhotoDao {
-    @Query("SELECT * FROM Photo")
-    fun getPhotos(): LiveData<List<Photo>>
+    @Query("SELECT * FROM Photo WHERE idRealEstate = :id")
+    fun getPhotos(id: Long): LiveData<List<Photo>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPhotos(vararg photos: Photo)
-
-    @Update
-    fun updatePhoto(photo: Photo)
 
     @Delete
     fun deletePhoto(photo: Photo)

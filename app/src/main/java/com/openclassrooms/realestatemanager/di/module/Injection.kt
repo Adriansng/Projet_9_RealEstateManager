@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.di.module
 
 import androidx.room.Room
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
+import com.openclassrooms.realestatemanager.repositories.PhotoRepository
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
 import com.openclassrooms.realestatemanager.repositories.RealtorRepository
 import com.openclassrooms.realestatemanager.viewModel.*
@@ -17,6 +18,7 @@ val appModule = module {
     single { get<RealEstateDatabase>().photoDao() }
     single { RealEstateRepository(get()) }
     single { RealtorRepository(get()) }
+    single { PhotoRepository(get()) }
 }
 
 // ----------------------
@@ -47,6 +49,6 @@ val simulatorModule = module {
 
 val itemCreationModule = module {
     viewModel {
-        ItemCreationViewModel(get(), get())
+        ItemCreationViewModel(get(), get(), get())
     }
 }

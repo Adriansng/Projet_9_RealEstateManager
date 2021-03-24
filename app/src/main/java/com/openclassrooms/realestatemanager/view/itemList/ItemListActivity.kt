@@ -29,11 +29,10 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.view.ItemCreationRealEstateActivity
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
 import androidx.appcompat.widget.Toolbar as Toolbar1
 
 class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

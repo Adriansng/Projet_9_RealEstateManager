@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="popup_perms">Cette application a besoin d\'une autorisation pour fonctionner</string>
+    <string name="toast_choose_image">Vous n\'avez pas choisi d\'image</string>
+
     // ------------------
     // ITEM LIST
     // ------------------

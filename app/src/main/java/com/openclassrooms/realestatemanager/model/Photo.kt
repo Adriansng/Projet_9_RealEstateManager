@@ -12,8 +12,15 @@ import androidx.room.PrimaryKey
 data class Photo(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id") val idPhoto: Long,
-        @ColumnInfo(name = "uri") val uri: String,
-        @ColumnInfo(name = "descriptionPhoto") val descriptionPhoto: String,
+        @ColumnInfo(name = "uri") var uri: String,
+        @ColumnInfo(name = "descriptionPhoto") var descriptionPhoto: String,
         @ForeignKey(entity = RealEstate::class, parentColumns = ["id"], childColumns = ["id"])
-        @ColumnInfo(name = "idRealEstate") val idRealEstate: Long
-        )
+        @ColumnInfo(name = "idRealEstate") var idRealEstate: Long
+        ){
+        companion object{
+                fun default() = Photo(idPhoto = 0,
+                                    uri = "",
+                                   descriptionPhoto = "",
+                                   idRealEstate = 0)}
+        }
+

@@ -37,7 +37,7 @@
         <activity
         android:name=".view.SimulatorLoanActivity"
         android:screenOrientation="portrait" />
-        <activity android:name=".view.ItemCreationRealEstateActivity" />
+        <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity" />
     </application>
 
 </manifest>
