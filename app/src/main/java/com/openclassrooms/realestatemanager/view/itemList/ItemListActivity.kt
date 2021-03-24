@@ -46,7 +46,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var inEuro: Boolean = false
 
     private lateinit var realEstates: List<RealEstate>
-    var realtor : Realtor = Realtor.default()
+    lateinit var realtor : Realtor
     private lateinit var realtors : List<Realtor>
 
 
@@ -58,7 +58,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         setUpUI()
-        setUpRealtor(0)
+        setUpRealtor(1)
+        setUpRealtors()
     }
 
     // ------------------
@@ -192,13 +193,12 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- SPINNER REALTORS ---
 
     private fun setUpSpinnerRealtors() {
-        setUpRealtors()
         val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_autocomplete)
         spinnerRealtors.setAdapter(adapter)
         spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
-            val item = view.tag as Realtor
-            setUpRealtor(item.id)
+            val item = view.tag as? Realtor
+            item?.id?.let { setUpRealtor(it) }
         }
     }
 
