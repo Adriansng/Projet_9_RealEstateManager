@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
@@ -48,7 +50,7 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        // TODO (image index 1)
+        holder.image.setImageURI(Uri.parse(item.photo))
         holder.type.text = item.type
         holder.address.text = item.address
         if(inEuro){

@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
@@ -51,6 +52,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var inEuro: Boolean = false
 
     private lateinit var realEstates: List<RealEstate>
+    private lateinit var photos: List<Photo>
     lateinit var realtor : Realtor
     private var idRealtor : Long = 1
     private lateinit var realtors : List<Realtor>

@@ -420,6 +420,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         realEstate.closeToCommerce = closeToCommerce.isChecked
         realEstate.closeToPark = closeToPark.isChecked
         realEstate.idRealtor = this.currentRealtor.id
+        realEstate.photo = this.listPhoto[0].uri
         viewModel.addRealEstate(realEstate)
         for(element in listPhoto){
             viewModel.insertPhoto(element)

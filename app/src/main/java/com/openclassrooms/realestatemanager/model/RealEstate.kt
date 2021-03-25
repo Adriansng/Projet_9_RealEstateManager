@@ -28,8 +28,9 @@ data class RealEstate(
         @ColumnInfo(name = "creationDate") var creationDate: Long,
         @ColumnInfo(name = "saleCreation") var saleCreation: Long?,
         @ForeignKey(entity = Realtor::class, parentColumns = ["id"], childColumns = ["id"])
-        @ColumnInfo(name = "idRealtor") var idRealtor: Long)
-        :Serializable
+        @ColumnInfo(name = "idRealtor") var idRealtor: Long,
+        @ColumnInfo(name = "photo") var photo: String?
+        ):Serializable
 {
         companion object {
                 fun default() = RealEstate(
@@ -50,7 +51,8 @@ data class RealEstate(
                         city = "",
                         creationDate = Date().time,
                         saleCreation = null,
-                        idRealtor = 1
+                        idRealtor = 1,
+                        photo = ""
                         )
         }
 
