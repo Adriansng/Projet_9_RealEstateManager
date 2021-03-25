@@ -445,10 +445,11 @@
         app:layout_constraintStart_toStartOf="@+id/item_detail_code_postal_txt"
         app:layout_constraintTop_toBottomOf="@+id/item_detail_code_postal_txt">
 
-        <com.google.android.gms.maps.MapView
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/item_detail_map_location_iv"
             android:layout_width="match_parent"
-            android:layout_height="125dp" />
+            android:layout_height="125dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
     </androidx.cardview.widget.CardView>
 
     <ImageView

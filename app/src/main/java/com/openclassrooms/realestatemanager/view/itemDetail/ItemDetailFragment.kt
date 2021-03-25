@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -93,11 +94,14 @@ class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback 
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             // map
-            var mapFragment = rootView.findViewById<MapView>(R.id.item_detail_map_location_iv) as SupportMapFragment?
-            if(mapFragment == null){
-                val options = GoogleMapOptions().liteMode(true)
-                mapFragment = SupportMapFragment.newInstance(options)
-                mapFragment.getMapAsync(this)
+            if(Utils.isInternetAvailable(requireContext())){
+                var mapFragment = childFragmentManager.findFragmentById(R.id.item_detail_map_location_iv) as SupportMapFragment?
+                    val options = GoogleMapOptions().liteMode(true)
+                    mapFragment = SupportMapFragment.newInstance(options)
+                    mapFragment.getMapAsync(this)
+                childFragmentManager.beginTransaction()
+                        .replace(R.id.item_detail_map_location_iv, mapFragment as Fragment)
+                        .commit()
             }
             // date
             item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }

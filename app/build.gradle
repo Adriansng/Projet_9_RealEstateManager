@@ -12,6 +12,14 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        Properties secureProps = new Properties()
+        if (file("../local.properties").exists()) {
+            file("../local.properties")?.withInputStream { secureProps.load(it) }
+        }
+        buildConfigField("String", "MAPS_API_KEY", (secureProps.getProperty("MAPS_API_KEY")))
+        resValue "string", "maps_api_key", (secureProps.getProperty("MAPS_API_KEY") ?: "")
+
     }
     compileOptions {
         sourceCompatibility 1.8
