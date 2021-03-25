@@ -34,7 +34,7 @@ val itemListModule = module {
 
 val itemDetailModule = module {
     viewModel {
-        ItemDetailFragmentViewModel(get(), get())
+        ItemDetailFragmentViewModel(get(), get(),get())
     }
 }
 

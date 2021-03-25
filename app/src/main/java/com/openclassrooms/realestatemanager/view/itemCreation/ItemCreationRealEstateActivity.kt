@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.view.itemCreation
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -223,7 +225,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = ItemListCreationRecyclerViewAdapter(list,
                 onDeletePhoto = {
-                    viewModel.deletePhoto(it)
+                    listPhoto.remove(it)
                 },
                 onRenamePhoto = {
                     popupDescription(it)
@@ -247,6 +249,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
+            if(listPhoto.contains(photo)){
+               listPhoto.remove(photo)
+            }
             photo.descriptionPhoto = textInputEditText.text.toString()
             listPhoto.add(photo)
             setUpRecyclerView(listPhoto)

@@ -3,13 +3,16 @@ package com.openclassrooms.realestatemanager.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.repositories.PhotoRepository
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
 import com.openclassrooms.realestatemanager.repositories.RealtorRepository
 
 class ItemDetailFragmentViewModel(private val realtorRepository: RealtorRepository,
-                                  private val realEstateRepository: RealEstateRepository
+                                  private val realEstateRepository: RealEstateRepository,
+                                  private val photoRepository: PhotoRepository
 ): ViewModel() {
 
     // ------------------
@@ -37,13 +40,9 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
     fun getRealEstate(id: Long): RealEstate = realEstateRepository.getRealEstate(id)
 
     // ------------------
-    //  DEVICE
+    // REALTOR
     // ------------------
 
-
-    // --- UPDATE ---
-
-    fun updateDeviceForRealtor(id: Long, device: Boolean) =
-            realtorRepository.updateDeviceForRealtor(id, device)
+    fun getPhotos(id: Long): LiveData<List<Photo>> = photoRepository.getListPhoto(id)
 
 }

@@ -322,16 +322,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/add_RE_photo_recyclerview"
         android:layout_width="0dp"
-        android:layout_height="125dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
         app:layout_constraintStart_toStartOf="@+id/add_RE_description_txt"
         app:layout_constraintTop_toBottomOf="@+id/add_RE_photo_txt" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/add_RE_button_add_iv"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_baseline_add_business_24"
         app:layout_constraintEnd_toEndOf="parent"

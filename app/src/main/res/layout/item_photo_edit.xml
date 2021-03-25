@@ -9,8 +9,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/photo_edit_CardView"
         style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

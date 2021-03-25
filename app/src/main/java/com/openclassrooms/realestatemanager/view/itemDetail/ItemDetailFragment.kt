@@ -11,9 +11,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemListCreationRecyclerViewAdapter
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -24,6 +28,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     private val viewModel : ItemDetailFragmentViewModel by viewModel()
     private var item: RealEstate? = null
     private var inEuro: Boolean = false
+    private lateinit var recyclerView : RecyclerView
 
     // ------------------
     // TO CREATE
@@ -96,7 +101,9 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             }
             // realtor
             item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
-
+            // photo
+            recyclerView = rootView.findViewById<RecyclerView>(R.id.item_detail_photos_rv)
+            setUpPhotos(item!!.id)
 
         }
 
@@ -105,6 +112,21 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         const val ARG_ITEM_ID = "item_id"
+    }
+    // ------------------
+    // PHOTO
+    // ------------------
+
+    private fun setUpPhotos(id: Long){
+        viewModel.getPhotos(id).observe(requireActivity()){
+            setUpRecyclerView(it)
+        }
+    }
+
+    private fun setUpRecyclerView(listPhoto: List<Photo>) {
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = ItemDetailRecyclerViewAdapter(listPhoto)
     }
 
     // ------------------

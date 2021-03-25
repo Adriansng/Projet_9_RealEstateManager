@@ -89,7 +89,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_detail_photos_rv"
         android:layout_width="0dp"
-        android:layout_height="125dp"
+        android:layout_height="150dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
