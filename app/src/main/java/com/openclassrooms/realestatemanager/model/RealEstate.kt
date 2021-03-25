@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 import java.util.*
 
@@ -18,7 +19,7 @@ data class RealEstate(
         @ColumnInfo(name = "numberBedroom") var numberBedroom: Int,
         @ColumnInfo(name = "numberBathroom") var numberBathroom: Int,
         @ColumnInfo(name = "descriptionRealEstate") var descriptionRealEstate: String?,
-        @ColumnInfo(name = "location") var location: String?,
+        @ColumnInfo(name = "location") var location: LatLng?,
         @ColumnInfo(name = "closeToSchool") var closeToSchool: Boolean,
         @ColumnInfo(name = "closeToCommerce") var closeToCommerce: Boolean,
         @ColumnInfo(name = "closeToPark") var closeToPark: Boolean,

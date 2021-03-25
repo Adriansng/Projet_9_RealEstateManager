@@ -37,6 +37,7 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
 
      fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
 
+
     // ------------------
     // REALTOR
     // ------------------

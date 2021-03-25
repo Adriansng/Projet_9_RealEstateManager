@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by Adrian SENEGAS 25/02/2021.
  */
-class RetrofitService {
+class RetrofitService{
     // --- CREATE INSTANCE RETROFIT ---
     private val baseUrlApi = "https://maps.googleapis.com/maps/api/"
 
@@ -15,7 +15,7 @@ class RetrofitService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    fun getInterface(): GoogleApiService? {
+     fun getInterface(): GoogleApiService? {
         return retrofit.create(GoogleApiService::class.java)
     }
 

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
@@ -21,7 +25,7 @@ import com.openclassrooms.realestatemanager.view.itemCreation.ItemListCreationRe
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ItemDetailFragment : androidx.fragment.app.Fragment() {
+class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
 
     // --- FOR DATA ---
 
@@ -29,6 +33,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     private var item: RealEstate? = null
     private var inEuro: Boolean = false
     private lateinit var recyclerView : RecyclerView
+    private var map : GoogleMap ?= null
 
     // ------------------
     // TO CREATE
@@ -88,7 +93,12 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
             // map
-            //rootView.findViewById<ImageView>(R.id.item_detail_map_location_iv)
+            var mapFragment = rootView.findViewById<MapView>(R.id.item_detail_map_location_iv) as SupportMapFragment?
+            if(mapFragment == null){
+                val options = GoogleMapOptions().liteMode(true)
+                mapFragment = SupportMapFragment.newInstance(options)
+                mapFragment.getMapAsync(this)
+            }
             // date
             item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
             if(item!!.saleCreation != null){
@@ -161,4 +171,17 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    // ------------------
+    // MAP
+    // ------------------
+
+    override fun onMapReady(p0: GoogleMap?) {
+        map = p0
+        item?.location?.let {
+            map?.apply {
+                moveCamera(CameraUpdateFactory.newLatLngZoom(it, 15f))
+                addMarker(MarkerOptions().position(it))
+            }
+        }
+    }
 }
