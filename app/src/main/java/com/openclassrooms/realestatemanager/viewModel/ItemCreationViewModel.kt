@@ -25,16 +25,17 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
     // ------------------
     fun getListPhoto(idRealEstate: Long) : LiveData<List<Photo>> = photoRepository.getListPhoto(idRealEstate)
     fun insertPhoto(photo: Photo) = photoRepository.insertPhoto(photo)
-    fun deletePhoto(photo : Photo) = photoRepository.deletePhoto(photo)
+    fun deleteAllPhoto(id: Long) = photoRepository.deleteAll(id)
     // ------------------
     // REAL ESTATE
     // ------------------
 
     fun getRealEstate(id : Long): RealEstate = realEstateRepository.getRealEstate(id)
 
-     fun addRealEstate(realEstate: RealEstate){
-        realEstateRepository.addRealEstate(realEstate)
-    }
+    fun getRealEstateLast(tableName: String): Long? = realEstateRepository.getRealEstateLast(tableName)
+
+
+     fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
 
     // ------------------
     // REALTOR

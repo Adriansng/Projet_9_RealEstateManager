@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -30,11 +33,12 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
+
 
 class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -223,7 +227,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
         spinnerRealtors.adapter = adapter
-        spinnerRealtors.setSelection(idRealtor.toInt()-1)
+        spinnerRealtors.setSelection(idRealtor.toInt() - 1)
         spinnerRealtors.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
             override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             }

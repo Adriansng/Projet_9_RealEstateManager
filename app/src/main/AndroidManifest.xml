@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.company.contentprovider.READ_DATABASE" />
 
     <application
         android:name=".App"
@@ -38,6 +39,7 @@
         android:name=".view.SimulatorLoanActivity"
         android:screenOrientation="portrait" />
         <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity" />
+
         <provider
         android:name="androidx.core.content.FileProvider"
         android:authorities="com.openclassrooms.realestatemanage.fileprovider"
@@ -46,7 +48,7 @@
         <meta-data
             android:name="android.support.FILE_PROVIDER_PATHS"
             android:resource="@xml/file_paths" />
-    </provider>
+        </provider>
     </application>
 
 </manifest>

@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.view.itemCreation
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -40,12 +38,12 @@ import java.util.*
 class ItemCreationRealEstateActivity : AppCompatActivity() {
 
 
+    private var isEdit: Boolean = false
     private val viewModel : ItemCreationViewModel by viewModel()
 
     private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
     private val rcImagePerms = 100
     private val rcChoosePhoto = -1
-    private var uriImageSelected: Uri? = null
 
     private lateinit var currentRealtor: Realtor
 
@@ -225,18 +223,20 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = ItemListCreationRecyclerViewAdapter(list,
                 onDeletePhoto = {
-                    listPhoto.remove(it)
+                    removePhoto(it)
                 },
                 onRenamePhoto = {
-                    popupDescription(it)
-                })
+                    popupDescription(it.uri)
+                }
+        )
     }
 
-    private fun updateDescription(photo: Photo) {
-        viewModel.insertPhoto(photo)
+    private fun removePhoto(photo: Photo) {
+        listPhoto.remove(photo)
+        setUpRecyclerView(listPhoto)
     }
 
-    private fun popupDescription(photo: Photo){
+    private fun popupDescription(photoAdd: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         builder.setTitle("Photo description") // dialog message view
         val constraintLayout = getEditTextLayout(this)
@@ -249,11 +249,19 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
-            if(listPhoto.contains(photo)){
-               listPhoto.remove(photo)
+            val iterator = listPhoto.iterator()
+            while (iterator.hasNext()) {
+                val item = iterator.next()
+                if (item.uri == photoAdd) {
+                    iterator.remove()
+                }
             }
-            photo.descriptionPhoto = textInputEditText.text.toString()
-            listPhoto.add(photo)
+            listPhoto.add(Photo(
+                    idPhoto = (listPhoto.lastIndex+1).toLong(),
+                    descriptionPhoto = textInputEditText.text.toString(),
+                    uri = photoAdd,
+                    idRealEstate = 0
+            ))
             setUpRecyclerView(listPhoto)
             dialog.dismiss()
         }
@@ -347,10 +355,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == rcChoosePhoto) {
             if (result.resultCode == RESULT_OK) { //SUCCESS
-                this.uriImageSelected = result.data?.data
-                photoCreate.uri =  uriImageSelected.toString()
-                photoCreate.idRealEstate = realEstate.id
-                popupDescription(photoCreate)
+                val uriImageSelected: Uri? = result.data?.data
+                uriImageSelected?.let { contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)}
+                popupDescription(uriImageSelected.toString())
             } else {
                 Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
             }
@@ -362,7 +369,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
             return
         }
-        val i = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         launcher.launch(i)
     }
 
@@ -422,7 +429,14 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         realEstate.idRealtor = this.currentRealtor.id
         realEstate.photo = this.listPhoto[0].uri
         viewModel.addRealEstate(realEstate)
+        val idRealEstate : Long = if(!isEdit){
+            viewModel.getRealEstateLast("Real_Estate")!!
+        }else{
+            realEstate.id
+        }
+        viewModel.deleteAllPhoto(idRealEstate)
         for(element in listPhoto){
+            element.idRealEstate = idRealEstate
             viewModel.insertPhoto(element)
         }
         finishActivity()
@@ -440,6 +454,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         if (realEstateId != null) {
             realEstate = getRealEstate(realEstateId.toString().toLong())
             editRealEstate(realEstate)
+            isEdit = true
         }
     }
 

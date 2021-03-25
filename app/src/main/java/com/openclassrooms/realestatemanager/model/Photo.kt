@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Photo")
 data class Photo(
         @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "id") val idPhoto: Long,
+        @ColumnInfo(name = "id") var idPhoto: Long,
         @ColumnInfo(name = "uri") var uri: String,
         @ColumnInfo(name = "descriptionPhoto") var descriptionPhoto: String,
         @ForeignKey(entity = RealEstate::class, parentColumns = ["id"], childColumns = ["id"])

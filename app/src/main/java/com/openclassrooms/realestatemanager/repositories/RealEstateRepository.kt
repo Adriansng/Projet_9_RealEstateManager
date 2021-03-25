@@ -14,6 +14,7 @@ class RealEstateRepository(
     // ------------------
     fun getRealEstates(): LiveData<List<RealEstate>> = realEstateDao.getRealEstates()
     fun getRealEstate(id: Long): RealEstate = realEstateDao.getRealEstate(id)
+    fun getRealEstateLast(table: String): Long? = realEstateDao.getRealEstateLast(table)
 
 
     // ------------------

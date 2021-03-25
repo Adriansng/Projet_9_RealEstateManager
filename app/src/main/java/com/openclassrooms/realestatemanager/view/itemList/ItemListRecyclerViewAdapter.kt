@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
+
 
 class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
                                   private val values: List<RealEstate>,

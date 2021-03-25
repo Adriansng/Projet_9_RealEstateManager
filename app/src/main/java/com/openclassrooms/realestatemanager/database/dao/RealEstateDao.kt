@@ -12,10 +12,14 @@ interface RealEstateDao {
     @Query("SELECT * FROM Real_Estate WHERE id = :id")
     fun getRealEstate(id: Long): RealEstate
 
+    @Query("SELECT seq FROM sqlite_sequence WHERE name = :tableName")
+    fun getRealEstateLast(tableName: String): Long?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRealEstates(vararg realEstates: RealEstate)
 
     @Update
     fun updateRealEstate(realEstate: RealEstate)
+
 
 }
