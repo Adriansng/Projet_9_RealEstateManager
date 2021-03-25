@@ -1,18 +1,12 @@
 package com.openclassrooms.realestatemanager.model.POJO
 
-import com.google.gson.annotations.Expose
+
 import com.google.gson.annotations.SerializedName
 
-class Geometry {
-    @SerializedName("location")
-    @Expose
-    var location: Location? = null
 
-    @SerializedName("location_type")
-    @Expose
-    var locationType: String? = null
+data class Geometry (
 
-    @SerializedName("viewport")
-    @Expose
-    var viewport: Viewport? = null
-}
+		@SerializedName("location") val location : Location,
+		@SerializedName("location_type") val location_type : String,
+		@SerializedName("viewport") val viewport : Viewport
+)
