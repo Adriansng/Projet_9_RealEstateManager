@@ -38,6 +38,15 @@
         android:name=".view.SimulatorLoanActivity"
         android:screenOrientation="portrait" />
         <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity" />
+        <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="com.openclassrooms.realestatemanage.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
     </application>
 
 </manifest>
