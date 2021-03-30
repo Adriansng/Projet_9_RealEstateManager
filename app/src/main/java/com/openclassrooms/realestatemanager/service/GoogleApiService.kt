@@ -12,4 +12,10 @@ interface GoogleApiService {
             @Query("address", encoded = true) address: String?,
             @Query("key", encoded = true) key: String?
     ) : Geocoding
+
+    @GET("staticmap?")
+    fun getMap(
+            @Query("marker", encoded = true) zoom : String ?,
+            @Query("key", encoded = true) key: String?
+    )
 }

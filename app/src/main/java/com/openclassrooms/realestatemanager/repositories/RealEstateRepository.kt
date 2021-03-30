@@ -44,7 +44,7 @@ class RealEstateRepository(
         val results = googleService?.getGeocoding(address, BuildConfig.MAPS_API_KEY)?.results
         val location = results?.getOrNull(0)?.geometry?.location
         return location?.let {
-            it.lat?.let { it1 -> it.lng?.let { it2 -> LatLng(it1, it2) } }
+            LatLng(it.lat, it.lng)
         }
     }
 

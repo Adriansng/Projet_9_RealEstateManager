@@ -179,6 +179,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun editRealEstate(realEstate: RealEstate){
         title = getString(R.string.add_title_edit)
         setUpPhotoRealEstate(realEstate.id)
+        setUpDropDownMenu()
         typeAutoCompleteTextView.setText(realEstate.type)
         if(currentRealtor.prefEuro){
             priceEdit.setText(Utils.convertDollarToEuro(realEstate.price).toString(), TextView.BufferType.EDITABLE)
