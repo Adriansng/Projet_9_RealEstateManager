@@ -37,7 +37,7 @@ val itemDetailModule = module {
         ItemDetailFragmentViewModel(get(), get(),get())
     }
 }
-val MapModule = module {
+val mapModule = module {
     viewModel {
         MapViewModel(get(), get())
     }

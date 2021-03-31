@@ -32,9 +32,6 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     // ---- FOR DATA ---
     private var mapGoogle: GoogleMap? = null
 
-
-    private lateinit var realEstates: List<RealEstate>
-
     // ------------------
     // TO CREATE
     // ------------------
@@ -55,7 +52,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setUpRealEstates(){
         viewModel.getRealEstates().observe(this, {
-            getMarkers(realEstates)
+            getMarkers(it)
         })
     }
 
@@ -63,11 +60,6 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     // GOOGLE MAP
     // ------------------
 
-    // --- MAP ---
-
-    // ------------------
-    // GOOGLE MAP
-    // ------------------
     // --- MAP ---
     private fun configMap() {
         val mapFragment = supportFragmentManager
@@ -115,7 +107,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
             val size = realEstate.size
             for (e in 0 until size) {
                 if (realEstate[e].price.toString() == marker.title) {
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e])
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e].id.toString())
                     Objects.requireNonNull(this).startActivity(intent)
                 }
             }

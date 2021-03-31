@@ -85,7 +85,7 @@ class ItemSearchActivity: AppCompatActivity() {
         checkBoxDuplex = findViewById(R.id.search_RE_type_duplex_cb)
         sliderSurface = findViewById(R.id.search_RE_surface_Slider)
         setUpDevice(getRealtorCurrent())
-        priceMinLayout = findViewById(R.id.add_RE_price_text)
+        priceMinLayout = findViewById(R.id.search_RE_price_min_txt)
         priceMinLayout = findViewById(R.id.search_RE_price_max_text)
         editTextPriceMin = findViewById(R.id.search_RE_price_min_edit_text)
         editTextPriceMax = findViewById(R.id.search_RE_price_max_edit_text)
@@ -106,18 +106,14 @@ class ItemSearchActivity: AppCompatActivity() {
     // --- Device ---
 
     private fun setUpDevice(inEuro: Boolean) {
-        val device : String
-        if(inEuro){
+        if(inEuro) {
             priceMinLayout.startIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_euro_24)
             priceMaxLayout.startIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_euro_24)
-            device = "€"
-        }else{
-            device =  "$"
         }
         sliderSurface.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance(device)
+            format.currency = Currency.getInstance("m")
             format.format(value.toDouble())
         }
     }
