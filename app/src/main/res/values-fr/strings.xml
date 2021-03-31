@@ -113,4 +113,6 @@
     <string name="description_item_detail_sale">icone vente</string>
     <string name="description_button_calcul">boutton pour le calcul</string>
     <string name="add_title_edit">Edit Real Estate</string>
+    <string name="map">Map</string>
+    <string name="map_title">Map</string>
 </resources>

@@ -1,10 +1,7 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,6 +30,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.view.ItemMapActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
@@ -210,6 +208,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.menu_add_realtor_item -> popupAddRealtor()
             R.id.menu_change_device_item -> popupChangeDevice(realtor)
             R.id.menu_loan_item -> launchSimulatorLoan()
+            R.id.menu_map_item -> launchMap()
         }
         drawerView.closeDrawer(GravityCompat.START)
         return true
@@ -390,6 +389,15 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
         startActivity(intent)
     }
+
+
+    // --- LAUNCH MAP  ---
+
+    private fun launchMap() {
+        val intent = Intent(this, ItemMapActivity::class.java)
+        startActivity(intent)
+    }
+
 
 
     // --- RECYCLER VIEW REAL ESTATE---

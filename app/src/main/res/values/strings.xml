@@ -146,4 +146,6 @@
     <string name="description_button_calcul">button for calcul</string>
     <string name="add_title_edit">Edit Real Estate</string>
     <string name="dialog_description" translatable="false">Description</string>
+    <string name="map">Map</string>
+    <string name="map_title">Map</string>
 </resources>

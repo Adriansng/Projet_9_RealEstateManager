@@ -108,7 +108,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                     val lat: Double = item!!.location!!.latitude
                     val lon: Double = item!!.location!!.longitude
                     var url = "https://maps.googleapis.com/maps/api/staticmap?"
-                    url += "&zoom=14"
+                    url += "&zoom=16"
                     url += "&size=500x500"
                     url += "&maptype=roadmap"
                     url += "&markers=color:green%7Clabel:G%7C$lat, $lon"

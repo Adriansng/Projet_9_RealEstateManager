@@ -42,7 +42,7 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
     fun getRealEstate(id: Long): RealEstate = realEstateRepository.getRealEstate(id)
 
     // ------------------
-    // REALTOR
+    // PHOTO
     // ------------------
 
     fun getPhotos(id: Long): LiveData<List<Photo>> = photoRepository.getListPhoto(id)
