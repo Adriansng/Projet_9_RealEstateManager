@@ -1,7 +1,8 @@
 package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.annotation.SuppressLint
-import android.location.Location
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,29 +13,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.LatLng
+import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.view.itemCreation.ItemListCreationRecyclerViewAdapter
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
+import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
-class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
+class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     // --- FOR DATA ---
 
     private val viewModel : ItemDetailFragmentViewModel by viewModel()
     private var item: RealEstate? = null
-    private var inEuro: Boolean = false
     private lateinit var recyclerView : RecyclerView
-    private var map : GoogleMap ?= null
 
     // ------------------
     // TO CREATE
@@ -60,7 +58,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback 
         // Show the dummy content as text in a TextView.
         item?.let {
             item!!.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
-            getCurrentRealtor(item!!, rootView.findViewById<TextView>(R.id.item_detail_price_txt))
+            getCurrentRealtor(item!!, rootView.findViewById(R.id.item_detail_price_txt))
             item!!.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
             (item!!.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
             // room
@@ -95,13 +93,28 @@ class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback 
             }
             // map
             if(Utils.isInternetAvailable(requireContext())){
-                var mapFragment = childFragmentManager.findFragmentById(R.id.item_detail_map_location_iv) as SupportMapFragment?
-                    val options = GoogleMapOptions().liteMode(true)
-                    mapFragment = SupportMapFragment.newInstance(options)
-                    mapFragment.getMapAsync(this)
-                childFragmentManager.beginTransaction()
-                        .replace(R.id.item_detail_map_location_iv, mapFragment as Fragment)
-                        .commit()
+                if(item!!.location == null){
+                    val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+                    val addresses: MutableList<Address> = geoCoder.getFromLocationName(item!!.address+" "
+                            +item!!.city+" "
+                            +item!!.zipCode,
+                            1)
+                    val location : Address = addresses[0]
+                    item!!.copy(location = LatLng(location.latitude, location.longitude))
+                    viewModel.addRealEstate(item!!)
+                }
+                val mapView: ImageView = rootView.findViewById(R.id.item_detail_map_location_iv)
+                if(item!!.location !=null) run {
+                    val lat: Double = item!!.location!!.latitude
+                    val lon: Double = item!!.location!!.longitude
+                    var url = "https://maps.googleapis.com/maps/api/staticmap?"
+                    url += "&zoom=14"
+                    url += "&size=500x500"
+                    url += "&maptype=roadmap"
+                    url += "&markers=color:green%7Clabel:G%7C$lat, $lon"
+                    url += "&key=${BuildConfig.MAPS_API_KEY_GOOGLE}"
+                    Picasso.get().load(url).into(mapView)
+                }
             }
             // date
             item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
@@ -116,7 +129,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback 
             // realtor
             item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
             // photo
-            recyclerView = rootView.findViewById<RecyclerView>(R.id.item_detail_photos_rv)
+            recyclerView = rootView.findViewById(R.id.item_detail_photos_rv)
             setUpPhotos(item!!.id)
 
         }
@@ -175,17 +188,4 @@ class ItemDetailFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback 
         }
     }
 
-    // ------------------
-    // MAP
-    // ------------------
-
-    override fun onMapReady(p0: GoogleMap?) {
-        map = p0
-        item?.location?.let {
-            map?.apply {
-                moveCamera(CameraUpdateFactory.newLatLngZoom(it, 15f))
-                addMarker(MarkerOptions().position(it))
-            }
-        }
-    }
 }

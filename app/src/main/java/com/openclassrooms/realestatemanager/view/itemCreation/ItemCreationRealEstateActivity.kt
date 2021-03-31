@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.view.itemCreation
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,11 +16,13 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -26,6 +30,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.utils.Converters
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
@@ -380,6 +385,23 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     }
 
     // ------------------
+    // LOCATION
+    // ------------------
+
+    private fun getLocation(realEstate: RealEstate): LatLng? {
+        var latLng: LatLng?
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        var addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
+                +realEstate.city+" "
+                +realEstate.zipCode,
+                1)
+        val location : Address = addresses[0]
+        latLng  = LatLng(location.latitude, location.longitude)
+        return latLng
+    }
+
+
+    // ------------------
     // CHECK FORM
     // ------------------
 
@@ -429,6 +451,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         realEstate.closeToPark = closeToPark.isChecked
         realEstate.idRealtor = this.currentRealtor.id
         realEstate.photo = this.listPhoto[0].uri
+        if(Utils.isInternetAvailable(this)) {
+            realEstate.location = getLocation(realEstate)
+        }
         viewModel.addRealEstate(realEstate)
         val idRealEstate : Long = if(!isEdit){
             viewModel.getRealEstateLast("Real_Estate")!!

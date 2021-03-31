@@ -17,9 +17,8 @@ android {
         if (file("../local.properties").exists()) {
             file("../local.properties")?.withInputStream { secureProps.load(it) }
         }
-        buildConfigField("String", "MAPS_API_KEY", (secureProps.getProperty("MAPS_API_KEY")))
-        resValue "string", "maps_api_key", (secureProps.getProperty("MAPS_API_KEY") ?: "")
-
+        buildConfigField("String", "MAPS_API_KEY_GOOGLE", (secureProps.getProperty("MAPS_API_KEY_GOOGLE")))
+        resValue "string", "maps_api_key_google", (secureProps.getProperty("MAPS_API_KEY_GOOGLE") ?: "")
     }
     compileOptions {
         sourceCompatibility 1.8
@@ -42,6 +41,9 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // Image
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //NAVIGATION
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'

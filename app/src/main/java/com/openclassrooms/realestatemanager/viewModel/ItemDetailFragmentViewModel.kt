@@ -27,6 +27,8 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
 
     fun getRealtors(): LiveData<List<Realtor>> = realtorRepository.getRealtors()
 
+    fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
+
     // --- ADD ---
 
     fun addRealtor(name: String) = realtorRepository.createRealtor(Realtor(id = 0, name = name, prefEuro = false) )
