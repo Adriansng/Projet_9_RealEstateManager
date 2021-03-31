@@ -1,14 +1,10 @@
 package com.openclassrooms.realestatemanager.view.search
 
-import android.media.Image
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
@@ -19,7 +15,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.NumberFormat
 import java.util.*
 
-class ItemSearchFragment: Fragment() {
+class ItemSearchActivity: AppCompatActivity() {
 
     // --- FOR DATA ---
 
@@ -60,12 +56,14 @@ class ItemSearchFragment: Fragment() {
     // TO CREATE
     // ------------------
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view : View = inflater.inflate(R.layout.activity_item_search, container, false)
-
-        setUpUi(view)
-        return view
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_item_search)
+        title = this.getString(R.string.filter_tilte)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpUi()
     }
+
 
     // ------------------
     // REALTOR CURRENT
@@ -79,39 +77,39 @@ class ItemSearchFragment: Fragment() {
     // UI
     // ------------------
 
-    private fun setUpUi(view: View){
-        switchSold = view.findViewById(R.id.search_RE_sold_switch)
-        checkBoxHouse = view.findViewById(R.id.search_RE_type_house_cb)
-        checkBoxFlat = view.findViewById(R.id.search_RE_type_flat_cb)
-        checkBoxPenthouse = view.findViewById(R.id.search_RE_type_penthouse_cb)
-        checkBoxDuplex = view.findViewById(R.id.search_RE_type_duplex_cb)
-        sliderSurface = view.findViewById(R.id.search_RE_surface_Slider)
+    private fun setUpUi(){
+        switchSold = findViewById(R.id.search_RE_sold_switch)
+        checkBoxHouse = findViewById(R.id.search_RE_type_house_cb)
+        checkBoxFlat = findViewById(R.id.search_RE_type_flat_cb)
+        checkBoxPenthouse = findViewById(R.id.search_RE_type_penthouse_cb)
+        checkBoxDuplex = findViewById(R.id.search_RE_type_duplex_cb)
+        sliderSurface = findViewById(R.id.search_RE_surface_Slider)
         setUpDevice(getRealtorCurrent())
-        priceMinLayout = view.findViewById(R.id.add_RE_price_text)
-        priceMinLayout = view.findViewById(R.id.search_RE_price_max_text)
-        editTextPriceMin = view.findViewById(R.id.search_RE_price_min_edit_text)
-        editTextPriceMax = view.findViewById(R.id.search_RE_price_max_edit_text)
-        editTextRoom = view.findViewById(R.id.search_RE_room_edit_text)
-        editTextBedroom = view.findViewById(R.id.search_RE_bedrooms_edit_text)
-        editTextBathroom = view.findViewById(R.id.search_RE_bathrooms_edit_text)
-        checkBoxSchool = view.findViewById(R.id.search_RE_school_cb)
-        checkBoxCommerce = view.findViewById(R.id.search_RE_commerce_cb)
-        checkBoxPark = view.findViewById(R.id.search_RE_park_cb)
-        checkBoxPhoto1 = view.findViewById(R.id.search_RE_photo1_cb)
-        checkBoxPhoto2 = view.findViewById(R.id.search_RE_photo2_cb)
-        checkBoxPhoto3 = view.findViewById(R.id.search_RE_photo3_cb)
+        priceMinLayout = findViewById(R.id.add_RE_price_text)
+        priceMinLayout = findViewById(R.id.search_RE_price_max_text)
+        editTextPriceMin = findViewById(R.id.search_RE_price_min_edit_text)
+        editTextPriceMax = findViewById(R.id.search_RE_price_max_edit_text)
+        editTextRoom = findViewById(R.id.search_RE_room_edit_text)
+        editTextBedroom = findViewById(R.id.search_RE_bedrooms_edit_text)
+        editTextBathroom = findViewById(R.id.search_RE_bathrooms_edit_text)
+        checkBoxSchool = findViewById(R.id.search_RE_school_cb)
+        checkBoxCommerce = findViewById(R.id.search_RE_commerce_cb)
+        checkBoxPark = findViewById(R.id.search_RE_park_cb)
+        checkBoxPhoto1 = findViewById(R.id.search_RE_photo1_cb)
+        checkBoxPhoto2 = findViewById(R.id.search_RE_photo2_cb)
+        checkBoxPhoto3 = findViewById(R.id.search_RE_photo3_cb)
         setUpPhoto()
-        buttonClear = view.findViewById(R.id.search_RE_button_reset_iv)
+        buttonClear = findViewById(R.id.search_RE_button_reset_iv)
         setUpClear()
-        buttonFilter = view.findViewById(R.id.search_RE_button_validate_iv)
+        buttonFilter = findViewById(R.id.search_RE_button_validate_iv)
     }
     // --- Device ---
 
     private fun setUpDevice(inEuro: Boolean) {
         val device : String
         if(inEuro){
-            priceMinLayout.startIconDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_euro_24)
-            priceMaxLayout.startIconDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_euro_24)
+            priceMinLayout.startIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_euro_24)
+            priceMaxLayout.startIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_euro_24)
             device = "€"
         }else{
             device =  "$"

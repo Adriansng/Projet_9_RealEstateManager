@@ -148,4 +148,5 @@
     <string name="dialog_description" translatable="false">Description</string>
     <string name="map">Map</string>
     <string name="map_title">Map</string>
+    <string name="filter_tilte">Filter</string>
 </resources>

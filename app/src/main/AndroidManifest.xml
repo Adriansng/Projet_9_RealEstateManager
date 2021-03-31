@@ -40,6 +40,8 @@
         android:name=".view.SimulatorLoanActivity"
         android:screenOrientation="portrait" />
         <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity" />
+        <activity android:name=".view.search.ItemSearchActivity" />
+        <activity android:name=".view.ItemMapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

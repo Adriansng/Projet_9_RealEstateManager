@@ -33,8 +33,7 @@ import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.view.ItemMapActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
-import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
-import com.openclassrooms.realestatemanager.view.search.ItemSearchFragment
+import com.openclassrooms.realestatemanager.view.search.ItemSearchActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
@@ -404,9 +403,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- LAUNCH FILTER  ---
     private fun launchFilter() {
-        supportFragmentManager.beginTransaction()
-                .add(R.id.item_detail_container,  ItemSearchFragment() )
-                .commit()
+        val intent = Intent(this, ItemSearchActivity::class.java)
+        startActivity(intent)
     }
 
 
