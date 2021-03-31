@@ -1,13 +1,8 @@
 package com.openclassrooms.realestatemanager.repositories
 
-import android.content.Context
-import android.location.Geocoder
 import androidx.lifecycle.LiveData
-import com.google.android.gms.maps.model.LatLng
-import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao
 import com.openclassrooms.realestatemanager.model.RealEstate
-import com.openclassrooms.realestatemanager.service.RetrofitService
 
 
 class RealEstateRepository(

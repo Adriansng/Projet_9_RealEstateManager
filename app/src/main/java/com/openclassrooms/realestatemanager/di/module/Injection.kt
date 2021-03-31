@@ -37,8 +37,17 @@ val itemDetailModule = module {
         ItemDetailFragmentViewModel(get(), get(),get())
     }
 }
+val MapModule = module {
+    viewModel {
+        MapViewModel(get(), get())
+    }
+}
 
-
+val itemFilterModule = module {
+    viewModel {
+        SearchViewModel(get(), get())
+    }
+}
 
 
 val simulatorModule = module {

@@ -389,9 +389,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // ------------------
 
     private fun getLocation(realEstate: RealEstate): LatLng? {
-        var latLng: LatLng?
+        val latLng: LatLng?
         val geoCoder = Geocoder(this, Locale.getDefault())
-        var addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
+        val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
                 +realEstate.city+" "
                 +realEstate.zipCode,
                 1)

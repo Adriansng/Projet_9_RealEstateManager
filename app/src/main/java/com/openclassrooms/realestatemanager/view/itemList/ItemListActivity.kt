@@ -33,6 +33,8 @@ import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.view.ItemMapActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
+import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
+import com.openclassrooms.realestatemanager.view.search.ItemSearchFragment
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
@@ -163,13 +165,14 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 true
             }
             R.id.item_list_filter_toolbar -> {
-                //TODO (filter list)
+                launchFilter()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
     }
+
 
     // --- NAVIGATION DRAWER ---
 
@@ -396,6 +399,14 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun launchMap() {
         val intent = Intent(this, ItemMapActivity::class.java)
         startActivity(intent)
+    }
+
+
+    // --- LAUNCH FILTER  ---
+    private fun launchFilter() {
+        supportFragmentManager.beginTransaction()
+                .add(R.id.item_detail_container,  ItemSearchFragment() )
+                .commit()
     }
 
 
