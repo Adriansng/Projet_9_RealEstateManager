@@ -12,12 +12,9 @@ class MapViewModel(private val realtorRepository: RealtorRepository,
                    private val realEstateRepository: RealEstateRepository
 ): ViewModel() {
 
-
     // ------------------
     // REALTOR
     // ------------------
-
-    // --- GET ---
 
     fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 

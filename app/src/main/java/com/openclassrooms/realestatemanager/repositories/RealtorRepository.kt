@@ -27,6 +27,7 @@ class RealtorRepository(
     fun setCurrentRealtor(realtor: Realtor) = realtor.also { this.currentRealtor.value = it }
 
     // --- REALTORS ---
+
     fun getRealtors(): LiveData<List<Realtor>> = realtorDao.getRealtors()
 
     // ------------------
@@ -34,29 +35,5 @@ class RealtorRepository(
     // ------------------
 
     fun createRealtor(realtor: Realtor) = realtorDao.insertRealtors(realtor)
-
-
-    // ------------------
-    // UPDATE
-    // ------------------
-
-    // --- PREF DEVICE ---
-
-    fun updateDeviceForRealtor(id: Long, device: Boolean){
-        val realtor = getRealtor(id)
-        realtor.prefEuro = device
-        realtorDao.insertRealtors(realtor)
-    }
-
-    // --- CHANGE NAME ---
-
-    fun updateNameForRealtor(id: Long, name: String){
-        val realtor = getRealtor(id)
-        realtor.name = name
-        realtorDao.updateRealtor(realtor)
-    }
-
-
-
 
 }

@@ -177,7 +177,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     }
 
-
     // --- NAVIGATION DRAWER ---
 
     private fun setupOpenNavDrawer() {
@@ -379,15 +378,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     ).toInt()
 
     // ------------------
-    // LAUNCHER
+    // ACTIVITY
     // ------------------
 
-    // --- LAUNCH SIMULATOR LOAN ---
+    // --- RECYCLER VIEW REAL ESTATE---
 
-    private fun launchSimulatorLoan(){
-        val intent = Intent(this, SimulatorLoanActivity::class.java)
-        intent.putExtra("Realtor", realtor.prefEuro)
-        startActivity(intent)
+    private fun setupRecyclerView(realEstates: List<RealEstateComplete>, inEuro: Boolean) {
+        recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
     }
 
     // --- LAUNCH ITEM CREATION  ---
@@ -397,6 +394,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(intent)
     }
 
+    // --- LAUNCH FILTER  ---
+    private fun launchFilter() {
+        val intent = Intent(this, ItemSearchActivity::class.java)
+        startActivity(intent)
+    }
 
     // --- LAUNCH MAP  ---
 
@@ -405,18 +407,12 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(intent)
     }
 
+    // --- LAUNCH SIMULATOR LOAN ---
 
-    // --- LAUNCH FILTER  ---
-    private fun launchFilter() {
-        val intent = Intent(this, ItemSearchActivity::class.java)
+    private fun launchSimulatorLoan(){
+        val intent = Intent(this, SimulatorLoanActivity::class.java)
+        intent.putExtra("Realtor", realtor.prefEuro)
         startActivity(intent)
     }
 
-
-
-    // --- RECYCLER VIEW REAL ESTATE---
-
-    private fun setupRecyclerView(realEstates: List<RealEstateComplete>, inEuro: Boolean) {
-            recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
-    }
 }

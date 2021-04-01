@@ -41,6 +41,7 @@ import java.util.*
 
 class ItemCreationRealEstateActivity : AppCompatActivity() {
 
+    // --- FOR DATA ---
 
     private var isEdit: Boolean = false
     private val viewModel : ItemCreationViewModel by viewModel()
@@ -76,8 +77,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
 
-    private var realEstate : RealEstateComplete = RealEstateComplete(realEstate = RealEstate.default(),
-    photos = listPhoto)
+    private var realEstate : RealEstateComplete = RealEstateComplete(
+            realEstate = RealEstate.default(),
+            photos = listPhoto)
 
     // ------------------
     // TO CREATE
@@ -89,6 +91,33 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         title = this.getString(R.string.add_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         getCurrentRealtor()
+    }
+
+    // ------------------
+    // REALTOR
+    // ------------------
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(this, {
+            currentRealtor = it
+            setUpUi()
+            setUpEditRealEstate()
+        })
+    }
+
+    // ------------------
+    // REAL ESTATE
+    // ------------------
+
+    private fun getRealEstate(id: Long): RealEstateComplete = viewModel.getRealEstate(id)
+
+    private fun setUpEditRealEstate(){
+        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+        if (realEstateId != null) {
+            realEstate = getRealEstate(realEstateId.toString().toLong())
+            editRealEstate(realEstate.realEstate)
+            setUpRecyclerViewPhoto(realEstate.photos)
+            isEdit = true
+        }
     }
 
     // ------------------
@@ -166,7 +195,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         typeAutoCompleteTextView.setAdapter(adapter)
     }
 
-    // --- DEVICE ---
+    // ------------------
+    // DEVICE
+    // ------------------
 
     private fun setUpDevice(){
         if(currentRealtor.prefEuro){
@@ -175,9 +206,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         }
     }
 
-
     // ------------------
-    // SET UP EDIT
+    // EDIT MODE
     // ------------------
 
     private fun editRealEstate(realEstate: RealEstate){
@@ -213,22 +243,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpRecyclerView(list: List<Photo>) {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ItemListCreationRecyclerViewAdapter(list,
-                onDeletePhoto = {
-                    removePhoto(it)
-                },
-                onRenamePhoto = {
-                    popupDescription(it.uri)
-                }
-        )
-    }
-
     private fun removePhoto(photo: Photo) {
         listPhoto.remove(photo)
-        setUpRecyclerView(listPhoto)
+        setUpRecyclerViewPhoto(listPhoto)
     }
 
     private fun popupDescription(photoAdd: String){
@@ -257,7 +274,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     uri = photoAdd,
                     idRealEstate = 0
             ))
-            setUpRecyclerView(listPhoto)
+            setUpRecyclerViewPhoto(listPhoto)
             dialog.dismiss()
         }
 
@@ -347,37 +364,11 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     ).toInt()
 
 
-    private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == rcChoosePhoto) {
-            if (result.resultCode == RESULT_OK) { //SUCCESS
-                val uriImageSelected: Uri? = result.data?.data
-                uriImageSelected?.let { contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)}
-                popupDescription(uriImageSelected.toString())
-            } else {
-                Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun chooseImageFromPhone() {
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
-            return
-        }
-        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        launcher.launch(i)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
     // ------------------
     // LOCATION
     // ------------------
 
-    private fun getLocation(realEstate: RealEstate): LatLng? {
+    private fun getLocation(realEstate: RealEstate): LatLng {
         val latLng: LatLng?
         val geoCoder = Geocoder(this, Locale.getDefault())
         val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
@@ -388,7 +379,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         latLng  = LatLng(location.latitude, location.longitude)
         return latLng
     }
-
 
     // ------------------
     // CHECK FORM
@@ -459,37 +449,54 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         finishActivity()
     }
 
-
     // ------------------
-    // REAL ESTATE
+    // ACTIVITY
     // ------------------
 
-    private fun getRealEstate(id: Long): RealEstateComplete = viewModel.getRealEstate(id)
+    // --- LOAD RECYCLER VIEW ---
 
-    private fun setUpEditRealEstate(){
-        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
-        if (realEstateId != null) {
-            realEstate = getRealEstate(realEstateId.toString().toLong())
-            editRealEstate(realEstate.realEstate)
-            setUpRecyclerView(realEstate.photos)
-            isEdit = true
+    private fun setUpRecyclerViewPhoto(list: List<Photo>) {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = ItemListCreationRecyclerViewAdapter(list,
+                onDeletePhoto = {
+                    removePhoto(it)
+                },
+                onRenamePhoto = {
+                    popupDescription(it.uri)
+                }
+        )
+    }
+
+    // --- LAUNCH PICK PHOTO --
+
+    private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == rcChoosePhoto) {
+            if (result.resultCode == RESULT_OK) { //SUCCESS
+                val uriImageSelected: Uri? = result.data?.data
+                uriImageSelected?.let { contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)}
+                popupDescription(uriImageSelected.toString())
+            } else {
+                Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    // ------------------
-    // REALTOR
-    // ------------------
-    private fun getCurrentRealtor(){
-        viewModel.getRealtorCurrent().observe(this, {
-            currentRealtor = it
-            setUpUi()
-            setUpEditRealEstate()
-        })
+    private fun chooseImageFromPhone() {
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
+            return
+        }
+        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        launcher.launch(i)
     }
 
-    // ------------------
-    // FINISH ACTIVITY
-    // ------------------
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    // --- FINISH ACTIVITY ---
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

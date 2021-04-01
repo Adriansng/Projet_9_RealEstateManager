@@ -75,6 +75,10 @@
     <string name="search_title">Filtre Bien Immobillier</string>
     <string name="search_min" >Prix min</string>
     <string name="search_max">Prix max</string>
+    <string name="search_price_title">Price</string>
+    <string name="search_city">City</string>
+    <string name="search_error">Aucun resultat pour votre Recherche</string>
+    <string name="search_date_min">Date min</string>
     // ------------------
     // LOAN
     // ------------------
@@ -94,9 +98,9 @@
     <string name="menu_item_add_realtor">Ajouter un agent </string>
     <string name="menu_item_change_device">Changer de device</string>
     <string name="menu_item_simulator_loan">Simulateur de Prêt </string>
-    <string name="menu_fitler">filter list</string>
-    <string name="menu_edit_real_estate">edit real estate</string>
-    <string name="menu_add_real_estate">add real estate</string>
+    <string name="menu_fitler">Filtrer un bien</string>
+    <string name="menu_edit_real_estate">Editer un bien </string>
+    <string name="menu_add_real_estate">Ajouter un bien</string>
 
     // ------------------
     // DESCRIPTIONS
@@ -112,12 +116,8 @@
     <string name="description_item_detail_approximate">icone proche de </string>
     <string name="description_item_detail_sale">icone vente</string>
     <string name="description_button_calcul">boutton pour le calcul</string>
-    <string name="add_title_edit">Edit Real Estate</string>
-    <string name="map">Map</string>
-    <string name="map_title">Map</string>
-    <string name="filter_tilte">Filter</string>
-    <string name="search_price_title">Price</string>
-    <string name="search_city">City</string>
-    <string name="search_error">Aucun resultat pour votre Recherche</string>
-    <string name="search_date_min">Date min</string>
+    <string name="add_title_edit">Editer le bien</string>
+    <string name="map">Carte</string>
+    <string name="map_title">Carte</string>
+    <string name="filter_tilte">Filtre</string>
 </resources>

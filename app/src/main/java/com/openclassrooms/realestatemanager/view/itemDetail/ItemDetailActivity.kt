@@ -56,10 +56,18 @@ class ItemDetailActivity : AppCompatActivity() {
         }
     }
 
+    // ------------------
+    // UI
+    // ------------------
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_detail_activity, menu)
         return true
     }
+
+    // ------------------
+    // ACTIVITY
+    // ------------------
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

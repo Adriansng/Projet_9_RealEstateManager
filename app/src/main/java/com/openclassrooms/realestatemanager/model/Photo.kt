@@ -5,9 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-/**
- * Created by Adrian SENEGAS 18/03/2021.
- */
 @Entity(tableName = "Photo")
 data class Photo(
         @PrimaryKey(autoGenerate = true)
@@ -16,11 +13,4 @@ data class Photo(
         @ColumnInfo(name = "descriptionPhoto") var descriptionPhoto: String,
         @ForeignKey(entity = RealEstate::class, parentColumns = ["realEstate_id"], childColumns = ["realEstate_id"])
         @ColumnInfo(name = "realEstate_id") var idRealEstate: Long
-        ){
-        companion object{
-                fun default() = Photo(idPhoto = 0,
-                                    uri = "",
-                                   descriptionPhoto = "",
-                                   idRealEstate = 0)}
-        }
-
+        )

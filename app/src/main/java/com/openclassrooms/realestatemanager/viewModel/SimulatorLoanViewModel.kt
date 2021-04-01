@@ -52,6 +52,4 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
 
     fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 
-
-
 }

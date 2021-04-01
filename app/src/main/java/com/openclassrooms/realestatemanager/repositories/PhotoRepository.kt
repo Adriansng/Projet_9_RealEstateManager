@@ -7,9 +7,20 @@ import com.openclassrooms.realestatemanager.model.Photo
 class PhotoRepository(
         private val photoDao: PhotoDao) {
 
+    // ------------------
+    // PHOTO
+    // ------------------
+
+    // --- GET ---
+
     fun getListPhoto(idRealEstate: Long): LiveData<List<Photo>> = photoDao.getPhotos(idRealEstate)
+
+    // --- INSERT ---
+
     fun insertPhoto(photo: Photo) = photoDao.insertPhotos(photo)
-    fun deletePhoto(photo: Photo) = photoDao.deletePhoto(photo)
+
+    // --- DELETE ---
+
     fun deleteAll(id: Long) = photoDao.deleteAll(id)
 
 }

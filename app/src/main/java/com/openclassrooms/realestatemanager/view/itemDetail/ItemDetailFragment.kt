@@ -145,12 +145,6 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     // PHOTO
     // ------------------
 
-    private fun setUpPhotos(id: Long){
-        viewModel.getPhotos(id).observe(requireActivity()){
-
-        }
-    }
-
     private fun setUpRecyclerView(listPhoto: List<Photo>) {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
@@ -179,6 +173,10 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             changeDevice(currentRealtor.prefEuro, itemView, textView  )
         }
     }
+
+    // ------------------
+    // DEVICE
+    // ------------------
 
     @SuppressLint("SetTextI18n")
     private fun changeDevice(prefEuro: Boolean, itemView: RealEstate, textView: TextView) {

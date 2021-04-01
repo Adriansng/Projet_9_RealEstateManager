@@ -14,27 +14,25 @@ class RealEstateRepository(
     // ------------------
     // GET
     // ------------------
+
     fun getRealEstates(): LiveData<List<RealEstateComplete>> = realEstateDao.getRealEstates()
     fun getRealEstate(id: Long): RealEstateComplete = realEstateDao.getRealEstate(id)
+
+    // --- GET LAST CREATE ---
     fun getRealEstateLast(table: String): Long? = realEstateDao.getRealEstateLast(table)
+
+    // --- GET SEARCH ---
 
     fun gesEstatesBySearch(query: SimpleSQLiteQuery) : LiveData<List<RealEstateComplete>>{
         return realEstateDao.getItemsBySearch(query)
     }
 
-
     // ------------------
     // CREATE
     // ------------------
+
      fun addRealEstate(realEstate: RealEstate) {
         realEstateDao.insertRealEstates(realEstate)
     }
-
-
-    // ------------------
-    // UPDATE
-    // ------------------
-
-
 
 }

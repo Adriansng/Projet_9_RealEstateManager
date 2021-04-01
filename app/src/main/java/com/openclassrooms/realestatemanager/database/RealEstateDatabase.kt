@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
-import android.media.CamcorderProfile
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase

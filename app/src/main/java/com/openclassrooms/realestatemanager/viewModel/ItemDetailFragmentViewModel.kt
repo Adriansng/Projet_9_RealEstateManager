@@ -12,8 +12,7 @@ import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
 import com.openclassrooms.realestatemanager.repositories.RealtorRepository
 
 class ItemDetailFragmentViewModel(private val realtorRepository: RealtorRepository,
-                                  private val realEstateRepository: RealEstateRepository,
-                                  private val photoRepository: PhotoRepository
+                                  private val realEstateRepository: RealEstateRepository
 ): ViewModel() {
 
     // ------------------
@@ -26,14 +25,6 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
 
     fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 
-    fun getRealtors(): LiveData<List<Realtor>> = realtorRepository.getRealtors()
-
-    // --- ADD ---
-
-    fun addRealtor(name: String) = realtorRepository.createRealtor(Realtor(id = 0, name = name, prefEuro = false) )
-
-    // --- UPDATE ---
-
     // ------------------
     // REAL ESTATE
     // ------------------
@@ -41,11 +32,5 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
     fun getRealEstate(id: Long): RealEstateComplete = realEstateRepository.getRealEstate(id)
 
     fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
-
-    // ------------------
-    // PHOTO
-    // ------------------
-
-    fun getPhotos(id: Long): LiveData<List<Photo>> = photoRepository.getListPhoto(id)
 
 }

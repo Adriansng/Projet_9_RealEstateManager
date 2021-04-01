@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
@@ -113,6 +114,7 @@ class ItemSearchActivity: AppCompatActivity() {
         buttonFilter = findViewById(R.id.search_RE_button_validate_iv)
         setUpFilter()
     }
+
     // --- Device ---
 
     private fun setUpDevice(inEuro: Boolean) {
@@ -214,6 +216,7 @@ class ItemSearchActivity: AppCompatActivity() {
         editTextBathroom.text?.clear()
         editTextBedroom.text?.clear()
     }
+
     // --- BUTTON CLEAR ---
 
     private fun setUpClear(){
@@ -396,7 +399,7 @@ class ItemSearchActivity: AppCompatActivity() {
     }
 
     // ------------------
-    // LAUNCH
+    // ACTIVITY
     // ------------------
 
     private fun launchList(query: String, args: ArrayList<Any>) {
@@ -406,6 +409,14 @@ class ItemSearchActivity: AppCompatActivity() {
         startActivity(intent)
     }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }

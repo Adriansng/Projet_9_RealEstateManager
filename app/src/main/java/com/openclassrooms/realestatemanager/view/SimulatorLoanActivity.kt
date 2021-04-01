@@ -38,10 +38,17 @@ class SimulatorLoanActivity : AppCompatActivity() {
         setContentView(R.layout.activity_loan)
         title = applicationContext.getString(R.string.loan_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpUi()
+        getCurrentRealtor()
+    }
 
+    // ------------------
+    // UI
+    // ------------------
+
+    private fun setUpUi(){
         amountLayoutText = findViewById(R.id.loan_amount_txt)
         contributionLayoutText = findViewById(R.id.loan_contribution_txt)
-
         amountEditText = findViewById(R.id.loan_amount_edit_text)
         contributionEditText = findViewById(R.id.loan_contribution_edit_text)
         interestEditText = findViewById(R.id.loan_interest_edit_text)
@@ -49,32 +56,8 @@ class SimulatorLoanActivity : AppCompatActivity() {
         interestText = findViewById(R.id.loan_calcul_interest_txt)
         mountText = findViewById(R.id.loan_calcul_mount_txt)
         totalText = findViewById(R.id.loan_calcul_total_txt)
-        getCurrentRealtor()
         setupEditText()
-        displayResult(" $")
     }
-
-    // ------------------
-    // DEVICE
-    // ------------------
-
-    private fun setupDevice(prefEuro: Boolean){
-        if(prefEuro){
-            changeDevice(" €")
-        }else{
-            changeDevice(" $")
-        }
-    }
-
-    private fun changeDevice(device: String){
-        amountLayoutText.suffixText = device
-        contributionLayoutText.suffixText = device
-        displayResult(device)
-    }
-
-    // ------------------
-    // EDIT TEXT
-    // ------------------
 
     private fun setupEditText(){
         editText(amountEditText, "Amount")
@@ -100,6 +83,40 @@ class SimulatorLoanActivity : AppCompatActivity() {
         })
     }
 
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(this, {
+            val currentRealtor = it
+            setupDevice(currentRealtor.prefEuro)
+        })
+    }
+
+    // ------------------
+    // DEVICE
+    // ------------------
+
+    private fun setupDevice(prefEuro: Boolean){
+        if(prefEuro){
+            changeDevice(" €")
+        }else{
+            changeDevice(" $")
+        }
+    }
+
+    private fun changeDevice(device: String){
+        amountLayoutText.suffixText = device
+        contributionLayoutText.suffixText = device
+        displayResult(device)
+    }
+
+    // ------------------
+    // CHECK
+    // ------------------
+
+
     private fun checkCalculator(){
         if(amountEditText.text.toString() != "" &&
                 contributionEditText.text.toString() != ("")&&
@@ -112,6 +129,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // ------------------
     // CALCULATOR
     // ------------------
+
     private fun calculatorLoan(){
         viewModel.calculatorLoan(
                 amountEditText.text.toString().toInt(),
@@ -133,17 +151,6 @@ class SimulatorLoanActivity : AppCompatActivity() {
         })
         viewModel.total.observe(this, { it ->
             (it.toString() + device).also { totalText.text = it }
-        })
-    }
-
-    // ------------------
-    // REALTOR
-    // ------------------
-
-    private fun getCurrentRealtor(){
-        viewModel.getRealtorCurrent().observe(this, {
-            val currentRealtor = it
-            setupDevice(currentRealtor.prefEuro)
         })
     }
 

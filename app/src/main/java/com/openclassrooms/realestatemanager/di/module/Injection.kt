@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.di.module
 
-import androidx.room.Room
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.repositories.PhotoRepository
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
@@ -34,12 +33,13 @@ val itemListModule = module {
 
 val itemDetailModule = module {
     viewModel {
-        ItemDetailFragmentViewModel(get(), get(),get())
+        ItemDetailFragmentViewModel(get(), get())
     }
 }
-val mapModule = module {
+
+val itemCreationModule = module {
     viewModel {
-        MapViewModel(get(), get())
+        ItemCreationViewModel(get(), get(), get())
     }
 }
 
@@ -50,14 +50,15 @@ val itemFilterModule = module {
 }
 
 
+val mapModule = module {
+    viewModel {
+        MapViewModel(get(), get())
+    }
+}
+
 val simulatorModule = module {
     viewModel {
         SimulatorLoanViewModel(get())
     }
 }
 
-val itemCreationModule = module {
-    viewModel {
-        ItemCreationViewModel(get(), get(), get())
-    }
-}

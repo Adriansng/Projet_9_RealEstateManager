@@ -38,7 +38,7 @@ data class RealEstate(
         companion object {
                 fun default() = RealEstate(
                         id = 0,
-                        price = 0 ,
+                        price = 0,
                         area = 0,
                         type = "",
                         numberRoom = 0,
@@ -56,31 +56,29 @@ data class RealEstate(
                         saleDate = null,
                         isSold = false,
                         idRealtor = 1
-                        )
+                )
+
+                fun fromContentValues(values: ContentValues): RealEstate {
+                        val realEstate = default()
+                        if (values.containsKey("type")) realEstate.type = values.getAsString("type")
+                        if (values.containsKey("price")) realEstate.price = values.getAsInteger("price")
+                        if (values.containsKey("surface")) realEstate.area = values.getAsInteger("surface")
+                        if (values.containsKey("roomNumber")) realEstate.numberRoom = values.getAsInteger("roomNumber")
+                        if (values.containsKey("bathroomNumber")) realEstate.numberBathroom = values.getAsInteger("bathroomNumber")
+                        if (values.containsKey("bedroomNumber")) realEstate.numberBedroom = values.getAsInteger("bedroomNumber")
+                        if (values.containsKey("desc")) realEstate.descriptionRealEstate = values.getAsString("description")
+                        if (values.containsKey("location")) realEstate.location = Converters().deserializeLatLng(values.getAsString("location"))
+                        if (values.containsKey("address")) realEstate.address = values.getAsString("address")
+                        if (values.containsKey("city")) realEstate.city = values.getAsString("city")
+                        if (values.containsKey("zip")) realEstate.zipCode = values.getAsString("zip")
+                        if (values.containsKey("parks")) realEstate.closeToPark = values.getAsBoolean("parks")
+                        if (values.containsKey("commerce")) realEstate.closeToCommerce = values.getAsBoolean("commerce")
+                        if (values.containsKey("schools")) realEstate.closeToSchool = values.getAsBoolean("schools")
+                        if (values.containsKey("creationDate")) realEstate.creationDate = values.getAsLong("creationDate")
+                        if (values.containsKey("isSold")) realEstate.isSold = values.getAsBoolean("isSold")
+                        if (values.containsKey("soldDate")) if (values.getAsLong("soldDate") == null) realEstate.saleDate = null else realEstate.saleDate = values.getAsLong("soldDate")
+                        if (values.containsKey("estateAgent")) realEstate.idRealtor = values.getAsLong("estateAgent")
+                        return realEstate
+                }
         }
-
-        fun fromContentValues(values: ContentValues) : RealEstate{
-                val realEstate = RealEstate.default()
-                if (values.containsKey("type")) realEstate.type = values.getAsString("type")
-                if (values.containsKey("price")) realEstate.price = values.getAsInteger("price")
-                if (values.containsKey("surface")) realEstate.area = values.getAsInteger("surface")
-                if (values.containsKey("roomNumber")) realEstate.numberRoom = values.getAsInteger("roomNumber")
-                if (values.containsKey("bathroomNumber")) realEstate.numberBathroom = values.getAsInteger("bathroomNumber")
-                if (values.containsKey("bedroomNumber")) realEstate.numberBedroom = values.getAsInteger("bedroomNumber")
-                if (values.containsKey("desc")) realEstate.descriptionRealEstate = values.getAsString("description")
-                if (values.containsKey("location")) realEstate.location = Converters().deserializeLatLng(values.getAsString("location"))
-                if (values.containsKey("address")) realEstate.address = values.getAsString("address")
-                if (values.containsKey("city")) realEstate.city = values.getAsString("city")
-                if (values.containsKey("zip")) realEstate.zipCode = values.getAsString("zip")
-                if (values.containsKey("parks")) realEstate.closeToPark = values.getAsBoolean("parks")
-                if (values.containsKey("commerce")) realEstate.closeToCommerce = values.getAsBoolean("commerce")
-                if (values.containsKey("schools")) realEstate.closeToSchool = values.getAsBoolean("schools")
-                if (values.containsKey("creationDate")) realEstate.creationDate = values.getAsLong("creationDate")
-                if (values.containsKey("isSold")) realEstate.isSold = values.getAsBoolean("isSold")
-                if (values.containsKey("soldDate")) if (values.getAsLong("soldDate") == null) realEstate.saleDate = null else realEstate.saleDate = values.getAsLong("soldDate")
-                if (values.containsKey("estateAgent")) realEstate.idRealtor = values.getAsLong("estateAgent")
-                return realEstate
-        }
-
-
 }

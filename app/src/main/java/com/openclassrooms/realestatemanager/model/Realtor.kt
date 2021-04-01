@@ -17,5 +17,4 @@ data class Realtor(
         companion object {
                 fun default() = Realtor(id = 0, name = "John", prefEuro = false)
         }
-
 }

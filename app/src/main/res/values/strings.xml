@@ -10,6 +10,8 @@
     <string name="drawer_close" translatable="false">Close</string>
     <string name="popup_perms">This app needs permission to work</string>
     <string name="toast_choose_image">No image chosen</string>
+    <string name="map">Map</string>
+    <string name="map_title">Map</string>
 
     // ------------------
     // ITEM LIST
@@ -103,6 +105,11 @@
     <string name="search_type" translatable="false">Type</string>
     <string name="search_min" >Price min</string>
     <string name="search_max">Price max</string>
+    <string name="search_price_title">Price</string>
+    <string name="search_city">City</string>
+    <string name="search_error">Aucun resultat pour votre Recherche</string>
+    <string name="search_date_min">Date min</string>
+    <string name="filter_tilte">Filter</string>
 
     // ------------------
     // MENU
@@ -146,11 +153,4 @@
     <string name="description_button_calcul">button for calcul</string>
     <string name="add_title_edit">Edit Real Estate</string>
     <string name="dialog_description" translatable="false">Description</string>
-    <string name="map">Map</string>
-    <string name="map_title">Map</string>
-    <string name="filter_tilte">Filter</string>
-    <string name="search_price_title">Price</string>
-    <string name="search_city">City</string>
-    <string name="search_error">Aucun resultat pour votre Recherche</string>
-    <string name="search_date_min">Date min</string>
 </resources>

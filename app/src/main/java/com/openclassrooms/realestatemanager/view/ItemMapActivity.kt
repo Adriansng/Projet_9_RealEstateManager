@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,8 +30,6 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     // --- FOR DATA ---
     private val viewModel : MapViewModel by viewModel()
 
-
-    // ---- FOR DATA ---
     private var mapGoogle: GoogleMap? = null
 
     // ------------------
@@ -62,6 +61,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     // ------------------
 
     // --- MAP ---
+
     private fun configMap() {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.mapView) as SupportMapFragment
@@ -77,6 +77,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     // --- ZOOM LOCATION ---
+
     private fun zoomLocation(location: Location) {
         mapGoogle!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 LatLng(location.latitude, location.longitude), 15f))
@@ -117,5 +118,17 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // ------------------
+    // ACTIVITY
+    // ------------------
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
