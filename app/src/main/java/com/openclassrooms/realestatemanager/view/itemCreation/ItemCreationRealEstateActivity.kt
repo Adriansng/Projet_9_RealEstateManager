@@ -76,7 +76,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
 
-    private lateinit var realEstate : RealEstateComplete
+    private var realEstate : RealEstateComplete = RealEstateComplete(realEstate = RealEstate.default(),
+    photos = listPhoto)
 
     // ------------------
     // TO CREATE

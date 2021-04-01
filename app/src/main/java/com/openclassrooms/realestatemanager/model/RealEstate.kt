@@ -30,7 +30,7 @@ data class RealEstate(
         @ColumnInfo(name = "city") var city: String?,
         @ColumnInfo(name = "creationDate") var creationDate: Long,
         @ColumnInfo(name = "saleCreation") var saleDate: Long?,
-        @ColumnInfo(name = "sold") var isSold: Boolean,
+        @ColumnInfo(name = "isSold") var isSold: Boolean,
         @ForeignKey(entity = Realtor::class, parentColumns = ["id"], childColumns = ["id"])
         @ColumnInfo(name = "idRealtor") var idRealtor: Long
         ):Serializable

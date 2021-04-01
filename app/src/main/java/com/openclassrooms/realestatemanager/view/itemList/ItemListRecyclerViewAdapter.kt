@@ -24,11 +24,11 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
         RecyclerView.Adapter<ItemListRecyclerViewAdapter.ViewHolder>() {
 
     private val onClickListener: View.OnClickListener = View.OnClickListener { v ->
-        val item = v.tag as RealEstate
+        val item = v.tag as RealEstateComplete
         if (twoPane) {
             val fragment = ItemDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ItemDetailFragment.ARG_ITEM_ID, item.id.toString())
+                    putString(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id.toString())
                 }
             }
             parentActivity.supportFragmentManager
@@ -37,7 +37,7 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
                     .commit()
         } else {
             val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id.toString())
+                putExtra(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id.toString())
             }
             v.context.startActivity(intent)
         }

@@ -6,7 +6,7 @@
     </array>
 
     <array name = "initial_range_prices_slider_values">
-        <item> 20000.0 </item>
+        <item> 0.0 </item>
         <item> 90000000.0 </item>
     </array>
 </resources>

@@ -29,7 +29,7 @@ class ItemSearchActivity: AppCompatActivity() {
 
     private lateinit var buttonDate : ImageView
     private lateinit var textDate : TextView
-    private lateinit var newDate : Calendar
+    private var newDate : Calendar? = null
 
     private lateinit var checkBoxHouse : CheckBox
     private lateinit var checkBoxFlat : CheckBox
@@ -182,6 +182,7 @@ class ItemSearchActivity: AppCompatActivity() {
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun setUpDate(){
         buttonDate.setOnClickListener{
+            newDate = Calendar.getInstance()
             val calendar: Calendar = Calendar.getInstance()
             val mYear = calendar.get(Calendar.YEAR)
             val mMonth = calendar.get(Calendar.MONTH)
@@ -189,7 +190,7 @@ class ItemSearchActivity: AppCompatActivity() {
 
             val datePickerDialog = DatePickerDialog(this,{ _, year, monthOfYear, dayOfMonth ->
                 textDate.text = "$dayOfMonth/$monthOfYear/$year"
-                newDate.set(year,monthOfYear,dayOfMonth)
+                newDate?.set(year,monthOfYear,dayOfMonth)
             }, mYear,mMonth,mDay)
             datePickerDialog.show()
         }
@@ -258,22 +259,39 @@ class ItemSearchActivity: AppCompatActivity() {
         val priceMax = sliderPrice.values[1].toInt()
         val surfaceMin = sliderSurface.values[0].toInt()
         val surfaceMax = sliderSurface.values[1].toInt()
-        val roomMin = editTextRoom.text.toString().toInt()
-        val bedroomMin = editTextBedroom.text.toString().toInt()
-        val bathroomMin = editTextBathroom.text.toString().toInt()
+        val roomMin = if((editTextRoom.text.toString() == "")){
+            0
+        }else{
+            editTextRoom . text . toString ().toInt()
+        }
+        val bedroomMin = if ((editTextBedroom.text.toString() == "")) {
+            0
+        } else {
+            editTextBedroom.text.toString().toInt()
+        }
+        val bathroomMin = if ((editTextBathroom.text.toString() == "")) {
+            0
+        } else {
+            editTextBathroom.text.toString().toInt()
+        }
         val city = editTextCity.text.toString()
         val school = checkBoxSchool.isChecked
         val commerce = checkBoxCommerce.isChecked
         val park = checkBoxPark.isChecked
         val minPhoto = numberPhotoMin()
-        val dateLong = newDate.timeInMillis
+        val dateLong = if(newDate != null){
+            newDate?.timeInMillis
+        }else{
+            null
+        }
 
-        var query = "SELECT *,(SELECT COUNT(*) FROM Photo.idRealEstate = RealEstate.id) AS count_photos FROM Real_Estate"
+
+        var query = "SELECT * FROM Real_Estate"
         val args = arrayListOf<Any>()
         var conditions = false
 
         if (type != ""){
-            query += " WHERE estateType = :$type"
+            query += " WHERE type = :${type}"
             args.add(type)
             conditions = true
         }
@@ -281,79 +299,91 @@ class ItemSearchActivity: AppCompatActivity() {
         if ((sold)){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "isSold = :$sold"
+            query += "isSold = :${sold}"
             args.add(sold)
         }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "price >= :${priceMin}"
-        args.add(priceMin)
+        if (priceMin != 0) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "price >= :${priceMin}"
+            args.add(priceMin)
+        }
+        if (priceMax != 900000000) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "price <= :${priceMax}"
+            args.add(priceMax)
+        }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "price <= :${priceMax}"
-        args.add(priceMax)
+        if (surfaceMin != 0) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "area >= :${surfaceMin}"
+            args.add(surfaceMin)
+        }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "area >= :$surfaceMin"
-        args.add(surfaceMin)
+        if (surfaceMax != 1000) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "area <= :${surfaceMax}"
+            args.add(surfaceMax)
+        }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "area <= :$surfaceMax"
-        args.add(surfaceMax)
-
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "numberRoom >= :$roomMin"
-        args.add(roomMin)
-
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "numberBedroom <= :$bedroomMin"
-        args.add(bedroomMin)
-
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "numberBathroom <= :$bathroomMin"
-        args.add(bathroomMin)
+        if (roomMin != 0) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "numberRoom >= :${roomMin}"
+            args.add(roomMin)
+        }
+        if (bedroomMin != 0) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "numberBedroom >= :${bedroomMin}"
+            args.add(bedroomMin)
+        }
+        if (bathroomMin != 0) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "numberBathroom >= :${bathroomMin}"
+            args.add(bathroomMin)
+        }
 
         if (city != ""){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "city = ?"
+            query += "city = :${city}"
             args.add(city)
         }
 
         if (school){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "closeToPark = :$school"
+            query += "closeToPark = :${school}"
             args.add(school)
         }
 
         if (commerce){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "closeToCommerce = :$commerce"
+            query += "closeToCommerce = :${commerce}"
             args.add(commerce)
         }
 
         if (park){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "closeToSchool = :$park"
+            query += "closeToSchool = :${park}"
             args.add(park)
         }
+        if(dateLong != null) {
+            query += if (conditions) " AND " else " WHERE "
+            query += "creationDate >= :${dateLong}"
+            args.add(dateLong)
+        }
 
-        query += if (conditions) " AND " else " WHERE "
-        query += "creationDate >= ?"
-        args.add(dateLong)
-
-        query += " AND count_photos >= ?"
-        args.add(minPhoto)
+        //query += " AND count_photos >= ?"
+        //args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
             if(it!!.isNotEmpty()){

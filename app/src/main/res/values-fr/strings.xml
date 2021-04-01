@@ -119,4 +119,5 @@
     <string name="search_price_title">Price</string>
     <string name="search_city">City</string>
     <string name="search_error">Aucun resultat pour votre Recherche</string>
+    <string name="search_date_min">Date min</string>
 </resources>

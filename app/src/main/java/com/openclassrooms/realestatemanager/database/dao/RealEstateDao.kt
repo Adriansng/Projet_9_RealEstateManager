@@ -20,7 +20,7 @@ interface RealEstateDao {
     @Query("SELECT seq FROM sqlite_sequence WHERE name = :tableName")
     fun getRealEstateLast(tableName: String): Long?
 
-    @RawQuery
+    @RawQuery(observedEntities = [RealEstate::class])
     fun getItemsBySearch(query: SupportSQLiteQuery) : LiveData<List<RealEstateComplete>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
