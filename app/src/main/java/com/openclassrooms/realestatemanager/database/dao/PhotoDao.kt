@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.model.Photo
 
 @Dao
 interface PhotoDao {
-    @Query("SELECT * FROM Photo WHERE idRealEstate = :id")
+    @Query("SELECT * FROM Photo WHERE realEstate_id = :id")
     fun getPhotos(id: Long): LiveData<List<Photo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -16,6 +16,6 @@ interface PhotoDao {
     @Delete
     fun deletePhoto(photo: Photo)
 
-    @Query("DELETE FROM photo WHERE idRealEstate = :id")
+    @Query("DELETE FROM photo WHERE realEstate_id = :id")
      fun deleteAll(id: Long)
 }

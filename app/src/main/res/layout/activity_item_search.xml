@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -22,10 +23,10 @@
         android:id="@+id/search_RE_type_house_cb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="@string/search_house"
-        app:layout_constraintStart_toEndOf="@+id/search_RE_surface_txt"
-        app:layout_constraintTop_toTopOf="@+id/search_RE_type_txt" />
+        app:layout_constraintStart_toEndOf="@+id/search_RE_type_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_txt" />
 
     <CheckBox
         android:id="@+id/search_RE_type_flat_cb"
@@ -66,63 +67,38 @@
         app:layout_constraintTop_toTopOf="@+id/search_RE_type_txt" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_RE_price_min_txt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="@string/search_min"
-        app:startIconDrawable="@drawable/ic_baseline_dollar"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_type_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_flat_cb">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/search_RE_price_min_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:maxEms="10"
-            android:singleLine="true"
-            android:textSize="15sp"
-            android:textStyle="italic" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_RE_price_max_text"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/search_max"
-        app:startIconDrawable="@drawable/ic_baseline_dollar"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_price_min_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_min_txt">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/search_RE_price_max_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:maxEms="10"
-            android:singleLine="true"
-            android:textSize="15sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
     <TextView
-        android:id="@+id/search_RE_surface_txt"
+        android:id="@+id/search_RE_price_title_txt"
+        style="@style/theme_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/search_surface"
+        android:text="@string/search_price_title"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_type_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_type_flat_cb" />
+
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/search_RE_price_Slider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:stepSize="5000.0"
+        android:valueFrom="20000.0"
+        android:valueTo="900000000.0"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_sold_switch"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_surface_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_title_txt"
+        app:values="@array/initial_range_prices_slider_values" />
+
+    <TextView
+        android:id="@+id/search_RE_surface_txt"
         style="@style/theme_title"
-        app:layout_constraintStart_toStartOf="@+id/search_RE_price_min_txt"
-        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_max_text" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/search_surface"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_price_title_txt"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_price_Slider" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/search_RE_surface_Slider"
@@ -218,7 +194,7 @@
         style="@style/theme_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/search_approximate"
         app:layout_constraintStart_toStartOf="@+id/search_RE_bedrooms_txt"
         app:layout_constraintTop_toBottomOf="@+id/search_RE_bedrooms_txt" />
@@ -262,6 +238,33 @@
         android:text="@string/search_photos"
         app:layout_constraintStart_toStartOf="@+id/search_RE_bedrooms_txt"
         app:layout_constraintTop_toBottomOf="@+id/search_RE_school_cb" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_RE_city_txt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="@string/search_city"
+        app:layout_constraintStart_toEndOf="@+id/search_RE_room_txt"
+        app:layout_constraintTop_toTopOf="@+id/search_RE_room_txt"
+        app:startIconDrawable="@drawable/ic_baseline_location_city_24"
+        app:suffixText="@string/search_nb">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_RE_city_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:inputType="textPostalAddress"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <CheckBox
         android:id="@+id/search_RE_photo1_cb"
@@ -310,6 +313,30 @@
         android:src="@drawable/ic_baseline_check_circle_24"
         app:layout_constraintStart_toEndOf="@+id/search_RE_button_reset_iv"
         app:layout_constraintTop_toBottomOf="@+id/search_RE_photo1_cb" />
+
+    <ImageView
+        android:id="@+id/search_RE_button_date_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintBottom_toTopOf="@+id/search_RE_price_title_txt"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_sold_switch"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_sold_switch"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_sold_switch"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/search_RE_text_date_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:text="Date min"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/search_RE_button_date_iv"
+        app:layout_constraintStart_toStartOf="@+id/search_RE_button_date_iv"
+        app:layout_constraintTop_toBottomOf="@+id/search_RE_button_date_iv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

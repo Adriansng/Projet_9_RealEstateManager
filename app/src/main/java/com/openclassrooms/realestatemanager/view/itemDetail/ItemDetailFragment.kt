@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import com.squareup.picasso.Picasso
@@ -31,7 +32,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     // --- FOR DATA ---
 
     private val viewModel : ItemDetailFragmentViewModel by viewModel()
-    private var item: RealEstate? = null
+    private var item: RealEstateComplete? = null
     private lateinit var recyclerView : RecyclerView
 
     // ------------------
@@ -46,7 +47,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
                 item = setUpRealEstates(it.getString(ARG_ITEM_ID))
-                activity?.findViewById<Toolbar>(R.id.item_detail_toolbar)?.title = item?.type
+                activity?.findViewById<Toolbar>(R.id.item_detail_toolbar)?.title = item?.realEstate?.type
             }
         }
     }
@@ -57,34 +58,34 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
         // Show the dummy content as text in a TextView.
         item?.let {
-            item!!.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
-            getCurrentRealtor(item!!, rootView.findViewById(R.id.item_detail_price_txt))
-            item!!.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
-            (item!!.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
+            item!!.realEstate.type.also { rootView.findViewById<TextView>(R.id.item_detail_type_txt).text = it }
+            getCurrentRealtor(item!!.realEstate, rootView.findViewById(R.id.item_detail_price_txt))
+            item!!.realEstate.descriptionRealEstate.also { rootView.findViewById<TextView>(R.id.item_detail_description_txt).text = it }
+            (item!!.realEstate.area.toString()+" m²").also { rootView.findViewById<TextView>(R.id.item_detail_surface_txt).text = it }
             // room
-            item!!.numberRoom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_room_txt).text = it }
-            item!!.numberBedroom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_bedroom_txt).text = it }
-            item!!.numberBathroom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_bathroom_txt).text = it }
+            item!!.realEstate.numberRoom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_room_txt).text = it }
+            item!!.realEstate.numberBedroom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_bedroom_txt).text = it }
+            item!!.realEstate.numberBathroom.toString().also { rootView.findViewById<TextView>(R.id.item_detail_bathroom_txt).text = it }
             // address
-            item!!.address.also { rootView.findViewById<TextView>(R.id.item_detail_address_txt).text = it }
-            item!!.city.also { rootView.findViewById<TextView>(R.id.item_detail_city_txt).text = it }
-            item!!.zipCode.also { rootView.findViewById<TextView>(R.id.item_detail_code_postal_txt). text = it }
+            item!!.realEstate.address.also { rootView.findViewById<TextView>(R.id.item_detail_address_txt).text = it }
+            item!!.realEstate.city.also { rootView.findViewById<TextView>(R.id.item_detail_city_txt).text = it }
+            item!!.realEstate.zipCode.also { rootView.findViewById<TextView>(R.id.item_detail_code_postal_txt). text = it }
             // close
-            if(!item!!.closeToSchool){
+            if(!item!!.realEstate.closeToSchool){
             rootView.findViewById<ImageView>(R.id.item_detail_school_check_iv)
                     .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
             }else{
                 rootView.findViewById<ImageView>(R.id.item_detail_school_check_iv)
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
-            if(!item!!.closeToCommerce){
+            if(!item!!.realEstate.closeToCommerce){
             rootView.findViewById<ImageView>(R.id.item_detail_commerce_check_iv)
                     .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
             }else{
                 rootView.findViewById<ImageView>(R.id.item_detail_commerce_check_iv)
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_check_24))
             }
-            if(!item!!.closeToPark){
+            if(!item!!.realEstate.closeToPark){
                 rootView.findViewById<ImageView>(R.id.item_detail_park_check_iv)
                         .setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_clear_24))
             }else{
@@ -93,20 +94,20 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             }
             // map
             if(Utils.isInternetAvailable(requireContext())){
-                if(item!!.location == null){
+                if(item!!.realEstate.location == null){
                     val geoCoder = Geocoder(requireContext(), Locale.getDefault())
-                    val addresses: MutableList<Address> = geoCoder.getFromLocationName(item!!.address+" "
-                            +item!!.city+" "
-                            +item!!.zipCode,
+                    val addresses: MutableList<Address> = geoCoder.getFromLocationName(item!!.realEstate.address+" "
+                            +item!!.realEstate.city+" "
+                            +item!!.realEstate.zipCode,
                             1)
                     val location : Address = addresses[0]
-                    item!!.copy(location = LatLng(location.latitude, location.longitude))
-                    viewModel.addRealEstate(item!!)
+                    item!!.realEstate.copy(location = LatLng(location.latitude, location.longitude))
+                    viewModel.addRealEstate(item!!.realEstate)
                 }
                 val mapView: ImageView = rootView.findViewById(R.id.item_detail_map_location_iv)
-                if(item!!.location !=null) run {
-                    val lat: Double = item!!.location!!.latitude
-                    val lon: Double = item!!.location!!.longitude
+                if(item!!.realEstate.location !=null) run {
+                    val lat: Double = item!!.realEstate.location!!.latitude
+                    val lon: Double = item!!.realEstate.location!!.longitude
                     var url = "https://maps.googleapis.com/maps/api/staticmap?"
                     url += "&zoom=16"
                     url += "&size=500x500"
@@ -117,9 +118,9 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 }
             }
             // date
-            item!!.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
-            if(item!!.saleCreation != null){
-                item!!.saleCreation.also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_txt). text = Utils.getFormatDate(it) }
+            item!!.realEstate.creationDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_creation_txt). text = Utils.getFormatDate(it) }
+            if(item!!.realEstate.saleDate != null){
+                item!!.realEstate.saleDate.also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_txt). text = Utils.getFormatDate(it) }
                 VISIBLE.also { rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = it }
             }else{
                 "".also { rootView.findViewById<TextView>(R.id.item_detail_date_sold_txt). text = it }
@@ -127,10 +128,10 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 rootView.findViewById<ImageView>(R.id.item_detail_sale_iv).visibility = INVISIBLE
             }
             // realtor
-            item!!.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
+            item!!.realEstate.idRealtor.also { rootView.findViewById<TextView>(R.id.item_detail_realtor_creation_txt). text = setUpRealtor(it) }
             // photo
             recyclerView = rootView.findViewById(R.id.item_detail_photos_rv)
-            setUpPhotos(item!!.id)
+            setUpRecyclerView(item!!.photos)
 
         }
 
@@ -146,7 +147,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     private fun setUpPhotos(id: Long){
         viewModel.getPhotos(id).observe(requireActivity()){
-            setUpRecyclerView(it)
+
         }
     }
 
@@ -160,7 +161,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     // REAL ESTATE
     // ------------------
 
-    private fun setUpRealEstates(id: String?): RealEstate {
+    private fun setUpRealEstates(id: String?): RealEstateComplete {
         return viewModel.getRealEstate(id.toString().toLong())
     }
 

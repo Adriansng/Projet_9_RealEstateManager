@@ -2,24 +2,30 @@ package com.openclassrooms.realestatemanager.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 
 @Dao
 interface RealEstateDao {
-    @Query("SELECT * FROM Real_Estate")
-    fun getRealEstates(): LiveData<List<RealEstate>>
 
-    @Query("SELECT * FROM Real_Estate WHERE id = :id")
-    fun getRealEstate(id: Long): RealEstate
+    @Transaction
+    @Query("SELECT * FROM Real_Estate")
+    fun getRealEstates(): LiveData<List<RealEstateComplete>>
+
+    @Transaction
+    @Query("SELECT * FROM Real_Estate WHERE realEstate_id = :id")
+    fun getRealEstate(id: Long): RealEstateComplete
 
     @Query("SELECT seq FROM sqlite_sequence WHERE name = :tableName")
     fun getRealEstateLast(tableName: String): Long?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRealEstates(vararg realEstates: RealEstate)
+    @RawQuery
+    fun getItemsBySearch(query: SupportSQLiteQuery) : LiveData<List<RealEstateComplete>>
 
-    @Update
-    fun updateRealEstate(realEstate: RealEstate)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRealEstates(realEstates: RealEstate)
+
 
 
 }

@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 
 
 class RealEstateRepository(
@@ -12,9 +14,13 @@ class RealEstateRepository(
     // ------------------
     // GET
     // ------------------
-    fun getRealEstates(): LiveData<List<RealEstate>> = realEstateDao.getRealEstates()
-    fun getRealEstate(id: Long): RealEstate = realEstateDao.getRealEstate(id)
+    fun getRealEstates(): LiveData<List<RealEstateComplete>> = realEstateDao.getRealEstates()
+    fun getRealEstate(id: Long): RealEstateComplete = realEstateDao.getRealEstate(id)
     fun getRealEstateLast(table: String): Long? = realEstateDao.getRealEstateLast(table)
+
+    fun gesEstatesBySearch(query: SimpleSQLiteQuery) : LiveData<List<RealEstateComplete>>{
+        return realEstateDao.getItemsBySearch(query)
+    }
 
 
     // ------------------

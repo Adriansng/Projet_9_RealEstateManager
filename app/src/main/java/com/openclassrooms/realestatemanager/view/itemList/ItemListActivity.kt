@@ -27,13 +27,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.model.Photo
-import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.view.ItemMapActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
-import com.openclassrooms.realestatemanager.view.search.ItemSearchActivity
+import com.openclassrooms.realestatemanager.view.ItemSearchActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
@@ -54,8 +53,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var twoPane: Boolean = false
     private var inEuro: Boolean = false
 
-    private lateinit var realEstates: List<RealEstate>
-    private lateinit var photos: List<Photo>
     lateinit var realtor : Realtor
     private var idRealtor : Long = 1
     private lateinit var realtors : List<Realtor>
@@ -79,10 +76,18 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // ------------------
 
     private fun setUpRealEstates(inEuro: Boolean){
-        viewModel.getRealEstates().observe(this, {
-            realEstates = it
-            setupRecyclerView(realEstates, inEuro)
-        })
+        if(intent.getStringExtra("QUERY")!= null){
+            val query = intent.getStringExtra("QUERY")
+            val args = intent.getStringArrayListExtra("ARGS") as ArrayList<*>
+            viewModel.getEstatesBySearch(query.toString(), args as ArrayList<Any>).observe(this , {
+                setupRecyclerView(it, inEuro)
+            })
+        }else{
+            viewModel.getRealEstates().observe(this, {
+                setupRecyclerView(it, inEuro)
+            })
+        }
+
     }
     // ------------------
     // REALTOR
@@ -411,7 +416,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- RECYCLER VIEW REAL ESTATE---
 
-    private fun setupRecyclerView(realEstates: List<RealEstate>, inEuro: Boolean) {
+    private fun setupRecyclerView(realEstates: List<RealEstateComplete>, inEuro: Boolean) {
             recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
     }
 }

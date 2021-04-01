@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
@@ -87,11 +88,11 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // --- MARKERS ---
 
-    private fun getMarkers(realEstate: List<RealEstate>) {
+    private fun getMarkers(realEstate: List<RealEstateComplete>) {
         if (mapGoogle != null) mapGoogle!!.clear()
         val size = realEstate.size
         for (i in 0 until size) {
-            val marker: RealEstate = realEstate[i]
+            val marker: RealEstate = realEstate[i].realEstate
                 mapGoogle!!.addMarker(MarkerOptions()
                         .position(marker.location!!)
                         .title(marker.price.toString()))
@@ -101,13 +102,13 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     // --- CLICK MARKER ---
-    private fun clickOnMarker(mapGoogle: GoogleMap, realEstate: List<RealEstate>) {
+    private fun clickOnMarker(mapGoogle: GoogleMap, realEstate: List<RealEstateComplete>) {
         mapGoogle.setOnMarkerClickListener { marker: Marker ->
             val intent = Intent(this, ItemDetailActivity::class.java)
             val size = realEstate.size
             for (e in 0 until size) {
-                if (realEstate[e].price.toString() == marker.title) {
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e].id.toString())
+                if (realEstate[e].realEstate.price.toString() == marker.title) {
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e].realEstate.id.toString())
                     Objects.requireNonNull(this).startActivity(intent)
                 }
             }

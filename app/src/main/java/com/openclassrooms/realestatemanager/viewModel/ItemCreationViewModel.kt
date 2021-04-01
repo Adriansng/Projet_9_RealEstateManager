@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
 import com.openclassrooms.realestatemanager.repositories.PhotoRepository
 import com.openclassrooms.realestatemanager.repositories.RealEstateRepository
@@ -24,13 +25,14 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
     // PHOTO
     // ------------------
     fun getListPhoto(idRealEstate: Long) : LiveData<List<Photo>> = photoRepository.getListPhoto(idRealEstate)
-    fun insertPhoto(photo: Photo) = photoRepository.insertPhoto(photo)
     fun deleteAllPhoto(id: Long) = photoRepository.deleteAll(id)
+    fun insertPhoto(photo: Photo) = photoRepository.insertPhoto(photo)
+
     // ------------------
     // REAL ESTATE
     // ------------------
 
-    fun getRealEstate(id : Long): RealEstate = realEstateRepository.getRealEstate(id)
+    fun getRealEstate(id : Long): RealEstateComplete = realEstateRepository.getRealEstate(id)
 
     fun getRealEstateLast(tableName: String): Long? = realEstateRepository.getRealEstateLast(tableName)
 

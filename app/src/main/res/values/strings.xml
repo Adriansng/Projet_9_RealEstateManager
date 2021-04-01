@@ -149,4 +149,7 @@
     <string name="map">Map</string>
     <string name="map_title">Map</string>
     <string name="filter_tilte">Filter</string>
+    <string name="search_price_title">Price</string>
+    <string name="search_city">City</string>
+    <string name="search_error">Aucun resultat pour votre Recherche</string>
 </resources>

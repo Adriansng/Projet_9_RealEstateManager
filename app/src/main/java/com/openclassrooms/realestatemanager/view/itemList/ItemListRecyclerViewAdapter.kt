@@ -1,10 +1,8 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +11,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 
 
 class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
-                                  private val values: List<RealEstate>,
+                                  private val values: List<RealEstateComplete>,
                                   private val twoPane: Boolean,
                                   private val inEuro: Boolean) :
         RecyclerView.Adapter<ItemListRecyclerViewAdapter.ViewHolder>() {
@@ -52,13 +51,13 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.image.setImageURI(Uri.parse(item.photo))
-        holder.type.text = item.type
-        holder.address.text = item.address
+        holder.image.setImageURI(Uri.parse(item.photos[0].uri))
+        holder.type.text = item.realEstate.type
+        holder.address.text = item.realEstate.address
         if(inEuro){
-            "${Utils.convertDollarToEuro(item.price)} €".also { holder.price.text = it }
+            "${Utils.convertDollarToEuro(item.realEstate.price)} €".also { holder.price.text = it }
         }else{
-            "${item.price} $".also { holder.price.text = it }
+            "${item.realEstate.price} $".also { holder.price.text = it }
         }
         with(holder.itemView) {
             tag = item

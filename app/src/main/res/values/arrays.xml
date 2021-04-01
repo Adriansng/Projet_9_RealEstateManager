@@ -4,4 +4,9 @@
         <item> 20.0 </item>
         <item> 1000.0 </item>
     </array>
+
+    <array name = "initial_range_prices_slider_values">
+        <item> 20000.0 </item>
+        <item> 90000000.0 </item>
+    </array>
 </resources>

@@ -16,7 +16,6 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
@@ -29,8 +28,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.utils.Converters
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
@@ -77,8 +76,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
 
-    private var realEstate : RealEstate = RealEstate.default()
-    private var photoCreate : Photo = Photo.default()
+    private lateinit var realEstate : RealEstateComplete
 
     // ------------------
     // TO CREATE
@@ -183,7 +181,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun editRealEstate(realEstate: RealEstate){
         title = getString(R.string.add_title_edit)
-        setUpPhotoRealEstate(realEstate.id)
         setUpDropDownMenu()
         typeAutoCompleteTextView.setText(realEstate.type)
         if(currentRealtor.prefEuro){
@@ -202,16 +199,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         closeToSchool.isChecked = realEstate.closeToSchool
         closeToCommerce.isChecked = realEstate.closeToCommerce
         closeToPark.isChecked = realEstate.closeToPark
-        if(realEstate.saleCreation!= null) soldSwitchMaterial.isChecked = true
-    }
-
-    private fun setUpPhotoRealEstate(idRealEstate: Long){
-        viewModel.getListPhoto(idRealEstate).observe(this) {
-            for (element in it ){
-                listPhoto.add(element)
-            }
-            setUpRecyclerView(listPhoto)
-        }
+        if(realEstate.saleDate!= null) soldSwitchMaterial.isChecked = true
     }
 
     // ------------------
@@ -428,37 +416,39 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun addRealEstate(){
         if(soldSwitchMaterial.isChecked){
-            realEstate.saleCreation = Date().time
+            realEstate.realEstate.saleDate = Date().time
+            realEstate.realEstate
+            realEstate.realEstate.isSold = true
         }else{
-            realEstate.saleCreation = null
+            realEstate.realEstate.saleDate = null
+            realEstate.realEstate.isSold = false
         }
-        realEstate.type = typeAutoCompleteTextView.text.toString()
+        realEstate.realEstate.type = typeAutoCompleteTextView.text.toString()
         if(currentRealtor.prefEuro){
-            realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
+            realEstate.realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
         }else{
-            realEstate.price = priceEdit.text.toString().toInt()
+            realEstate.realEstate.price = priceEdit.text.toString().toInt()
         }
-        realEstate.area = surfaceEdit.text.toString().toInt()
-        realEstate.numberRoom = roomEdit.text.toString().toInt()
-        realEstate.numberBedroom = bedroomEdit.text.toString().toInt()
-        realEstate.numberBathroom = bathroomEdit.text.toString().toInt()
-        realEstate.address = addressEdit.text.toString()
-        realEstate.city = cityEdit.text.toString()
-        realEstate.zipCode = zipEdit.text.toString()
-        realEstate.descriptionRealEstate = descriptionEdit.text.toString()
-        realEstate.closeToSchool = closeToSchool.isChecked
-        realEstate.closeToCommerce = closeToCommerce.isChecked
-        realEstate.closeToPark = closeToPark.isChecked
-        realEstate.idRealtor = this.currentRealtor.id
-        realEstate.photo = this.listPhoto[0].uri
+        realEstate.realEstate.area = surfaceEdit.text.toString().toInt()
+        realEstate.realEstate.numberRoom = roomEdit.text.toString().toInt()
+        realEstate.realEstate.numberBedroom = bedroomEdit.text.toString().toInt()
+        realEstate.realEstate.numberBathroom = bathroomEdit.text.toString().toInt()
+        realEstate.realEstate.address = addressEdit.text.toString()
+        realEstate.realEstate.city = cityEdit.text.toString()
+        realEstate.realEstate.zipCode = zipEdit.text.toString()
+        realEstate.realEstate.descriptionRealEstate = descriptionEdit.text.toString()
+        realEstate.realEstate.closeToSchool = closeToSchool.isChecked
+        realEstate.realEstate.closeToCommerce = closeToCommerce.isChecked
+        realEstate.realEstate.closeToPark = closeToPark.isChecked
+        realEstate.realEstate.idRealtor = this.currentRealtor.id
         if(Utils.isInternetAvailable(this)) {
-            realEstate.location = getLocation(realEstate)
+            realEstate.realEstate.location = getLocation(realEstate.realEstate)
         }
-        viewModel.addRealEstate(realEstate)
+        viewModel.addRealEstate(realEstate.realEstate)
         val idRealEstate : Long = if(!isEdit){
             viewModel.getRealEstateLast("Real_Estate")!!
         }else{
-            realEstate.id
+            realEstate.realEstate.id
         }
         viewModel.deleteAllPhoto(idRealEstate)
         for(element in listPhoto){
@@ -473,13 +463,14 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // REAL ESTATE
     // ------------------
 
-    private fun getRealEstate(id: Long): RealEstate = viewModel.getRealEstate(id)
+    private fun getRealEstate(id: Long): RealEstateComplete = viewModel.getRealEstate(id)
 
     private fun setUpEditRealEstate(){
         val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
         if (realEstateId != null) {
             realEstate = getRealEstate(realEstateId.toString().toLong())
-            editRealEstate(realEstate)
+            editRealEstate(realEstate.realEstate)
+            setUpRecyclerView(realEstate.photos)
             isEdit = true
         }
     }
