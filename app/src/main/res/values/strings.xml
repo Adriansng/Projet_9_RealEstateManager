@@ -78,6 +78,15 @@
     <string name="add_address">Address</string>
     <string name="add_city">City</string>
     <string name="add_zip_code">Zip code</string>
+    <string name="add_house">House</string>
+    <string name="add_flat">Flat</string>
+    <string name="add_penthouse">Penthouse</string>
+    <string name="add_duplex">Duplex</string>
+    <string name="add_not_photo">You need at least one photo to validate</string>
+    <string name="add_not_internet">You are not connected to the internet, we could not verify the address entered</string>
+    <string name="add_not_address_valide">Please enter a valid address</string>
+    <string name="add_not_fill_all">Fill in all the fields</string>
+    <string name="add_title_edit">Edit Real Estate</string>
 
     // ------------------
     // SEARCH REAL ESTATE
@@ -151,6 +160,5 @@
     <string name="description_item_detail_approximate">icon approximate</string>
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
-    <string name="add_title_edit">Edit Real Estate</string>
     <string name="dialog_description" translatable="false">Description</string>
 </resources>

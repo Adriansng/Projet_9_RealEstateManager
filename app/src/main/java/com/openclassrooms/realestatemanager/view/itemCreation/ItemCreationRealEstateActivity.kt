@@ -36,6 +36,7 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
+import java.lang.Exception
 import java.util.*
 
 
@@ -43,6 +44,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     // --- FOR DATA ---
 
+    private var latLng: LatLng? = null
     private var isEdit: Boolean = false
     private val viewModel : ItemCreationViewModel by viewModel()
 
@@ -77,6 +79,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
 
+    private var photo : Photo = Photo.default()
     private var realEstate : RealEstateComplete = RealEstateComplete(
             realEstate = RealEstate.default(),
             photos = listPhoto)
@@ -115,7 +118,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         if (realEstateId != null) {
             realEstate = getRealEstate(realEstateId.toString().toLong())
             editRealEstate(realEstate.realEstate)
-            setUpRecyclerViewPhoto(realEstate.photos)
+            listPhoto = realEstate.photos as MutableList<Photo>
+            setUpRecyclerViewPhoto(listPhoto)
             isEdit = true
         }
     }
@@ -213,7 +217,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun editRealEstate(realEstate: RealEstate){
         title = getString(R.string.add_title_edit)
         setUpDropDownMenu()
-        typeAutoCompleteTextView.setText(realEstate.type)
+        typeAutoCompleteTextView.setSelection(editType(realEstate))
         if(currentRealtor.prefEuro){
             priceEdit.setText(Utils.convertDollarToEuro(realEstate.price).toString(), TextView.BufferType.EDITABLE)
         }else{
@@ -231,6 +235,19 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         closeToCommerce.isChecked = realEstate.closeToCommerce
         closeToPark.isChecked = realEstate.closeToPark
         if(realEstate.saleDate!= null) soldSwitchMaterial.isChecked = true
+    }
+
+    private fun editType(realEstate: RealEstate): Int{
+        if(realEstate.type != "Flat"){
+            return 1
+        }
+        if(realEstate.type != "Penthouse"){
+            return 2
+        }
+        if(realEstate.type != "Duplex"){
+            return 3
+        }
+        return 0
     }
 
     // ------------------
@@ -268,12 +285,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     iterator.remove()
                 }
             }
-            listPhoto.add(Photo(
-                    idPhoto = (listPhoto.lastIndex+1).toLong(),
-                    descriptionPhoto = textInputEditText.text.toString(),
-                    uri = photoAdd,
-                    idRealEstate = 0
-            ))
+            photo.uri
+            photo.descriptionPhoto
+            listPhoto.add(photo)
             setUpRecyclerViewPhoto(listPhoto)
             dialog.dismiss()
         }
@@ -368,15 +382,18 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // LOCATION
     // ------------------
 
-    private fun getLocation(realEstate: RealEstate): LatLng {
-        val latLng: LatLng?
+    private fun getLocation(realEstate: RealEstate): LatLng? {
         val geoCoder = Geocoder(this, Locale.getDefault())
-        val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
-                +realEstate.city+" "
-                +realEstate.zipCode,
-                1)
-        val location : Address = addresses[0]
-        latLng  = LatLng(location.latitude, location.longitude)
+        try {
+            val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
+                    +realEstate.city+" "
+                    +realEstate.zipCode,
+                    1)
+            val location : Address = addresses[0]
+            latLng  = LatLng(location.latitude, location.longitude)
+        } catch (e : Exception){
+            print(e.message)
+        }
         return latLng
     }
 
@@ -394,10 +411,32 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                 bedroomEdit.text.toString() != ("") &&
                 addressEdit.text.toString() != ("") &&
                 zipEdit.text.toString() != ("") &&
-                descriptionEdit.text.toString() != ("")){
-            addRealEstate()
+                descriptionEdit.text.toString() != ("")) {
+            checkAddress()
         }else{
-            Toast.makeText(this, "Fill in all the fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.add_not_fill_all), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun checkAddress(){
+        fillRealEstate()
+        if(Utils.isInternetAvailable(this)){
+            if(getLocation(realEstate.realEstate) != null){
+                Toast.makeText(this,getString(R.string.add_not_address_valide), Toast.LENGTH_SHORT).show()
+            }else{
+                realEstate.realEstate.location = getLocation(realEstate.realEstate)
+            }
+        } else{
+            Toast.makeText(this, getString(R.string.add_not_internet), Toast.LENGTH_LONG).show()
+        }
+        checkPhoto()
+    }
+
+    private fun checkPhoto() {
+        if(listPhoto.isNotEmpty()){
+            Toast.makeText(this, getString(R.string.add_not_photo), Toast.LENGTH_LONG).show()
+        }else{
+          addRealEstate()
         }
     }
 
@@ -405,7 +444,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // ADD REAL ESTATE
     // ------------------
 
-    private fun addRealEstate(){
+    private fun fillRealEstate(){
         if(soldSwitchMaterial.isChecked){
             realEstate.realEstate.saleDate = Date().time
             realEstate.realEstate
@@ -432,9 +471,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         realEstate.realEstate.closeToCommerce = closeToCommerce.isChecked
         realEstate.realEstate.closeToPark = closeToPark.isChecked
         realEstate.realEstate.idRealtor = this.currentRealtor.id
-        if(Utils.isInternetAvailable(this)) {
-            realEstate.realEstate.location = getLocation(realEstate.realEstate)
-        }
+    }
+
+    private fun addRealEstate(){
         viewModel.addRealEstate(realEstate.realEstate)
         val idRealEstate : Long = if(!isEdit){
             viewModel.getRealEstateLast("Real_Estate")!!

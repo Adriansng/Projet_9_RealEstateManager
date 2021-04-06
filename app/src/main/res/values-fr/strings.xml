@@ -59,6 +59,14 @@
     <string name="add_address">Adresse</string>
     <string name="add_city">Ville</string>
     <string name="add_zip_code">Code Postal</string>
+    <string name="add_house">Maison</string>
+    <string name="add_flat">Appartement</string>
+    <string name="add_penthouse">Penthouse</string>
+    <string name="add_duplex">Duplex</string>
+    <string name="add_not_photo">Vous avez besoin d\'au moins une photo pour valider</string>
+    <string name="add_not_internet">Vous n\'êtes pas connecté à Internet, nous n\'avons pas pu vérifier l\'adresse saisie</string>
+    <string name="add_not_address_valide">s\'il-vous-plaît entrez une adresse valide</string>
+    <string name="add_not_fill_all">Remplissez tous les champs</string>
 
     // ------------------
     // SEARCH REAL ESTATE

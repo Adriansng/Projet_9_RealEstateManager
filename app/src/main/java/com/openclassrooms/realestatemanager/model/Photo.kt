@@ -14,3 +14,13 @@ data class Photo(
         @ForeignKey(entity = RealEstate::class, parentColumns = ["realEstate_id"], childColumns = ["realEstate_id"])
         @ColumnInfo(name = "realEstate_id") var idRealEstate: Long
         )
+{
+        companion object {
+                fun default() = Photo(
+                        idPhoto = 0,
+                        uri = "",
+                        descriptionPhoto = "",
+                        idRealEstate = 0,
+                )
+        }
+}
