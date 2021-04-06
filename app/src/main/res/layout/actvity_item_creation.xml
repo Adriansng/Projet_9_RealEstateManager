@@ -304,9 +304,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ic_baseline_add_a_photo_24"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
         app:layout_constraintBottom_toBottomOf="@+id/add_RE_photo_txt"
         app:layout_constraintStart_toEndOf="@+id/add_RE_photo_txt"
+        app:layout_constraintTop_toTopOf="@+id/add_RE_photo_txt" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/add_RE_button_take_image_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toBottomOf="@+id/add_RE_photo_txt"
+        app:layout_constraintStart_toEndOf="@+id/add_RE_button_image_iv"
         app:layout_constraintTop_toTopOf="@+id/add_RE_photo_txt" />
 
     <androidx.recyclerview.widget.RecyclerView

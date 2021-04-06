@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
@@ -19,7 +21,9 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
@@ -37,7 +41,6 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
-import java.lang.Exception
 import java.util.*
 
 
@@ -52,6 +55,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
     private val rcImagePerms = 100
     private val rcChoosePhoto = -1
+    private val REQUEST_PERMISSION = 100
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_PICK_IMAGE = 2
 
     private lateinit var currentRealtor: Realtor
 
@@ -79,6 +85,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
+    private lateinit var buttonTakePhoto: ImageView
 
     private var realEstate : RealEstateComplete = RealEstateComplete(
             realEstate = RealEstate.default(),
@@ -148,7 +155,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         closeToPark = findViewById(R.id.add_RE_park_cb)
         recyclerView = findViewById(R.id.add_RE_photo_recyclerview)
         buttonAddPhoto = findViewById(R.id.add_RE_button_image_iv)
+        buttonTakePhoto = findViewById(R.id.add_RE_button_take_image_iv)
         setUpButtonAddImage()
+        setUpButtonTakeImage()
         button = findViewById(R.id.add_RE_button_add_iv)
         button.setOnClickListener { checkCalculator() }
 
@@ -261,10 +270,23 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpButtonTakeImage(){
+        buttonTakePhoto.setOnClickListener {
+            openCamera()
+        }
+    }
+
+
+
+
+    // --- DELETE PHOTO ---
+
     private fun removePhoto(photo: Photo) {
         listPhoto.remove(photo)
         setUpRecyclerViewPhoto(listPhoto)
     }
+
+    // --- DESCRIPTION PHOTO ---
 
     private fun popupDescription(photoAdd: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
@@ -286,7 +308,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     iterator.remove()
                 }
             }
-            listPhoto.add(Photo.default().copy(uri = photoAdd , descriptionPhoto = textInputEditText.text.toString()))
+            listPhoto.add(Photo.default().copy(uri = photoAdd, descriptionPhoto = textInputEditText.text.toString()))
             setUpRecyclerViewPhoto(listPhoto)
             dialog.dismiss()
         }
@@ -384,13 +406,13 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun getLocation(realEstate: RealEstate): LatLng? {
         val geoCoder = Geocoder(this, Locale.getDefault())
         try {
-            val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address+" "
-                    +realEstate.city+" "
-                    +realEstate.zipCode,
+            val addresses: MutableList<Address> = geoCoder.getFromLocationName(realEstate.address + " "
+                    + realEstate.city + " "
+                    + realEstate.zipCode,
                     1)
             val location : Address = addresses[0]
             latLng  = LatLng(location.latitude, location.longitude)
-        } catch (e : Exception){
+        } catch (e: Exception){
             print(e.message)
         }
         return latLng
@@ -420,7 +442,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         fillRealEstate()
         if(Utils.isInternetAvailable(this)){
             if(getLocation(realEstate.realEstate) == null){
-                Toast.makeText(this,getString(R.string.add_not_address_valide), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.add_not_address_valide), Toast.LENGTH_SHORT).show()
             }else{
                 realEstate.realEstate.location = latLng
             }
@@ -507,33 +529,64 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     // --- LAUNCH PICK PHOTO --
 
-    @SuppressLint("WrongConstant")
-    private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == rcChoosePhoto) {
+    // --- TAKE PHOTO ---
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun openCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
+            intent.resolveActivity(packageManager)?.also {
+                launcherTake.launch(intent)
+            }
+        }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun chooseImageFromPhone() {
+        Intent(Intent.ACTION_GET_CONTENT).also { intent ->
+            intent.type = "image/*"
+            intent.resolveActivity(packageManager)?.also {
+
+                launcherPick.launch(intent)
+                startActivityForResult(intent, REQUEST_PICK_IMAGE)
+            }
+        }
+    }
+
+    private var launcherPick = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == REQUEST_PICK_IMAGE) {
             if (result.resultCode == RESULT_OK) { //SUCCESS
                 val uriImageSelected: Uri? = result.data?.data
-                uriImageSelected?.let { contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)}
-                popupDescription(uriImageSelected.toString())
+           popupDescription(uriImageSelected.toString())
             } else {
                 Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun chooseImageFromPhone() {
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
-        }else{
-            val i = Intent(Intent.ACTION_PICK)
-            i.type = "image/*"
-            launcher.launch(i)
+    private var launcherTake = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == REQUEST_IMAGE_CAPTURE) {
+            if (result.resultCode == RESULT_OK) { //SUCCESS
+                val uriImageSelected: Uri? = result.data?.data
+                 popupDescription(uriImageSelected.toString())
+            } else {
+                Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
+            }
         }
-
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_PERMISSION)
+        }
     }
 
     // --- FINISH ACTIVITY ---
@@ -552,4 +605,12 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         intent = Intent(this, ItemListActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkCameraPermission()
+    }
+
+
+
 }
