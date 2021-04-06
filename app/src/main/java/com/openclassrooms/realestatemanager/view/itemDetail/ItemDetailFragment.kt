@@ -11,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.lang.Exception
 import java.util.*
 
 class ItemDetailFragment : androidx.fragment.app.Fragment() {
@@ -96,21 +98,26 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
             if(Utils.isInternetAvailable(requireContext())){
                 if(item!!.realEstate.location == null){
                     val geoCoder = Geocoder(requireContext(), Locale.getDefault())
-                    val addresses: MutableList<Address> = geoCoder.getFromLocationName(item!!.realEstate.address+" "
-                            +item!!.realEstate.city+" "
-                            +item!!.realEstate.zipCode,
-                            1)
-                    val location : Address = addresses[0]
-                    item!!.realEstate.copy(location = LatLng(location.latitude, location.longitude))
-                    viewModel.addRealEstate(item!!.realEstate)
+                    try {
+                        val addresses: MutableList<Address> = geoCoder.getFromLocationName(item!!.realEstate.address + " "
+                                + item!!.realEstate.city + " "
+                                + item!!.realEstate.zipCode,
+                                1)
+                        val location: Address = addresses[0]
+                        item!!.realEstate.location = LatLng(location.latitude, location.longitude)
+                        viewModel.addRealEstate(item!!.realEstate)
+                    } catch (e: Exception) {
+                        print(e.message)
+                        Toast.makeText(requireContext(), getString(R.string.add_not_address_valide), Toast.LENGTH_SHORT).show()
+                    }
                 }
                 val mapView: ImageView = rootView.findViewById(R.id.item_detail_map_location_iv)
                 if(item!!.realEstate.location !=null) run {
                     val lat: Double = item!!.realEstate.location!!.latitude
                     val lon: Double = item!!.realEstate.location!!.longitude
                     var url = "https://maps.googleapis.com/maps/api/staticmap?"
-                    url += "&zoom=16"
-                    url += "&size=500x500"
+                    url += "&zoom=18"
+                    url += "&size=125x125"
                     url += "&maptype=roadmap"
                     url += "&markers=color:green%7Clabel:G%7C$lat, $lon"
                     url += "&key=${BuildConfig.MAPS_API_KEY_GOOGLE}"

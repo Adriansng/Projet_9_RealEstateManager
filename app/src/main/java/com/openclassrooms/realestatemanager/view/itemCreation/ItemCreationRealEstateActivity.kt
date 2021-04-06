@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.view.itemCreation
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.Address
@@ -506,6 +507,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     // --- LAUNCH PICK PHOTO --
 
+    @SuppressLint("WrongConstant")
     private var launcher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == rcChoosePhoto) {
             if (result.resultCode == RESULT_OK) { //SUCCESS
@@ -521,10 +523,12 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun chooseImageFromPhone() {
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
-            return
+        }else{
+            val i = Intent(Intent.ACTION_PICK)
+            i.type = "image/*"
+            launcher.launch(i)
         }
-        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        launcher.launch(i)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
