@@ -10,6 +10,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -41,6 +42,9 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemCreationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -275,8 +279,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             openCamera()
         }
     }
-
-
 
 
     // --- DELETE PHOTO ---
@@ -533,10 +535,41 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun openCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
-            intent.resolveActivity(packageManager)?.also {
-                launcherTake.launch(intent)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            this.packageManager?.let {
+                takePictureIntent.resolveActivity(it)?.also {
+                    val photoFile: File? = try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        null
+                    }
+                    photoFile?.let { file ->
+                        val photoURI: Uri = FileProvider.getUriForFile(
+                                this,
+                                "com.openclassrooms.realestatemanage.fileprovider",
+                                file
+                        )
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        launcherTake.launch(intent)
+                    }
+                }
             }
+        }
+    }
+    private lateinit var currentPhotoPath: String
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        val storageDir: File = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+                "JPEG_${timeStamp}_", /* prefix */
+                ".jpg", /* suffix */
+                storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
         }
     }
 
@@ -547,7 +580,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             intent.resolveActivity(packageManager)?.also {
 
                 launcherPick.launch(intent)
-                startActivityForResult(intent, REQUEST_PICK_IMAGE)
             }
         }
     }
