@@ -58,7 +58,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private lateinit var soldSwitchMaterial: SwitchMaterial
 
-    private lateinit var typeAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var typeSpinner: Spinner
 
     private lateinit var priceEdit: TextInputEditText
     private lateinit var surfaceEdit: TextInputEditText
@@ -79,7 +79,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
 
-    private var photo : Photo = Photo.default()
     private var realEstate : RealEstateComplete = RealEstateComplete(
             realEstate = RealEstate.default(),
             photos = listPhoto)
@@ -130,7 +129,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun setUpUi(){
         soldSwitchMaterial = findViewById(R.id.add_RE_sold_switch)
-        typeAutoCompleteTextView = findViewById(R.id.add_RE_type_spinner)
+        typeSpinner = findViewById(R.id.add_RE_type_spinner)
         setUpDropDownMenu()
         priceEdit = findViewById(R.id.add_RE_price_edit_text)
         setUpDevice()
@@ -195,8 +194,9 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                 "Duplex",
                 "Penthouse",
         )
-        val adapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, items)
-        typeAutoCompleteTextView.setAdapter(adapter)
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        typeSpinner.adapter = adapter
     }
 
     // ------------------
@@ -217,7 +217,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun editRealEstate(realEstate: RealEstate){
         title = getString(R.string.add_title_edit)
         setUpDropDownMenu()
-        typeAutoCompleteTextView.setSelection(editType(realEstate))
+        typeSpinner.setSelection(editType(realEstate))
         if(currentRealtor.prefEuro){
             priceEdit.setText(Utils.convertDollarToEuro(realEstate.price).toString(), TextView.BufferType.EDITABLE)
         }else{
@@ -241,10 +241,10 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         if(realEstate.type != "Flat"){
             return 1
         }
-        if(realEstate.type != "Penthouse"){
+        if(realEstate.type != "Duplex"){
             return 2
         }
-        if(realEstate.type != "Duplex"){
+        if(realEstate.type != "Penthouse"){
             return 3
         }
         return 0
@@ -285,9 +285,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     iterator.remove()
                 }
             }
-            photo.uri
-            photo.descriptionPhoto
-            listPhoto.add(photo)
+            listPhoto.add(Photo.default().copy(uri = photoAdd , descriptionPhoto = textInputEditText.text.toString()))
             setUpRecyclerViewPhoto(listPhoto)
             dialog.dismiss()
         }
@@ -402,8 +400,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // ------------------
 
     private fun checkCalculator(){
-        if(typeAutoCompleteTextView.text.toString() != ("") &&
-                priceEdit.text.toString() != ("") &&
+        if(priceEdit.text.toString() != ("") &&
                 cityEdit.text.toString() != ("") &&
                 surfaceEdit.text.toString() != ("")&&
                 roomEdit.text.toString() != ("") &&
@@ -421,10 +418,10 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun checkAddress(){
         fillRealEstate()
         if(Utils.isInternetAvailable(this)){
-            if(getLocation(realEstate.realEstate) != null){
+            if(getLocation(realEstate.realEstate) == null){
                 Toast.makeText(this,getString(R.string.add_not_address_valide), Toast.LENGTH_SHORT).show()
             }else{
-                realEstate.realEstate.location = getLocation(realEstate.realEstate)
+                realEstate.realEstate.location = latLng
             }
         } else{
             Toast.makeText(this, getString(R.string.add_not_internet), Toast.LENGTH_LONG).show()
@@ -433,7 +430,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     }
 
     private fun checkPhoto() {
-        if(listPhoto.isNotEmpty()){
+        if(listPhoto.size == 0 ){
             Toast.makeText(this, getString(R.string.add_not_photo), Toast.LENGTH_LONG).show()
         }else{
           addRealEstate()
@@ -453,7 +450,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             realEstate.realEstate.saleDate = null
             realEstate.realEstate.isSold = false
         }
-        realEstate.realEstate.type = typeAutoCompleteTextView.text.toString()
+        realEstate.realEstate.type = typeSpinner.selectedItem.toString()
         if(currentRealtor.prefEuro){
             realEstate.realEstate.price = Utils.convertEuroToDollar(priceEdit.text.toString().toInt())
         }else{
