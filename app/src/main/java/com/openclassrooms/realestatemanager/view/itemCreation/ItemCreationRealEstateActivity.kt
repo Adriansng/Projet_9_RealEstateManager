@@ -584,17 +584,11 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         }else{
             getString(R.string.add_notification_sale)
         }
-        val intent = Intent(this, ItemDetailFragment::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
         val builder = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_baseline_location_city_24)
                 .setContentTitle(getString(R.string.add_title_notification))
                 .setContentText(notification)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
         with(NotificationManagerCompat.from(this)) {
             // notificationId is a unique int for each notification that you must define

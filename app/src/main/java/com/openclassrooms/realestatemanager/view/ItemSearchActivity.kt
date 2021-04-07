@@ -165,6 +165,7 @@ class ItemSearchActivity: AppCompatActivity() {
     // --- PHOTO ---
 
     private fun setUpPhoto() {
+        checkBoxPhoto1.isChecked
         checkBoxPhoto1.setOnClickListener {
             checkBoxPhoto2.isChecked = false
             checkBoxPhoto3.isChecked = false
@@ -288,8 +289,7 @@ class ItemSearchActivity: AppCompatActivity() {
             null
         }
 
-
-        var query = "SELECT * FROM Real_Estate AS count_photos FROM Real_Estate INNER JOIN Photo ON Real_Estate.id = Photo.realEstate_id"
+        var query = "SELECT * , (SELECT COUNT(*) FROM Photo WHERE Photo.realEstate_id = Real_Estate.realEstate_id) AS count_photos FROM Real_Estate"
         val args = arrayListOf<Any>()
         var conditions = false
 
@@ -385,7 +385,7 @@ class ItemSearchActivity: AppCompatActivity() {
             args.add(dateLong)
         }
 
-        query += " AND count_photos >= $minPhoto"
+        query += " AND count_photos >= ?"
         args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
