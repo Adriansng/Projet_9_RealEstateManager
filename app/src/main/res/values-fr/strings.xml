@@ -36,7 +36,7 @@
     <string name="item_detail_country">USA</string>
     <string name="item_detail_surface_title">Surface</string>
     <string name="item_detail_surface_txt">250 m²</string>
-    <string name="item_detail_room_title">Nombre de chambres</string>
+    <string name="item_detail_room_title">Nombre de pièces</string>
     <string name="item_detail_room">8</string>
     <string name="item_detail_approximate_title">Proche</string>
     <string name="item_detail_commerce">Commerce</string>

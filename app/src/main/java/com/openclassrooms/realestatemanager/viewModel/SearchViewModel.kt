@@ -26,6 +26,12 @@ class SearchViewModel(private val realtorRepository: RealtorRepository,
 
     fun getEstatesBySearch(queryToConvert:String, args:ArrayList<Any>) : LiveData<List<RealEstateComplete>> {
         val query = SimpleSQLiteQuery(queryToConvert,args.toArray())
-        return realEstateRepository.gesEstatesBySearch(query)
+        return realEstateRepository.getEstatesBySearch(query)
     }
+
+    fun setSearchList(it: List<RealEstateComplete>) {
+        realEstateRepository.setSearchList(it)
+    }
+
+    fun initSearchList() = realEstateRepository.initSearchList()
 }

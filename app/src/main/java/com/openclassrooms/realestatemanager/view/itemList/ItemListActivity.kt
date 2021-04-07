@@ -76,18 +76,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // ------------------
 
     private fun setUpRealEstates(inEuro: Boolean){
-        if(intent.getStringExtra("QUERY")!= null){
-            val query = intent.getStringExtra("QUERY")
-            val args = intent.getStringArrayListExtra("ARGS") as ArrayList<*>
-            viewModel.getEstatesBySearch(query.toString(), args as ArrayList<Any>).observe(this , {
-                setupRecyclerView(it, inEuro)
-            })
-        }else{
             viewModel.getRealEstates().observe(this, {
                 setupRecyclerView(it, inEuro)
             })
-        }
-
     }
     // ------------------
     // REALTOR

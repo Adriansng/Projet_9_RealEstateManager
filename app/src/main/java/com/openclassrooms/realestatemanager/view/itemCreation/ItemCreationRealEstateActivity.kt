@@ -55,7 +55,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     // --- FOR DATA ---
 
-
     private var latLng: LatLng? = null
     private var isEdit: Boolean = false
 
@@ -570,6 +569,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             viewModel.insertPhoto(element)
         }
         getNotification(realEstate.realEstate)
+        viewModel.initSearchList()
         finishActivity()
     }
 

@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.view
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.CheckBox
@@ -18,6 +19,7 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 import com.openclassrooms.realestatemanager.viewModel.SearchViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ItemSearchActivity: AppCompatActivity() {
@@ -55,10 +57,10 @@ class ItemSearchActivity: AppCompatActivity() {
     private lateinit var checkBoxPhoto3 : CheckBox
     private var numberPhotoMin : Int = 0
 
-
     private lateinit var buttonClear : ImageView
     private lateinit var buttonFilter : ImageView
 
+    private lateinit var sharedPreferences: SharedPreferences
 
     // ------------------
     // TO CREATE
@@ -69,6 +71,7 @@ class ItemSearchActivity: AppCompatActivity() {
         setContentView(R.layout.activity_item_search)
         title = this.getString(R.string.filter_tilte)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        sharedPreferences = this.getSharedPreferences("sharedPreferences", MODE_PRIVATE)
         setUpUi()
     }
 
@@ -113,6 +116,7 @@ class ItemSearchActivity: AppCompatActivity() {
         setUpClear()
         buttonFilter = findViewById(R.id.search_RE_button_validate_iv)
         setUpFilter()
+        getSharedPreferences()
     }
 
     // --- Device ---
@@ -132,7 +136,6 @@ class ItemSearchActivity: AppCompatActivity() {
         sliderSurface.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance("MET")
             format.format(value.toDouble())
         }
     }
@@ -140,6 +143,21 @@ class ItemSearchActivity: AppCompatActivity() {
     // --- TYPE ---
 
     private fun setUpType() {
+        val shareType = sharedPreferences.getString("type_key","")
+        if(shareType != ""){
+            if(shareType == "House"){
+                checkBoxHouse.isChecked
+            }
+            if(shareType == "Flat"){
+                checkBoxFlat.isChecked
+            }
+            if(shareType == "Penthouse"){
+                checkBoxPenthouse.isChecked
+            }
+            if(shareType == "Duplex"){
+                checkBoxDuplex.isChecked
+            }
+        }
         checkBoxFlat.setOnClickListener {
             checkBoxHouse.isChecked = false
             checkBoxPenthouse.isChecked = false
@@ -165,7 +183,17 @@ class ItemSearchActivity: AppCompatActivity() {
     // --- PHOTO ---
 
     private fun setUpPhoto() {
-        checkBoxPhoto1.isChecked
+        val sharePhoto = sharedPreferences.getInt("photo_key", 1)
+        if(sharePhoto != 1){
+            if(sharePhoto == 2){
+                checkBoxPhoto2.isChecked
+            }
+            if(sharePhoto == 3){
+                checkBoxPhoto3.isChecked
+            }
+        }else{
+            checkBoxPhoto1.isChecked
+        }
         checkBoxPhoto1.setOnClickListener {
             checkBoxPhoto2.isChecked = false
             checkBoxPhoto3.isChecked = false
@@ -184,6 +212,13 @@ class ItemSearchActivity: AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun setUpDate(){
+        val shareDate= sharedPreferences.getLong("date_key", 0L)
+        if(shareDate != 0L){
+            val date = Date(shareDate)
+            val format = SimpleDateFormat("d/m/yyyy")
+            textDate.text = format.format(date)
+            newDate?.timeInMillis = shareDate
+        }
         buttonDate.setOnClickListener{
             newDate = Calendar.getInstance()
             val calendar: Calendar = Calendar.getInstance()
@@ -199,8 +234,43 @@ class ItemSearchActivity: AppCompatActivity() {
         }
     }
 
+    // --- SHARED PREFERENCES ---
+
+    private fun getSharedPreferences(){
+        switchSold.isChecked = sharedPreferences.getBoolean("sold_key", false)
+        checkBoxSchool.isChecked = sharedPreferences.getBoolean("school_key", false)
+        checkBoxCommerce.isChecked = sharedPreferences.getBoolean("commerce_key", false)
+        checkBoxPark.isChecked = sharedPreferences.getBoolean("park_key", false)
+        val sharedRoom = sharedPreferences.getInt("room_key", 0)
+        val sharedBedroom = sharedPreferences.getInt("bedroom_key", 0)
+        val sharedBathroom = sharedPreferences.getInt("bathroom_key", 0)
+        if(sharedRoom != 0 ){
+            editTextRoom.setText(sharedRoom,TextView.BufferType.EDITABLE)
+        }
+        if(sharedBedroom != 0 ){
+            editTextBedroom.setText(sharedBedroom,TextView.BufferType.EDITABLE)
+        }
+        if(sharedBathroom != 0 ){
+            editTextBathroom.setText(sharedBathroom,TextView.BufferType.EDITABLE)
+        }
+        val sharedPriceMin= sharedPreferences.getInt("price_min_key", 0)
+        val sharedPriceMax = sharedPreferences.getInt("price_max_key", 900000000)
+        val sharedSurfaceMin = sharedPreferences.getInt("surface_min_key", 0)
+        val sharedSurfaceMax = sharedPreferences.getInt("surface_max_key", 1000)
+        sliderPrice.values[0] = sharedPriceMin.toFloat()
+        sliderPrice.values[1] = sharedPriceMax.toFloat()
+        sliderSurface.values[0] = sharedSurfaceMin.toFloat()
+        sliderSurface.values[1] = sharedSurfaceMax.toFloat()
+
+        val sharedCity = sharedPreferences.getString("city_key", "")
+        if(sharedCity != "" ){
+            editTextCity.setText(sharedCity,TextView.BufferType.EDITABLE)
+        }
+    }
+
     // --- RESET ---
 
+    @SuppressLint("CommitPrefEdits")
     private fun resetUi(){
         switchSold.isChecked = false
         checkBoxHouse.isChecked = false
@@ -216,6 +286,11 @@ class ItemSearchActivity: AppCompatActivity() {
         editTextRoom.text?.clear()
         editTextBathroom.text?.clear()
         editTextBedroom.text?.clear()
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+        viewModel.initSearchList()
+        launchList()
     }
 
     // --- BUTTON CLEAR ---
@@ -257,37 +332,56 @@ class ItemSearchActivity: AppCompatActivity() {
     }
 
     private fun searchQuery(){
+        val editor : SharedPreferences.Editor = sharedPreferences.edit()
+
         val sold = switchSold.isChecked
+        editor.putBoolean("sold_key", sold)
         val type = typeString()
+        editor.putString("type_key", type)
         val priceMin = sliderPrice.values[0].toInt()
+        editor.putInt("price_min_key", priceMin)
         val priceMax = sliderPrice.values[1].toInt()
+        editor.putInt("price_max_key", priceMax)
         val surfaceMin = sliderSurface.values[0].toInt()
+        editor.putInt("surface_min_key", surfaceMin)
         val surfaceMax = sliderSurface.values[1].toInt()
+        editor.putInt("surface_max_key", surfaceMax)
         val roomMin = if((editTextRoom.text.toString() == "")){
             0
         }else{
             editTextRoom . text . toString ().toInt()
         }
+        editor.putInt("room_key", roomMin)
         val bedroomMin = if ((editTextBedroom.text.toString() == "")) {
             0
         } else {
             editTextBedroom.text.toString().toInt()
         }
+        editor.putInt("bedroom_key", bedroomMin)
         val bathroomMin = if ((editTextBathroom.text.toString() == "")) {
             0
         } else {
             editTextBathroom.text.toString().toInt()
         }
+        editor.putInt("bathroom_key", bathroomMin)
         val city = editTextCity.text.toString()
+        editor.putString("city_key", city)
         val school = checkBoxSchool.isChecked
+        editor.putBoolean("school_key", school)
         val commerce = checkBoxCommerce.isChecked
+        editor.putBoolean("commerce_key", commerce)
         val park = checkBoxPark.isChecked
+        editor.putBoolean("park_key", park)
         val minPhoto = numberPhotoMin()
+        editor.putInt("photo_key", minPhoto)
         val dateLong = if(newDate != null){
             newDate?.timeInMillis
         }else{
             null
         }
+        editor.putLong("date_key", dateLong!!)
+        editor.apply()
+        editor.commit()
 
         var query = "SELECT * , (SELECT COUNT(*) FROM Photo WHERE Photo.realEstate_id = Real_Estate.realEstate_id) AS count_photos FROM Real_Estate"
         val args = arrayListOf<Any>()
@@ -379,18 +473,18 @@ class ItemSearchActivity: AppCompatActivity() {
             query += "closeToSchool = :${park}"
             args.add(park)
         }
-        if(dateLong != null) {
-            query += if (conditions) " AND " else " WHERE "
-            query += "creationDate >= :${dateLong}"
-            args.add(dateLong)
-        }
+
+        query += if (conditions) " AND " else " WHERE "
+        query += "creationDate >= :${dateLong}"
+        args.add(dateLong)
 
         query += " AND count_photos >= ?"
         args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
             if(it!!.isNotEmpty()){
-                this.launchList(query,args)
+                viewModel.setSearchList(it)
+                this.launchList()
             }else{
                 Toast.makeText(this,resources.getString(R.string.search_error), Toast.LENGTH_SHORT).show()
             }
@@ -402,10 +496,8 @@ class ItemSearchActivity: AppCompatActivity() {
     // ACTIVITY
     // ------------------
 
-    private fun launchList(query: String, args: ArrayList<Any>) {
+    private fun launchList() {
         intent = Intent(this, ItemListActivity::class.java)
-        intent.putExtra("QUERY", query)
-        intent.putExtra("ARGS", args)
         startActivity(intent)
     }
 
