@@ -4,8 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
@@ -22,7 +20,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +54,8 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private val viewModel : ItemCreationViewModel by viewModel()
 
     private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
+
+    private val permsCamera = Manifest.permission.CAMERA
     private val rcImagePerms = 100
     private val rcChoosePhoto = -1
     private val REQUEST_PERMISSION = 100
@@ -253,15 +252,15 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun editType(realEstate: RealEstate): Int{
         if(realEstate.type != "Flat"){
-            return 1
-        }
-        if(realEstate.type != "Duplex"){
             return 2
         }
-        if(realEstate.type != "Penthouse"){
+        if(realEstate.type != "Duplex"){
             return 3
         }
-        return 0
+        if(realEstate.type != "Penthouse"){
+            return 4
+        }
+        return 1
     }
 
     // ------------------
@@ -535,6 +534,10 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun openCamera() {
+        if (!EasyPermissions.hasPermissions(this, permsCamera)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, permsCamera)
+            return
+        }
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             this.packageManager?.let {
                 takePictureIntent.resolveActivity(it)?.also {
@@ -550,12 +553,13 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                                 file
                         )
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                        launcherTake.launch(intent)
+                        launcherTake.launch(takePictureIntent)
                     }
                 }
             }
         }
     }
+
     private lateinit var currentPhotoPath: String
 
     @Throws(IOException::class)
@@ -575,35 +579,33 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun chooseImageFromPhone() {
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
+            return
+        }
         Intent(Intent.ACTION_GET_CONTENT).also { intent ->
             intent.type = "image/*"
             intent.resolveActivity(packageManager)?.also {
-
                 launcherPick.launch(intent)
             }
         }
     }
 
     private var launcherPick = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == REQUEST_PICK_IMAGE) {
             if (result.resultCode == RESULT_OK) { //SUCCESS
                 val uriImageSelected: Uri? = result.data?.data
            popupDescription(uriImageSelected.toString())
             } else {
                 Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
             }
-        }
     }
 
     private var launcherTake = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == REQUEST_IMAGE_CAPTURE) {
             if (result.resultCode == RESULT_OK) { //SUCCESS
-                val uriImageSelected: Uri? = result.data?.data
-                 popupDescription(uriImageSelected.toString())
+                 popupDescription(currentPhotoPath)
             } else {
                 Toast.makeText(this, R.string.toast_choose_image, Toast.LENGTH_SHORT).show()
             }
-        }
     }
 
 
@@ -612,14 +614,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    private fun checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_PERMISSION)
-        }
-    }
 
     // --- FINISH ACTIVITY ---
 
@@ -638,10 +632,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        checkCameraPermission()
-    }
 
 
 
