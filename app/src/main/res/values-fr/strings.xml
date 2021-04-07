@@ -104,7 +104,7 @@
     // ------------------
     <string name="menu_item_realtor">Agent</string>
     <string name="menu_item_add_realtor">Ajouter un agent </string>
-    <string name="menu_item_change_device">Changer de device</string>
+    <string name="menu_item_change_device">Changer de devices</string>
     <string name="menu_item_simulator_loan">Simulateur de Prêt </string>
     <string name="menu_fitler">Filtrer un bien</string>
     <string name="menu_edit_real_estate">Editer un bien </string>
@@ -128,4 +128,9 @@
     <string name="map">Carte</string>
     <string name="map_title">Carte</string>
     <string name="filter_tilte">Filtre</string>
+    <string name="channel_name">RealEstateManager</string>
+    <string name="channel_description">Notification app</string>
+    <string name="add_title_notification">RealEstate record</string>
+    <string name="add_notification_sold">Le bien immobilier est vendu</string>
+    <string name="add_notification_sale">Le bien immobilier est à vendre</string>
 </resources>

@@ -2,11 +2,15 @@ package com.openclassrooms.realestatemanager.view.itemCreation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -20,6 +24,8 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,18 +55,15 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     // --- FOR DATA ---
 
+
     private var latLng: LatLng? = null
     private var isEdit: Boolean = false
+
     private val viewModel : ItemCreationViewModel by viewModel()
 
     private val perms = Manifest.permission.READ_EXTERNAL_STORAGE
-
     private val permsCamera = Manifest.permission.CAMERA
     private val rcImagePerms = 100
-    private val rcChoosePhoto = -1
-    private val REQUEST_PERMISSION = 100
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_PICK_IMAGE = 2
 
     private lateinit var currentRealtor: Realtor
 
@@ -85,7 +88,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
      private lateinit var closeToCommerce: CheckBox
      private lateinit var closeToPark: CheckBox
 
-
     private lateinit var button: ImageView
     private lateinit var buttonAddPhoto: ImageView
     private lateinit var buttonTakePhoto: ImageView
@@ -104,6 +106,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         title = this.getString(R.string.add_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         getCurrentRealtor()
+        createNotificationChannel()
     }
 
     // ------------------
@@ -276,6 +279,66 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun setUpButtonTakeImage(){
         buttonTakePhoto.setOnClickListener {
             openCamera()
+        }
+    }
+    // --- TAKE PHOTO ---
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun openCamera() {
+        if (!EasyPermissions.hasPermissions(this, permsCamera)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, permsCamera)
+            return
+        }
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            this.packageManager?.let {
+                takePictureIntent.resolveActivity(it)?.also {
+                    val photoFile: File? = try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        null
+                    }
+                    photoFile?.let { file ->
+                        val photoURI: Uri = FileProvider.getUriForFile(
+                                this,
+                                "com.openclassrooms.realestatemanage.fileprovider",
+                                file
+                        )
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        launcherTake.launch(takePictureIntent)
+                    }
+                }
+            }
+        }
+    }
+
+    private lateinit var currentPhotoPath: String
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        val storageDir: File = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+                "JPEG_${timeStamp}_", /* prefix */
+                ".jpg", /* suffix */
+                storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun chooseImageFromPhone() {
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
+            return
+        }
+        Intent(Intent.ACTION_GET_CONTENT).also { intent ->
+            intent.type = "image/*"
+            intent.resolveActivity(packageManager)?.also {
+                launcherPick.launch(intent)
+            }
         }
     }
 
@@ -506,7 +569,54 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             element.idRealEstate = idRealEstate
             viewModel.insertPhoto(element)
         }
+        getNotification(realEstate.realEstate)
         finishActivity()
+    }
+
+    // ------------------
+    // NOTIFICATION
+    // ------------------
+    private val channelId: String = "1"
+
+    private fun getNotification(realEstate: RealEstate){
+        val notification : String = if(realEstate.isSold){
+            getString(R.string.add_notification_sold)
+        }else{
+            getString(R.string.add_notification_sale)
+        }
+        val intent = Intent(this, ItemDetailFragment::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_baseline_location_city_24)
+                .setContentTitle(getString(R.string.add_title_notification))
+                .setContentText(notification)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        with(NotificationManagerCompat.from(this)) {
+            // notificationId is a unique int for each notification that you must define
+            notify(1, builder.build())
+        }
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     // ------------------
@@ -528,68 +638,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         )
     }
 
-    // --- LAUNCH PICK PHOTO --
-
-    // --- TAKE PHOTO ---
-
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun openCamera() {
-        if (!EasyPermissions.hasPermissions(this, permsCamera)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, permsCamera)
-            return
-        }
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            this.packageManager?.let {
-                takePictureIntent.resolveActivity(it)?.also {
-                    val photoFile: File? = try {
-                        createImageFile()
-                    } catch (ex: IOException) {
-                        null
-                    }
-                    photoFile?.let { file ->
-                        val photoURI: Uri = FileProvider.getUriForFile(
-                                this,
-                                "com.openclassrooms.realestatemanage.fileprovider",
-                                file
-                        )
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                        launcherTake.launch(takePictureIntent)
-                    }
-                }
-            }
-        }
-    }
-
-    private lateinit var currentPhotoPath: String
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-        val storageDir: File = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        return File.createTempFile(
-                "JPEG_${timeStamp}_", /* prefix */
-                ".jpg", /* suffix */
-                storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun chooseImageFromPhone() {
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
-            return
-        }
-        Intent(Intent.ACTION_GET_CONTENT).also { intent ->
-            intent.type = "image/*"
-            intent.resolveActivity(packageManager)?.also {
-                launcherPick.launch(intent)
-            }
-        }
-    }
+    // --- LAUNCHER PHOTO ---
 
     private var launcherPick = registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) { //SUCCESS

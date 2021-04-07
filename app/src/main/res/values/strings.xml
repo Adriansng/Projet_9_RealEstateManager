@@ -161,4 +161,9 @@
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
     <string name="dialog_description" translatable="false">Description</string>
+    <string name="channel_name">RealEstateManager</string>
+    <string name="channel_description">Notification app</string>
+    <string name="add_title_notification">RealEstate record</string>
+    <string name="add_notification_sold">The real estate is sold</string>
+    <string name="add_notification_sale">The real estate is for sale</string>
 </resources>

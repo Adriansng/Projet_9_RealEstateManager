@@ -289,7 +289,7 @@ class ItemSearchActivity: AppCompatActivity() {
         }
 
 
-        var query = "SELECT * FROM Real_Estate"
+        var query = "SELECT * FROM Real_Estate AS count_photos FROM Real_Estate INNER JOIN Photo ON Real_Estate.id = Photo.realEstate_id"
         val args = arrayListOf<Any>()
         var conditions = false
 
@@ -385,8 +385,8 @@ class ItemSearchActivity: AppCompatActivity() {
             args.add(dateLong)
         }
 
-        //query += " AND count_photos >= ?"
-        //args.add(minPhoto)
+        query += " AND count_photos >= $minPhoto"
+        args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
             if(it!!.isNotEmpty()){
