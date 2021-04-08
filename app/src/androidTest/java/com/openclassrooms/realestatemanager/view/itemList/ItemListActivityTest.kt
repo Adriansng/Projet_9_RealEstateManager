@@ -21,13 +21,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class ItemListActivityTest {
 
     @Rule
+    @JvmField
     var mActivityTestRule = ActivityTestRule(ItemListActivity::class.java)
-
 
     @Test
     fun itemListActivityTest() {
@@ -103,38 +104,6 @@ class ItemListActivityTest {
                         isDisplayed()))
         recyclerView.check(matches(isDisplayed()))
 
-        val actionMenuItemView2 = onView(
-                allOf(withId(R.id.item_list_filter_toolbar), withContentDescription("Filtrer un bien"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.item_list_toolbar),
-                                        2),
-                                1),
-                        isDisplayed()))
-        actionMenuItemView2.perform(click())
-
-        val viewGroup2 = onView(
-                allOf(withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()))
-        viewGroup2.check(matches(isDisplayed()))
-
-        val textView = onView(
-                allOf(withText("Filtre"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
-                        isDisplayed()))
-        textView.check(matches(withText("Filtre")))
-
-        val appCompatImageButton3 = onView(
-                allOf(withContentDescription("Revenir en haut de la page"),
-                        childAtPosition(
-                                allOf(withId(R.id.action_bar),
-                                        childAtPosition(
-                                                withId(R.id.action_bar_container),
-                                                0)),
-                                1),
-                        isDisplayed()))
-        appCompatImageButton3.perform(click())
 
         val navigationMenuItemView = onView(
                 allOf(withId(R.id.menu_add_realtor_item),
@@ -173,6 +142,7 @@ class ItemListActivityTest {
                                 2),
                         isDisplayed()))
         navigationMenuItemView2.perform(click())
+
     }
 
     private fun childAtPosition(
@@ -192,4 +162,7 @@ class ItemListActivityTest {
             }
         }
     }
+
+
+
 }

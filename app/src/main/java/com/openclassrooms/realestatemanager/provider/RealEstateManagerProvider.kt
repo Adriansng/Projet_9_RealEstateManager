@@ -12,8 +12,6 @@ import kotlinx.coroutines.runBlocking
 class RealEstateManagerProvider : ContentProvider() {
 
     // FOR DATA
-    private val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
-    private val TABLE_NAME = RealEstate::class.java.simpleName
 
     override fun onCreate() = true
 
@@ -69,6 +67,14 @@ class RealEstateManagerProvider : ContentProvider() {
 
     override fun getType(uri: Uri): String? =
     "vnd.android.cursor.item/$AUTHORITY.$TABLE_NAME"
+
+
+    companion object {
+        private val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
+        private val TABLE_NAME = RealEstate::class.java.simpleName
+        val URI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+
+    }
 }
 
 

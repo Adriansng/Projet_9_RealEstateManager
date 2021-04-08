@@ -19,7 +19,7 @@ import kotlin.Throws
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-class ExampleUnitTest {
+class UnitTest {
 
     private val nowDate = SimpleDateFormat("dd/MM/yyyy").format(Date())
 
