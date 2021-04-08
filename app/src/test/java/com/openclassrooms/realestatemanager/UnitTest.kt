@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import com.openclassrooms.realestatemanager.utils.Utils
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.text.SimpleDateFormat
 import java.util.*

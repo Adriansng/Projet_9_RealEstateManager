@@ -40,17 +40,11 @@ class RealEstateManagerProvider : ContentProvider() {
     }
 
     override fun update(uri: Uri, contentValues: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
-        context?.let { context ->
-            contentValues?.let {
-                var count = 0
-                runBlocking {
-                    count = RealEstateDatabase.buildDatabase(context)?.realEstateDao()?.update(RealEstate.fromContentValues(it))!!
-                }
-                context.contentResolver.notifyChange(uri, null)
-                return count
-            }
+        if (context != null){
+            val count =  RealEstateDatabase.buildDatabase(context!!)?.realEstateDao()?.update(RealEstate.fromContentValues(contentValues!!))
+            context!!.contentResolver.notifyChange(uri, null);
+            return count!!;
         }
-
         throw IllegalArgumentException("Failed to update row into $uri")
     }
 
