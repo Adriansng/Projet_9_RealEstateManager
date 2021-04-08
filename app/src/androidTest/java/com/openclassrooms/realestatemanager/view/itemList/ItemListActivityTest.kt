@@ -4,12 +4,12 @@ package com.openclassrooms.realestatemanager.view.itemList
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
 import com.openclassrooms.realestatemanager.R
 import org.hamcrest.Description
@@ -26,15 +26,8 @@ import org.junit.runner.RunWith
 class ItemListActivityTest {
 
     @Rule
-    @JvmField
     var mActivityTestRule = ActivityTestRule(ItemListActivity::class.java)
 
-    @Rule
-    @JvmField
-    var mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION")
 
     @Test
     fun itemListActivityTest() {
@@ -180,28 +173,11 @@ class ItemListActivityTest {
                                 2),
                         isDisplayed()))
         navigationMenuItemView2.perform(click())
-
-        val frameLayout2 = onView(
-                allOf(withId(android.R.id.content),
-                        withParent(allOf(withId(R.id.action_bar_root),
-                                withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java)))),
-                        isDisplayed()))
-        frameLayout2.check(matches(isDisplayed()))
-
-        val navigationMenuItemView3 = onView(
-                allOf(withId(R.id.menu_map_item),
-                        childAtPosition(
-                                allOf(withId(R.id.design_navigation_view),
-                                        childAtPosition(
-                                                withId(R.id.nav_view_menu),
-                                                0)),
-                                3),
-                        isDisplayed()))
-        navigationMenuItemView3.perform(click())
     }
 
     private fun childAtPosition(
-            parentMatcher: Matcher<View>, position: Int): Matcher<View> {
+            parentMatcher: Matcher<View>, position: Int,
+    ): Matcher<View> {
 
         return object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description) {
