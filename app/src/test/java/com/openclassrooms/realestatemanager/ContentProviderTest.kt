@@ -6,9 +6,9 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import androidx.room.Room
-import androidx.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.provider.RealEstateManagerProvider
 import org.hamcrest.Matchers
@@ -24,16 +24,15 @@ class ContentProviderTest {
 
     @Before
     fun setUp() {
-        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
+        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context,
                 RealEstateDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
-        mContentResolver = InstrumentationRegistry.getContext().contentResolver
+        mContentResolver = InstrumentationRegistry.getInstrumentation().context.contentResolver
     }
 
-    @get:Test
-    val itemsWhenNoItemInserted: Unit
-        get() {
+    @Test
+    fun itemsWhenNoItemInserted() {
             val cursor: Cursor? = mContentResolver!!.query(ContentUris.withAppendedId(RealEstateManagerProvider.URI_ITEM, USER_ID), null, null, null, null)
             ViewMatchers.assertThat(cursor, Matchers.notNullValue())
             ViewMatchers.assertThat(cursor?.count, Matchers.`is`(0))
@@ -43,7 +42,7 @@ class ContentProviderTest {
     @Test
     fun insertAndGetItem() {
         // BEFORE : Adding demo item
-        val userUri: Uri? = mContentResolver!!.insert(RealEstateManagerProvider.URI_ITEM, generateItem())
+        mContentResolver!!.insert(RealEstateManagerProvider.URI_ITEM, generateItem())
         // TEST
         val cursor: Cursor? = mContentResolver!!.query(ContentUris.withAppendedId(RealEstateManagerProvider.URI_ITEM, USER_ID), null, null, null, null)
         ViewMatchers.assertThat(cursor, Matchers.notNullValue())

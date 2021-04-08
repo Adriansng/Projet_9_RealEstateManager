@@ -1,18 +1,10 @@
 package com.openclassrooms.realestatemanager
 
-import com.openclassrooms.realestatemanager.database.dao.RealtorDao
-import com.openclassrooms.realestatemanager.repositories.RealtorRepository
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
-import com.openclassrooms.realestatemanager.viewModel.SimulatorLoanViewModel
 import junit.framework.Assert.assertEquals
-import org.junit.Assert
 import org.junit.Test
-import org.koin.android.viewmodel.ext.android.viewModel
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.Throws
 
 /**
  * Example local unit test, which will execute on the development machine (host).
