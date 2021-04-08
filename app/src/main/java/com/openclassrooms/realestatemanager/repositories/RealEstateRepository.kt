@@ -18,7 +18,7 @@ class RealEstateRepository(
     // ------------------
 
     fun getRealEstates(): LiveData<List<RealEstateComplete>> {
-        return if(searchList.value!!.isNotEmpty()){
+        return if(searchList.value != null){
             searchList
         }else{
             realEstateDao.getRealEstates()

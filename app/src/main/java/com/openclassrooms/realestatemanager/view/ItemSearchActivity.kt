@@ -128,15 +128,16 @@ class ItemSearchActivity: AppCompatActivity() {
             "USD"
         }
         sliderPrice.setLabelFormatter { value: Float ->
-            val format = NumberFormat.getCurrencyInstance()
-            format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance(device)
-            format.format(value.toDouble())
+            val formatPrice = NumberFormat.getCurrencyInstance()
+            formatPrice.maximumFractionDigits = 0
+            formatPrice.currency = Currency.getInstance(device)
+            formatPrice.format(value.toDouble())
         }
         sliderSurface.setLabelFormatter { value: Float ->
-            val format = NumberFormat.getCurrencyInstance()
-            format.maximumFractionDigits = 0
-            format.format(value.toDouble())
+            val formatSurface = NumberFormat.getCurrencyInstance()
+            formatSurface.maximumFractionDigits = 0
+            formatSurface.currency = Currency.getInstance("Met")
+            formatSurface.format(value.toDouble())
         }
     }
 
@@ -146,16 +147,16 @@ class ItemSearchActivity: AppCompatActivity() {
         val shareType = sharedPreferences.getString("type_key","")
         if(shareType != ""){
             if(shareType == "House"){
-                checkBoxHouse.isChecked
+                checkBoxHouse.isChecked = true
             }
             if(shareType == "Flat"){
-                checkBoxFlat.isChecked
+                checkBoxFlat.isChecked = true
             }
             if(shareType == "Penthouse"){
-                checkBoxPenthouse.isChecked
+                checkBoxPenthouse.isChecked = true
             }
             if(shareType == "Duplex"){
-                checkBoxDuplex.isChecked
+                checkBoxDuplex.isChecked = true
             }
         }
         checkBoxFlat.setOnClickListener {
@@ -184,16 +185,16 @@ class ItemSearchActivity: AppCompatActivity() {
 
     private fun setUpPhoto() {
         val sharePhoto = sharedPreferences.getInt("photo_key", 1)
-        if(sharePhoto != 1){
-            if(sharePhoto == 2){
-                checkBoxPhoto2.isChecked
-            }
-            if(sharePhoto == 3){
-                checkBoxPhoto3.isChecked
-            }
-        }else{
-            checkBoxPhoto1.isChecked
+        if (sharePhoto == 1) {
+            checkBoxPhoto1.isChecked = true
         }
+        if(sharePhoto == 2){
+            checkBoxPhoto2.isChecked = true
+        }
+        if(sharePhoto == 3){
+            checkBoxPhoto3.isChecked = true
+        }
+
         checkBoxPhoto1.setOnClickListener {
             checkBoxPhoto2.isChecked = false
             checkBoxPhoto3.isChecked = false
@@ -245,22 +246,22 @@ class ItemSearchActivity: AppCompatActivity() {
         val sharedBedroom = sharedPreferences.getInt("bedroom_key", 0)
         val sharedBathroom = sharedPreferences.getInt("bathroom_key", 0)
         if(sharedRoom != 0 ){
-            editTextRoom.setText(sharedRoom,TextView.BufferType.EDITABLE)
+            editTextRoom.setText(sharedRoom.toString(),TextView.BufferType.EDITABLE)
         }
         if(sharedBedroom != 0 ){
-            editTextBedroom.setText(sharedBedroom,TextView.BufferType.EDITABLE)
+            editTextBedroom.setText(sharedBedroom.toString(),TextView.BufferType.EDITABLE)
         }
         if(sharedBathroom != 0 ){
-            editTextBathroom.setText(sharedBathroom,TextView.BufferType.EDITABLE)
+            editTextBathroom.setText(sharedBathroom.toString(),TextView.BufferType.EDITABLE)
         }
         val sharedPriceMin= sharedPreferences.getInt("price_min_key", 0)
         val sharedPriceMax = sharedPreferences.getInt("price_max_key", 900000000)
         val sharedSurfaceMin = sharedPreferences.getInt("surface_min_key", 0)
         val sharedSurfaceMax = sharedPreferences.getInt("surface_max_key", 1000)
-        sliderPrice.values[0] = sharedPriceMin.toFloat()
-        sliderPrice.values[1] = sharedPriceMax.toFloat()
-        sliderSurface.values[0] = sharedSurfaceMin.toFloat()
-        sliderSurface.values[1] = sharedSurfaceMax.toFloat()
+        sliderPrice.valueFrom = sharedPriceMin.toFloat()
+        sliderPrice.valueTo = sharedPriceMax.toFloat()
+        sliderSurface.valueFrom = sharedSurfaceMin.toFloat()
+        sliderSurface.valueTo = sharedSurfaceMax.toFloat()
 
         val sharedCity = sharedPreferences.getString("city_key", "")
         if(sharedCity != "" ){
@@ -349,7 +350,7 @@ class ItemSearchActivity: AppCompatActivity() {
         val roomMin = if((editTextRoom.text.toString() == "")){
             0
         }else{
-            editTextRoom . text . toString ().toInt()
+            editTextRoom.text.toString().toInt()
         }
         editor.putInt("room_key", roomMin)
         val bedroomMin = if ((editTextBedroom.text.toString() == "")) {
@@ -374,12 +375,13 @@ class ItemSearchActivity: AppCompatActivity() {
         editor.putBoolean("park_key", park)
         val minPhoto = numberPhotoMin()
         editor.putInt("photo_key", minPhoto)
-        val dateLong = if(newDate != null){
-            newDate?.timeInMillis
+        val dateLong : Long
+        if(newDate != null){
+            dateLong = newDate?.timeInMillis!!
+            editor.putLong("date_key", newDate!!.timeInMillis)
         }else{
-            null
+            dateLong = 0L
         }
-        editor.putLong("date_key", dateLong!!)
         editor.apply()
         editor.commit()
 
@@ -388,7 +390,7 @@ class ItemSearchActivity: AppCompatActivity() {
         var conditions = false
 
         if (type != ""){
-            query += " WHERE type = :${type}"
+            query += " WHERE type = :$type"
             args.add(type)
             conditions = true
         }
@@ -396,53 +398,53 @@ class ItemSearchActivity: AppCompatActivity() {
         if ((sold)){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "isSold = :${sold}"
+            query += "isSold = :$sold"
             args.add(sold)
         }
 
         if (priceMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "price >= :${priceMin}"
+            query += "price >= :$priceMin"
             args.add(priceMin)
         }
         if (priceMax != 900000000) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "price <= :${priceMax}"
+            query += "price <= :$priceMax"
             args.add(priceMax)
         }
 
         if (surfaceMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "area >= :${surfaceMin}"
+            query += "area >= :$surfaceMin"
             args.add(surfaceMin)
         }
 
         if (surfaceMax != 1000) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "area <= :${surfaceMax}"
+            query += "area <= :$surfaceMax"
             args.add(surfaceMax)
         }
 
         if (roomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberRoom >= :${roomMin}"
+            query += "numberRoom >= :$roomMin"
             args.add(roomMin)
         }
         if (bedroomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberBedroom >= :${bedroomMin}"
+            query += "numberBedroom >= :$bedroomMin"
             args.add(bedroomMin)
         }
         if (bathroomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberBathroom >= :${bathroomMin}"
+            query += "numberBathroom >= :$bathroomMin"
             args.add(bathroomMin)
         }
 
@@ -456,7 +458,7 @@ class ItemSearchActivity: AppCompatActivity() {
         if (school){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "closeToPark = :${school}"
+            query += "closeToSchool = :${school}"
             args.add(school)
         }
 
@@ -470,16 +472,20 @@ class ItemSearchActivity: AppCompatActivity() {
         if (park){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "closeToSchool = :${park}"
+            query += "closeToPark = :${park}"
             args.add(park)
         }
 
-        query += if (conditions) " AND " else " WHERE "
-        query += "creationDate >= :${dateLong}"
-        args.add(dateLong)
+        if (dateLong != 0L) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "creationDate >= :${dateLong}"
+            args.add(dateLong)
+        }
 
-        query += " AND count_photos >= ?"
-        args.add(minPhoto)
+            query += if (conditions) " AND " else " WHERE "
+            query += "count_photos >= :${minPhoto}"
+            args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
             if(it!!.isNotEmpty()){
