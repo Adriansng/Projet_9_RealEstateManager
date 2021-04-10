@@ -1,13 +1,13 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
+import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
 
 /**
  * An activity representing a single Item detail screen. This
@@ -17,18 +17,16 @@ import com.openclassrooms.realestatemanager.R
  */
 class ItemDetailActivity : AppCompatActivity() {
 
-
-    private var realtorId : Long = 0
-
+    private var realEstateId : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         setSupportActionBar(findViewById(R.id.item_detail_toolbar))
-        realtorId = intent.getLongExtra("Realtor", 0)
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        realEstateId = intent.getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0L)
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -42,25 +40,32 @@ class ItemDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-                val bundle : Bundle = Bundle()
-                        bundle.putString("RealEstate",
-                        intent.getStringExtra("RealEstate"))
 
             val fragment = ItemDetailFragment().apply {
-                bundle.apply {  }
+               arguments = Bundle().apply {
+                   putLong(ItemDetailFragment.ARG_ITEM_ID,
+                           intent.getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0L))
+               }
             }
 
             supportFragmentManager.beginTransaction()
-                    .add(R.id.item_list_frameLayout, fragment)
+                    .add(R.id.item_detail_container, fragment)
                     .commit()
         }
     }
+
+    // ------------------
+    // UI
+    // ------------------
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_detail_activity, menu)
         return true
     }
 
+    // ------------------
+    // ACTIVITY
+    // ------------------
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
             return when (item.itemId) {
@@ -71,7 +76,8 @@ class ItemDetailActivity : AppCompatActivity() {
                     //
                     // http://developer.android.com/design/patterns/navigation.html#up-vs-back
 
-                    navigateUpTo(Intent(this, ItemListActivity::class.java))
+                    intent = Intent(this, ItemListActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.item_list_edit_toolbar -> {
@@ -83,9 +89,8 @@ class ItemDetailActivity : AppCompatActivity() {
     }
 
     private fun launchItemCreation(){
-        val intent = Intent(this, ItemCreationRealEstate::class.java)
-        intent.putExtra("Realtor", realtorId)
+        val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
+        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstateId)
         startActivity(intent)
     }
-
 }

@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
-import android.media.CamcorderProfile
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.database.dao.PhotoDao
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao
@@ -12,10 +12,12 @@ import com.openclassrooms.realestatemanager.database.dao.RealtorDao
 import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.utils.Converters
 import kotlin.concurrent.thread
 
 @Database(entities = [Photo::class, RealEstate::class, Realtor::class],
         version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
     abstract fun realEstateDao() : RealEstateDao
     abstract fun realtorDao() : RealtorDao
@@ -33,7 +35,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         .addCallback(object : Callback(){
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
-                                thread { buildDatabase(context)?.realtorDao()?.insertRealtors(Realtor.default()) }
+                                thread { buildDatabase(context)?.realtorDao()?.insertRealtors(Realtor(1,"John",false)) }
                             }
                         })
                         .allowMainThreadQueries()
@@ -41,7 +43,5 @@ abstract class RealEstateDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
-
-        
     }
 }

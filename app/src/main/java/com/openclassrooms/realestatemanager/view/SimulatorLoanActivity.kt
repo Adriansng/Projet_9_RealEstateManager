@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -14,7 +15,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class SimulatorLoanActivity : AppCompatActivity() {
 
     // --- FOR DATA ---
-
     private val viewModel : SimulatorLoanViewModel by viewModel()
 
     private lateinit var amountLayoutText: TextInputLayout
@@ -37,10 +37,18 @@ class SimulatorLoanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
         title = applicationContext.getString(R.string.loan_title)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpUi()
+        getCurrentRealtor()
+    }
 
+    // ------------------
+    // UI
+    // ------------------
+
+    private fun setUpUi(){
         amountLayoutText = findViewById(R.id.loan_amount_txt)
         contributionLayoutText = findViewById(R.id.loan_contribution_txt)
-
         amountEditText = findViewById(R.id.loan_amount_edit_text)
         contributionEditText = findViewById(R.id.loan_contribution_edit_text)
         interestEditText = findViewById(R.id.loan_interest_edit_text)
@@ -48,34 +56,8 @@ class SimulatorLoanActivity : AppCompatActivity() {
         interestText = findViewById(R.id.loan_calcul_interest_txt)
         mountText = findViewById(R.id.loan_calcul_mount_txt)
         totalText = findViewById(R.id.loan_calcul_total_txt)
-
-        val prefEuro = intent.getBooleanExtra("Realtor", false)
-        setupDevice(prefEuro)
         setupEditText()
-        displayResult(" $")
     }
-
-    // ------------------
-    // DEVICE
-    // ------------------
-
-    private fun setupDevice(prefEuro: Boolean){
-        if(prefEuro){
-            changeDevice(" €")
-        }else{
-            changeDevice(" $")
-        }
-    }
-
-    private fun changeDevice(device: String){
-        amountLayoutText.suffixText = device
-        contributionLayoutText.suffixText = device
-        displayResult(device)
-    }
-
-    // ------------------
-    // EDIT TEXT
-    // ------------------
 
     private fun setupEditText(){
         editText(amountEditText, "Amount")
@@ -101,6 +83,39 @@ class SimulatorLoanActivity : AppCompatActivity() {
         })
     }
 
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    private fun getCurrentRealtor(){
+        viewModel.getRealtorCurrent().observe(this, {
+            val currentRealtor = it
+            setupDevice(currentRealtor.prefEuro)
+        })
+    }
+
+    // ------------------
+    // DEVICE
+    // ------------------
+
+    private fun setupDevice(prefEuro: Boolean){
+        if(prefEuro){
+            changeDevice(" €")
+        }else{
+            changeDevice(" $")
+        }
+    }
+
+    private fun changeDevice(device: String){
+        amountLayoutText.suffixText = device
+        contributionLayoutText.suffixText = device
+        displayResult(device)
+    }
+
+    // ------------------
+    // CHECK
+    // ------------------
+
     private fun checkCalculator(){
         if(amountEditText.text.toString() != "" &&
                 contributionEditText.text.toString() != ("")&&
@@ -113,6 +128,7 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // ------------------
     // CALCULATOR
     // ------------------
+
     private fun calculatorLoan(){
         viewModel.calculatorLoan(
                 amountEditText.text.toString().toInt(),
@@ -135,5 +151,19 @@ class SimulatorLoanActivity : AppCompatActivity() {
         viewModel.total.observe(this, { it ->
             (it.toString() + device).also { totalText.text = it }
         })
+    }
+
+    // ------------------
+    // FINISH ACTIVITY
+    // ------------------
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

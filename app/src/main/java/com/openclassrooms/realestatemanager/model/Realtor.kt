@@ -15,7 +15,6 @@ data class Realtor(
         ):Serializable
 {
         companion object {
-                fun default() = Realtor(id = 0, name = "", prefEuro = false)
+                fun default() = Realtor(id = 0, name = "John", prefEuro = false)
         }
-
 }

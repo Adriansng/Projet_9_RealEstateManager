@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.view
+package com.openclassrooms.realestatemanager.view.itemList
 
 import android.content.Context
 import android.content.Intent
@@ -6,8 +6,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
-import android.view.*
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.Spinner
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -22,25 +27,20 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
-import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.ItemMapActivity
+import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
+import com.openclassrooms.realestatemanager.view.ItemSearchActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
+
 class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // --- FOR DATA ---
-
 
     private val viewModel : ItemListViewModel by viewModel()
 
@@ -48,17 +48,13 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var toolbar: Toolbar1
     private lateinit var drawerView: DrawerLayout
     private lateinit var navView: NavigationView
-    private lateinit var spinnerRealtors: AutoCompleteTextView
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private var twoPane: Boolean = false
+    private lateinit var spinnerRealtors: Spinner
 
+    private var twoPane: Boolean = false
     private var inEuro: Boolean = false
 
-    private lateinit var realEstates: List<RealEstate>
-    var realtor : Realtor = Realtor.default()
+    lateinit var realtor : Realtor
+    private var idRealtor : Long = 1
     private lateinit var realtors : List<Realtor>
 
 
@@ -69,18 +65,63 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-        recyclerView = findViewById(R.id.item_list)
-        toolbar = findViewById(R.id.item_list_toolbar)
-        drawerView = findViewById(R.id.drawer_layout)
-        navView = findViewById(R.id.nav_view_menu)
-        setSupportActionBar(toolbar)
-        setUpRealEstates()
+        setUpUI()
+        setUpRealtorCurrent(idRealtor)
+        initRealtorCurrent()
         setUpRealtors()
-        setUpRealtor()
-        setupToolbar()
-        setupOpenNavDrawer()
+    }
 
+    // ------------------
+    // REAL ESTATE
+    // ------------------
 
+    private fun setUpRealEstates(inEuro: Boolean){
+            viewModel.getRealEstates().observe(this, {
+                setupRecyclerView(it, inEuro)
+            })
+    }
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    private fun initRealtorCurrent(){
+        viewModel.getRealtorCurrent().observe(this){
+            realtor = it
+            idRealtor = realtor.id
+            setUpRealEstates(realtor.prefEuro)
+        }
+    }
+    private fun setUpRealtors(){
+        viewModel.getRealtors().observe(this, {
+            realtors = it
+        })
+    }
+
+    private fun setUpRealtor(id: Long){
+        viewModel.getRealtor(id).observe(this,{
+            realtor = it
+            setUpRealEstates(it.prefEuro)
+        })
+    }
+
+    private fun setUpRealtorCurrent(id: Long){
+        viewModel.getRealtor(id).observe(this,{
+            realtor = it
+            viewModel.setRealtorCurrent(it)
+        })
+    }
+
+    private fun updateRealtor(realtor: Realtor){
+        viewModel.addRealtor(realtor)
+    }
+
+    // ------------------
+    // UI
+    // ------------------
+
+    // --- SETUP ---
+
+    private fun setUpUI(){
         if (findViewById<FrameLayout>(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -88,37 +129,14 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             // activity should be in two-pane mode.
             twoPane = true
         }
-
-
+        recyclerView = findViewById(R.id.item_list)
+        toolbar = findViewById(R.id.item_list_toolbar)
+        drawerView = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view_menu)
+        setSupportActionBar(toolbar)
+        setupToolbar()
+        setupOpenNavDrawer()
     }
-
-    // ------------------
-    // REAL ESTATE
-    // ------------------
-
-    private fun setUpRealEstates(){
-        viewModel.getRealEstates().observe(this, {
-            realEstates = it
-            setupRecyclerView(realEstates)
-        })
-    }
-    // ------------------
-    // REALTOR
-    // ------------------
-
-    private fun setUpRealtors(){
-        viewModel.getRealtors().observe(this, {
-             realtors= it
-        })
-    }
-
-    private fun setUpRealtor(){
-        realtor = viewModel.getRealtor(realtors[0].id)
-    }
-
-    // ------------------
-    // UI
-    // ------------------
 
     // --- TOOLBAR ---
 
@@ -131,7 +149,8 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_list_activity, menu)
-       return true
+        menu?.findItem(R.id.item_list_edit_toolbar)?.isVisible = !twoPane
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -145,7 +164,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 true
             }
             R.id.item_list_filter_toolbar -> {
-                //TODO (filter list)
+                launchFilter()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -166,12 +185,12 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         navView.setNavigationItemSelectedListener(this)
         drawerView.addDrawerListener(object : DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                setUpSpinnerRealtors()
             }
 
             override fun onDrawerOpened(drawerView: View) {
                 setUpSpinnerRealtors()
             }
+
             override fun onDrawerClosed(drawerView: View) {}
             override fun onDrawerStateChanged(newState: Int) {}
         })
@@ -188,8 +207,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.menu_add_realtor_item -> popupAddRealtor()
-            R.id.menu_change_device_item -> popupChangeDevice()
+            R.id.menu_change_device_item -> popupChangeDevice(realtor)
             R.id.menu_loan_item -> launchSimulatorLoan()
+            R.id.menu_map_item -> launchMap()
         }
         drawerView.closeDrawer(GravityCompat.START)
         return true
@@ -198,27 +218,44 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // --- SPINNER REALTORS ---
 
     private fun setUpSpinnerRealtors() {
-        val adapter = ArrayAdapter(this,R.layout.item_spinner, realtors)
+        // --- FOR DATA ---
+        val names  = mutableListOf<String>()
+        realtors.forEachIndexed{ _, realtor ->
+            names.add(realtor.name)
+        }
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, names)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRealtors = findViewById(R.id.nav_header_realtor_spinner)
-        spinnerRealtors.setAdapter(adapter)
-        spinnerRealtors.setOnItemClickListener { _, view, _, _ ->
-            val item = view.tag as Realtor
-            realtor = viewModel.getRealtor(item.id)
+        spinnerRealtors.adapter = adapter
+        spinnerRealtors.setSelection(idRealtor.toInt() - 1)
+        spinnerRealtors.onItemSelectedListener = object :AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                idRealtor = id +1
+                setUpRealtorCurrent(idRealtor)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
         }
     }
 
-
     // --- POPUP ---
 
-    private fun popupChangeDevice(){
+    private fun popupChangeDevice(realtor: Realtor){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Change device")
         val listItems = arrayOf("Dollar", "Euro")
         builder.setSingleChoiceItems(listItems, -1){ dialogueInterface, i ->
             val device : String = listItems[i]
-            dialogueInterface.dismiss()
             inEuro = device == "Euro"
-            realtor.id.let { viewModel.updateDeviceForRealtor(it, inEuro) }
+            realtor.prefEuro = inEuro
+            updateRealtor(realtor)
+            setUpRealtor(realtor.id)
+            dialogueInterface.dismiss()
         }
         // Set the neutral/cancel button click listener
         builder.setNeutralButton("Cancel") { dialog, _ ->
@@ -243,7 +280,9 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // alert dialog positive button
         builder.setPositiveButton("Submit"){ dialog, _ ->
-            viewModel.addRealtor(textInputEditText.text.toString())
+            val realtorAdd : Realtor= Realtor.default()
+            realtorAdd.name = textInputEditText.text.toString()
+            updateRealtor(realtorAdd)
             setUpSpinnerRealtors()
             dialog.dismiss()
         }
@@ -268,12 +307,16 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             override fun afterTextChanged(p0: Editable?) {
             }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int,
-                                           p2: Int, p3: Int) {
+            override fun beforeTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
             }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int,
-                                       p2: Int, p3: Int) {
+            override fun onTextChanged(
+                    p0: CharSequence?, p1: Int,
+                    p2: Int, p3: Int,
+            ) {
                 if (p0.isNullOrBlank()) {
                     textInputLayout.error = "Name is required."
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -288,7 +331,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     // get edit text layout
-    private fun getEditTextLayout(context: Context):ConstraintLayout{
+    private fun getEditTextLayout(context: Context): ConstraintLayout {
         val constraintLayout = ConstraintLayout(context)
         val layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -330,8 +373,34 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     ).toInt()
 
     // ------------------
-    // LAUNCHER
+    // ACTIVITY
     // ------------------
+
+    // --- RECYCLER VIEW REAL ESTATE---
+
+    private fun setupRecyclerView(realEstates: List<RealEstateComplete>, inEuro: Boolean) {
+        recyclerView.adapter = ItemListRecyclerViewAdapter(this, realEstates, twoPane, inEuro)
+    }
+
+    // --- LAUNCH ITEM CREATION  ---
+
+    private fun launchItemCreation(){
+        val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
+        startActivity(intent)
+    }
+
+    // --- LAUNCH FILTER  ---
+    private fun launchFilter() {
+        val intent = Intent(this, ItemSearchActivity::class.java)
+        startActivity(intent)
+    }
+
+    // --- LAUNCH MAP  ---
+
+    private fun launchMap() {
+        val intent = Intent(this, ItemMapActivity::class.java)
+        startActivity(intent)
+    }
 
     // --- LAUNCH SIMULATOR LOAN ---
 
@@ -339,84 +408,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val intent = Intent(this, SimulatorLoanActivity::class.java)
         intent.putExtra("Realtor", realtor.prefEuro)
         startActivity(intent)
-    }
-
-    // --- LAUNCH ITEM CREATION  ---
-
-    private fun launchItemCreation(){
-        val intent = Intent(this, ItemCreationRealEstate::class.java)
-        intent.putExtra("Realtor", realtor.id)
-        startActivity(intent)
-    }
-
-
-
-
-
-    // --- RECYCLER VIEW REAL ESTATE---
-
-    private fun setupRecyclerView(realEstates: List<RealEstate>) {
-            recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, realEstates, twoPane, realtor, inEuro)
-    }
-
-    class SimpleItemRecyclerViewAdapter(private val parentActivity: ItemListActivity,
-                                        private val values: List<RealEstate>,
-                                        private val twoPane: Boolean,
-                                        private val realtor: Realtor,
-                                        private val inEuro: Boolean) :
-            RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
-
-        private val onClickListener: View.OnClickListener = View.OnClickListener { v ->
-            val item = v.tag as RealEstate
-            if (twoPane) {
-                val fragment = ItemDetailFragment().apply {
-                    arguments = Bundle().apply {
-                        putSerializable("RealEstate", item)
-                    }
-                }
-                parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit()
-            } else {
-                val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                    putExtra("RealEstate", item)
-                    putExtra("Realtor", realtor)
-                }
-                v.context.startActivity(intent)
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            // TODO (image index 1)
-            holder.type.text = item.type
-            holder.address.text = item.address
-            if(inEuro){
-                "${Utils.convertDollarToEuro(item.price.toInt())} €".also { holder.price.text = it }
-            }else{
-                "${item.price.toInt()} $".also { holder.price.text = it }
-            }
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val image: ImageView = view.findViewById(R.id.item_list_iv)
-            val type: TextView = view.findViewById(R.id.item_list_type_txt)
-            val address: TextView = view.findViewById(R.id.item_list_address_txt)
-            val price: TextView = view.findViewById(R.id.item_list_price_txt)
-        }
     }
 
 }

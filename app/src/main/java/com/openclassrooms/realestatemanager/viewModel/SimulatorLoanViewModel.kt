@@ -14,12 +14,6 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
     val total: MutableLiveData<Double> = MutableLiveData()
 
     // ------------------
-    // REALTOR
-    // ------------------
-
-    fun getRealtor(id: Long): Realtor = realtorRepository.getRealtor(id)
-
-    // ------------------
     // SIMULATOR LOAN
     // ------------------
 
@@ -48,6 +42,12 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
         updateTotal(totalLoan)
     }
 
+    // ------------------
+    // REALTOR
+    // ------------------
 
+    // --- GET ---
+
+    fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 
 }
