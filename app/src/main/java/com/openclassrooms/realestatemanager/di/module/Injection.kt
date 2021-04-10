@@ -49,7 +49,6 @@ val itemFilterModule = module {
     }
 }
 
-
 val mapModule = module {
     viewModel {
         MapViewModel(get(), get())

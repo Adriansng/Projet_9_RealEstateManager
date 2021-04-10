@@ -4,11 +4,10 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
-import android.net.Uri
 import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.provider.RealEstateManagerProvider
 import org.hamcrest.Matchers
@@ -17,7 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4::class)
 class ContentProviderTest {
 
     private var mContentResolver: ContentResolver? = null
