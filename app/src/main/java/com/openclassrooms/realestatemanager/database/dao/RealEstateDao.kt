@@ -16,7 +16,7 @@ interface RealEstateDao {
 
     @Transaction
     @Query("SELECT * FROM Real_Estate WHERE realEstate_id = :id")
-    fun getRealEstate(id: Long): RealEstateComplete
+    fun getRealEstate(id: Long): LiveData<RealEstateComplete>
 
     @Query("SELECT * from Real_estate WHERE realEstate_id = :id")
     fun getRealEstateCursor(id: Int): Cursor?

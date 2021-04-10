@@ -21,7 +21,7 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
 
     // --- GET ---
 
-    fun getRealtor(id: Long): Realtor = realtorRepository.getRealtor(id)
+    fun getRealtor(id: Long): LiveData<Realtor> = realtorRepository.getRealtor(id)
 
     fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 
@@ -29,7 +29,7 @@ class ItemDetailFragmentViewModel(private val realtorRepository: RealtorReposito
     // REAL ESTATE
     // ------------------
 
-    fun getRealEstate(id: Long): RealEstateComplete = realEstateRepository.getRealEstate(id)
+    fun getRealEstate(id: Long): LiveData<RealEstateComplete> = realEstateRepository.getRealEstate(id)
 
     fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
 

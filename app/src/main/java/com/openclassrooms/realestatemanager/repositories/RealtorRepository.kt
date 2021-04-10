@@ -18,7 +18,7 @@ class RealtorRepository(
 
     // --- REALTOR ---
 
-    fun getRealtor(id: Long): Realtor = realtorDao.getRealtor(id)
+    fun getRealtor(id: Long): LiveData<Realtor> = realtorDao.getRealtor(id)
 
     // --- CURRENT REALTOR ---
 

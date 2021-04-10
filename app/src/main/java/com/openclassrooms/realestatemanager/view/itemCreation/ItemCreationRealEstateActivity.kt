@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.location.Address
@@ -123,16 +122,17 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     // REAL ESTATE
     // ------------------
 
-    private fun getRealEstate(id: Long): RealEstateComplete = viewModel.getRealEstate(id)
-
     private fun setUpEditRealEstate(){
-        val realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
-        if (realEstateId != null) {
-            realEstate = getRealEstate(realEstateId.toString().toLong())
-            editRealEstate(realEstate.realEstate)
-            listPhoto = realEstate.photos as MutableList<Photo>
-            setUpRecyclerViewPhoto(listPhoto)
-            isEdit = true
+        val realEstateId = intent.getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0L)
+        if (realEstateId != 0L) {
+            viewModel.getRealEstate(realEstateId).observe(this, {
+                realEstate = it
+                editRealEstate(it.realEstate)
+                listPhoto = it.photos as MutableList<Photo>
+                setUpRecyclerViewPhoto(listPhoto)
+                isEdit = true
+            })
+
         }
     }
 
@@ -254,15 +254,15 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
     private fun editType(realEstate: RealEstate): Int{
         if(realEstate.type != "Flat"){
-            return 2
+            return 0
         }
         if(realEstate.type != "Duplex"){
-            return 3
+            return 1
         }
         if(realEstate.type != "Penthouse"){
-            return 4
+            return 2
         }
-        return 1
+        return -1
     }
 
     // ------------------
@@ -333,7 +333,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             EasyPermissions.requestPermissions(this, getString(R.string.popup_perms), rcImagePerms, perms)
             return
         }
-        Intent(Intent.ACTION_GET_CONTENT).also { intent ->
+        Intent(Intent.ACTION_OPEN_DOCUMENT).also { intent ->
             intent.type = "image/*"
             intent.resolveActivity(packageManager)?.also {
                 launcherPick.launch(intent)
@@ -602,7 +602,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(channelId, name, importance).apply {
                 description = descriptionText
             }
@@ -651,7 +651,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             }
     }
 
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
@@ -674,8 +673,4 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
         intent = Intent(this, ItemListActivity::class.java)
         startActivity(intent)
     }
-
-
-
-
 }

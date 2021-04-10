@@ -8,13 +8,13 @@ import com.google.gson.reflect.TypeToken
 class Converters{
 
     @TypeConverter
-    fun serializeLatLng(location: LatLng?): String? = location?.let {
+    fun serializeLatLng(location: LatLng?): String = location?.let {
         Gson().toJson(location)
     } ?: ""
 
     @TypeConverter
-    fun deserializeLatLng(location: String): LatLng? {
-        return fromJson<LatLng>(location)
+    fun deserializeLatLng(location: String): LatLng {
+        return fromJson(location)
     }
 
     private inline fun <reified T> fromJson(json: String): T {

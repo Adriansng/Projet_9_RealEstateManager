@@ -98,13 +98,17 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun setUpRealtor(id: Long){
-        realtor = viewModel.getRealtor(id)
-        setUpRealEstates(realtor.prefEuro)
+        viewModel.getRealtor(id).observe(this,{
+            realtor = it
+            setUpRealEstates(it.prefEuro)
+        })
     }
 
     private fun setUpRealtorCurrent(id: Long){
-        realtor = viewModel.getRealtor(id)
-        viewModel.setRealtorCurrent(realtor)
+        viewModel.getRealtor(id).observe(this,{
+            realtor = it
+            viewModel.setRealtorCurrent(it)
+        })
     }
 
     private fun updateRealtor(realtor: Realtor){

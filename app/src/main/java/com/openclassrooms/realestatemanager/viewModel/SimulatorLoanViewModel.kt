@@ -13,7 +13,6 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
     val mount: MutableLiveData<Double> = MutableLiveData()
     val total: MutableLiveData<Double> = MutableLiveData()
 
-
     // ------------------
     // SIMULATOR LOAN
     // ------------------
@@ -42,7 +41,6 @@ class SimulatorLoanViewModel(private val realtorRepository: RealtorRepository): 
         updateMount(termLoan)
         updateTotal(totalLoan)
     }
-
 
     // ------------------
     // REALTOR

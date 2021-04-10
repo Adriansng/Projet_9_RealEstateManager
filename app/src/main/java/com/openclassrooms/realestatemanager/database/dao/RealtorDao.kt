@@ -11,7 +11,7 @@ interface RealtorDao {
     fun getRealtors(): LiveData<List<Realtor>>
 
     @Query("SELECT * FROM Realtor WHERE id = :id")
-    fun getRealtor(id: Long): Realtor
+    fun getRealtor(id: Long): LiveData<Realtor>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRealtors(vararg realtors: Realtor)

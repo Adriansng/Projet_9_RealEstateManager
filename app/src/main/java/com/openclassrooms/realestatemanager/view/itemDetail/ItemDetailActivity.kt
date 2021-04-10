@@ -17,9 +17,7 @@ import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
  */
 class ItemDetailActivity : AppCompatActivity() {
 
-
-    private lateinit var realEstateId : String
-
+    private var realEstateId : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +26,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        realEstateId = intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID).toString()
+        realEstateId = intent.getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0L)
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -45,8 +43,8 @@ class ItemDetailActivity : AppCompatActivity() {
 
             val fragment = ItemDetailFragment().apply {
                arguments = Bundle().apply {
-                   putString(ItemDetailFragment.ARG_ITEM_ID,
-                           intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
+                   putLong(ItemDetailFragment.ARG_ITEM_ID,
+                           intent.getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0L))
                }
             }
 
@@ -68,7 +66,6 @@ class ItemDetailActivity : AppCompatActivity() {
     // ------------------
     // ACTIVITY
     // ------------------
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
             return when (item.itemId) {
@@ -96,5 +93,4 @@ class ItemDetailActivity : AppCompatActivity() {
         intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstateId)
         startActivity(intent)
     }
-
 }

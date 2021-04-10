@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.openclassrooms.realestatemanager">
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.company.contentprovider.READ_DATABASE" />
 
     <application
@@ -38,14 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.openclassrooms.realestatemanager.view.itemList.ItemListActivity" />
         </activity>
-        <activity android:name=".view.SimulatorLoanActivity"
-        android:screenOrientation="portrait" />
-        <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity"
-            android:screenOrientation="portrait"  />
-        <activity android:name=".view.ItemSearchActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".view.ItemMapActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".view.SimulatorLoanActivity"/>
+        <activity android:name=".view.itemCreation.ItemCreationRealEstateActivity" />
+        <activity android:name=".view.ItemSearchActivity"/>
+        <activity android:name=".view.ItemMapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -63,10 +60,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.data.provider"
+            android:authorities="com.openclassrooms.realestatemanager.provider"
             android:name=".provider.RealEstateManagerProvider"
-            android:exported="true"
-            tools:ignore="ExportedContentProvider" />
+            android:exported="true" />
     </application>
 
 </manifest>

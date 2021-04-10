@@ -27,7 +27,7 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
         if (twoPane) {
             val fragment = ItemDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id.toString())
+                    putLong(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id)
                 }
             }
             parentActivity.supportFragmentManager
@@ -36,7 +36,7 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
                     .commit()
         } else {
             val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                putExtra(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id.toString())
+                putExtra(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id)
             }
             v.context.startActivity(intent)
         }

@@ -13,6 +13,7 @@ class RealEstateRepository(
 ) {
 
     private var searchList : MutableLiveData<List<RealEstateComplete>> = MutableLiveData()
+
     // ------------------
     // GET
     // ------------------
@@ -25,7 +26,7 @@ class RealEstateRepository(
         }
     }
 
-    fun getRealEstate(id: Long): RealEstateComplete = realEstateDao.getRealEstate(id)
+    fun getRealEstate(id: Long): LiveData<RealEstateComplete> = realEstateDao.getRealEstate(id)
 
     // --- GET LAST CREATE ---
     fun getRealEstateLast(table: String): Long? = realEstateDao.getRealEstateLast(table)
@@ -55,5 +56,4 @@ class RealEstateRepository(
     fun initSearchList(){
         searchList.value = null
     }
-
 }

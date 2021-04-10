@@ -42,8 +42,8 @@ class RealEstateManagerProvider : ContentProvider() {
     override fun update(uri: Uri, contentValues: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         if (context != null){
             val count =  RealEstateDatabase.buildDatabase(context!!)?.realEstateDao()?.update(RealEstate.fromContentValues(contentValues!!))
-            context!!.contentResolver.notifyChange(uri, null);
-            return count!!;
+            context!!.contentResolver.notifyChange(uri, null)
+            return count!!
         }
         throw IllegalArgumentException("Failed to update row into $uri")
     }
@@ -59,14 +59,14 @@ class RealEstateManagerProvider : ContentProvider() {
         throw IllegalArgumentException("Failed to query row for uri $uri")
     }
 
-    override fun getType(uri: Uri): String? =
-    "vnd.android.cursor.item/$AUTHORITY.$TABLE_NAME"
+    override fun getType(uri: Uri): String =
+    "vnd.android.cursor.item/$authority.$TABLE_NAME"
 
 
     companion object {
-        private val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
+        private const val authority = "com.openclassrooms.realestatemanager.provider"
         private val TABLE_NAME = RealEstate::class.java.simpleName
-        val URI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+        val URI_ITEM: Uri = Uri.parse("content://$authority/$TABLE_NAME")
 
     }
 }

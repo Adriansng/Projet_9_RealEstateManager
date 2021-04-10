@@ -116,7 +116,6 @@ class SimulatorLoanActivity : AppCompatActivity() {
     // CHECK
     // ------------------
 
-
     private fun checkCalculator(){
         if(amountEditText.text.toString() != "" &&
                 contributionEditText.text.toString() != ("")&&

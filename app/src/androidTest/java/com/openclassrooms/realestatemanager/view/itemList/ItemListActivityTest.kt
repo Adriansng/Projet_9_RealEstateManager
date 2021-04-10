@@ -131,18 +131,6 @@ class ItemListActivityTest {
                                         0),
                                 0)))
         materialButton.perform(scrollTo(), click())
-
-        val navigationMenuItemView2 = onView(
-                allOf(withId(R.id.menu_change_device_item),
-                        childAtPosition(
-                                allOf(withId(R.id.design_navigation_view),
-                                        childAtPosition(
-                                                withId(R.id.nav_view_menu),
-                                                0)),
-                                2),
-                        isDisplayed()))
-        navigationMenuItemView2.perform(click())
-
     }
 
     private fun childAtPosition(
@@ -162,7 +150,4 @@ class ItemListActivityTest {
             }
         }
     }
-
-
-
 }

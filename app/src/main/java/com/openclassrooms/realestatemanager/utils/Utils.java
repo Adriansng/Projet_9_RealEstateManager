@@ -50,11 +50,10 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
-    public static String getFormatDate(Long date){
+    public static String getFormatDate(Long date) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
-
 
         /**
          * Vérification de la connexion réseau

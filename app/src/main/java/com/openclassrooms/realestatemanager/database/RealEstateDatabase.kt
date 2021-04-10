@@ -43,7 +43,5 @@ abstract class RealEstateDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
-
-        
     }
 }

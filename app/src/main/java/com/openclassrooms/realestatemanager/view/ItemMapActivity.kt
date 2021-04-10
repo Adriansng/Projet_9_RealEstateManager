@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailActivity
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.viewModel.MapViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 
@@ -41,6 +42,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_map)
         title = applicationContext.getString(R.string.map_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if(EasyPermissions.hasPermissions(this,))
         configMap()
         setUpRealEstates()
 
@@ -71,9 +73,11 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
         mapGoogle = googleMap
+        Utils.getLastKnowLocation(this, this)
         val mLocation: Location = Utils.getLastKnowLocation(this, this)
         mapGoogle!!.isMyLocationEnabled = true
         zoomLocation(mLocation)
+
     }
 
     // --- ZOOM LOCATION ---

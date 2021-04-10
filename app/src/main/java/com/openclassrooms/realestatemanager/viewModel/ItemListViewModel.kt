@@ -18,7 +18,7 @@ class ItemListViewModel(private val realtorRepository: RealtorRepository,
 
     // --- GET ---
 
-    fun getRealtor(id: Long): Realtor = realtorRepository.getRealtor(id)
+    fun getRealtor(id: Long): LiveData<Realtor> = realtorRepository.getRealtor(id)
 
     fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 

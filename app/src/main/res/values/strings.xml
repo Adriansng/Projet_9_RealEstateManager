@@ -3,7 +3,6 @@
     // INFO APP
     // ------------------
     <string name="app_name" translatable="false">Real Estate Manager</string>
-
     <string name="dollar" translatable="false">$</string>
     <string name="euro" translatable="false">Euro</string>
     <string name="drawer_open" translatable="false">Open</string>
@@ -12,6 +11,9 @@
     <string name="toast_choose_image">No image chosen</string>
     <string name="map">Map</string>
     <string name="map_title">Map</string>
+    <string name="dialog_description" translatable="false">Description</string>
+    <string name="channel_name">RealEstateManager</string>
+    <string name="channel_description">Notification app</string>
 
     // ------------------
     // ITEM LIST
@@ -87,6 +89,9 @@
     <string name="add_not_address_valide">Please enter a valid address</string>
     <string name="add_not_fill_all">Fill in all the fields</string>
     <string name="add_title_edit">Edit Real Estate</string>
+    <string name="add_title_notification">RealEstate record</string>
+    <string name="add_notification_sold">The real estate is sold</string>
+    <string name="add_notification_sale">The real estate is for sale</string>
 
     // ------------------
     // SEARCH REAL ESTATE
@@ -160,10 +165,5 @@
     <string name="description_item_detail_approximate">icon approximate</string>
     <string name="description_item_detail_sale">icon sale</string>
     <string name="description_button_calcul">button for calcul</string>
-    <string name="dialog_description" translatable="false">Description</string>
-    <string name="channel_name">RealEstateManager</string>
-    <string name="channel_description">Notification app</string>
-    <string name="add_title_notification">RealEstate record</string>
-    <string name="add_notification_sold">The real estate is sold</string>
-    <string name="add_notification_sale">The real estate is for sale</string>
+    <string name="description_date_button_search">button date</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.view.itemList
 
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
+@RunWith(AndroidJUnit4::class)
 class ContentProviderTest {
 
     private var mContentResolver: ContentResolver? = null
@@ -33,7 +33,7 @@ class ContentProviderTest {
     fun itemsWhenNoItemInserted() {
             val cursor: Cursor? = mContentResolver!!.query(ContentUris.withAppendedId(RealEstateManagerProvider.URI_ITEM, USER_ID), null, null, null, null)
             ViewMatchers.assertThat(cursor, Matchers.notNullValue())
-            ViewMatchers.assertThat(cursor?.count, Matchers.`is`(0))
+            ViewMatchers.assertThat(cursor?.count, Matchers.`is`(1))
             cursor?.close()
         }
 
@@ -46,7 +46,7 @@ class ContentProviderTest {
         ViewMatchers.assertThat(cursor, Matchers.notNullValue())
         ViewMatchers.assertThat(cursor?.count, Matchers.`is`(1))
         ViewMatchers.assertThat(cursor?.moveToFirst(), Matchers.`is`(true))
-        ViewMatchers.assertThat(cursor?.getString(cursor.getColumnIndexOrThrow("type")), Matchers.`is`("House"))
+        ViewMatchers.assertThat(cursor?.getString(cursor.getColumnIndexOrThrow("type")), Matchers.`is`("Flat"))
     }
 
     // ---

@@ -32,7 +32,7 @@ class ItemSearchActivity: AppCompatActivity() {
 
     private lateinit var buttonDate : ImageView
     private lateinit var textDate : TextView
-    private var newDate : Calendar? = null
+    private var newDate : Date? = null
 
     private lateinit var checkBoxHouse : CheckBox
     private lateinit var checkBoxFlat : CheckBox
@@ -70,18 +70,20 @@ class ItemSearchActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_search)
         title = this.getString(R.string.filter_tilte)
+        getRealtorCurrent()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         sharedPreferences = this.getSharedPreferences("sharedPreferences", MODE_PRIVATE)
         setUpUi()
     }
 
-
     // ------------------
     // REALTOR CURRENT
     // ------------------
 
-    private fun getRealtorCurrent(): Boolean{
-        return  viewModel.getRealtorCurrent().value!!.prefEuro
+    private fun getRealtorCurrent(){
+          viewModel.getRealtorCurrent().observe(this, {
+          setUpDevice(it.prefEuro)
+        })
     }
 
     // ------------------
@@ -99,7 +101,6 @@ class ItemSearchActivity: AppCompatActivity() {
         checkBoxDuplex = findViewById(R.id.search_RE_type_duplex_cb)
         sliderSurface = findViewById(R.id.search_RE_surface_Slider)
         sliderPrice = findViewById(R.id.search_RE_price_Slider)
-        setUpDevice(getRealtorCurrent())
         editTextRoom = findViewById(R.id.search_RE_room_edit_text)
         editTextBedroom = findViewById(R.id.search_RE_bedrooms_edit_text)
         editTextBathroom = findViewById(R.id.search_RE_bathrooms_edit_text)
@@ -134,10 +135,7 @@ class ItemSearchActivity: AppCompatActivity() {
             formatPrice.format(value.toDouble())
         }
         sliderSurface.setLabelFormatter { value: Float ->
-            val formatSurface = NumberFormat.getCurrencyInstance()
-            formatSurface.maximumFractionDigits = 0
-            formatSurface.currency = Currency.getInstance("Met")
-            formatSurface.format(value.toDouble())
+            return@setLabelFormatter "${value}m²"
         }
     }
 
@@ -214,22 +212,24 @@ class ItemSearchActivity: AppCompatActivity() {
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun setUpDate(){
         val shareDate= sharedPreferences.getLong("date_key", 0L)
+        val format = SimpleDateFormat("dd.MM.yyyy")
         if(shareDate != 0L){
             val date = Date(shareDate)
-            val format = SimpleDateFormat("d/m/yyyy")
             textDate.text = format.format(date)
-            newDate?.timeInMillis = shareDate
+            newDate = Date(shareDate)
         }
         buttonDate.setOnClickListener{
-            newDate = Calendar.getInstance()
             val calendar: Calendar = Calendar.getInstance()
             val mYear = calendar.get(Calendar.YEAR)
             val mMonth = calendar.get(Calendar.MONTH)
             val mDay = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(this,{ _, year, monthOfYear, dayOfMonth ->
-                textDate.text = "$dayOfMonth/$monthOfYear/$year"
-                newDate?.set(year,monthOfYear,dayOfMonth)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.YEAR, year)
+                textDate.text = format.format(calendar.time)
+                newDate = calendar.time
             }, mYear,mMonth,mDay)
             datePickerDialog.show()
         }
@@ -377,104 +377,96 @@ class ItemSearchActivity: AppCompatActivity() {
         editor.putInt("photo_key", minPhoto)
         val dateLong : Long
         if(newDate != null){
-            dateLong = newDate?.timeInMillis!!
-            editor.putLong("date_key", newDate!!.timeInMillis)
+            dateLong = newDate!!.time
+            editor.putLong("date_key", newDate!!.time)
         }else{
             dateLong = 0L
         }
         editor.apply()
         editor.commit()
 
-        var query = "SELECT * , (SELECT COUNT(*) FROM Photo WHERE Photo.realEstate_id = Real_Estate.realEstate_id) AS count_photos FROM Real_Estate"
+        var query = "SELECT * , (SELECT COUNT(*) FROM Photo WHERE Photo.realEstate_id = Real_Estate.realEstate_id) AS photos_count FROM Real_Estate"
         val args = arrayListOf<Any>()
         var conditions = false
 
         if (type != ""){
-            query += " WHERE type = :$type"
+            query += " WHERE type = ?"
             args.add(type)
             conditions = true
         }
 
-        if ((sold)){
-            query += if (conditions) " AND " else " WHERE "
-            conditions = true
-            query += "isSold = :$sold"
-            args.add(sold)
-        }
+        query += if (conditions) " AND " else " WHERE "
+        conditions = true
+        query += "isSold = ?"
+        args.add(sold)
 
         if (priceMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "price >= :$priceMin"
+            query += "price >= ?"
             args.add(priceMin)
         }
         if (priceMax != 900000000) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "price <= :$priceMax"
+            query += "price <= ?"
             args.add(priceMax)
         }
 
         if (surfaceMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "area >= :$surfaceMin"
+            query += "area >= ?"
             args.add(surfaceMin)
         }
 
         if (surfaceMax != 1000) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "area <= :$surfaceMax"
+            query += "area <= ?"
             args.add(surfaceMax)
         }
 
         if (roomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberRoom >= :$roomMin"
+            query += "numberRoom >= ?"
             args.add(roomMin)
         }
         if (bedroomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberBedroom >= :$bedroomMin"
+            query += "numberBedroom >= ?"
             args.add(bedroomMin)
         }
         if (bathroomMin != 0) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "numberBathroom >= :$bathroomMin"
+            query += "numberBathroom >= ?"
             args.add(bathroomMin)
         }
 
         if (city != ""){
             query += if (conditions) " AND " else " WHERE "
             conditions = true
-            query += "city = :${city}"
+            query += "city = ?"
             args.add(city)
         }
 
-        if (school){
-            query += if (conditions) " AND " else " WHERE "
-            conditions = true
-            query += "closeToSchool = :${school}"
-            args.add(school)
-        }
+        query += if (conditions) " AND " else " WHERE "
+        conditions = true
+        query += "closeToSchool = ?"
+        args.add(school)
 
-        if (commerce){
-            query += if (conditions) " AND " else " WHERE "
-            conditions = true
-            query += "closeToCommerce = :${commerce}"
-            args.add(commerce)
-        }
+        query += if (conditions) " AND " else " WHERE "
+        conditions = true
+        query += "closeToCommerce = ?"
+        args.add(commerce)
 
-        if (park){
-            query += if (conditions) " AND " else " WHERE "
-            conditions = true
-            query += "closeToPark = :${park}"
-            args.add(park)
-        }
+        query += if (conditions) " AND " else " WHERE "
+        conditions = true
+        query += "closeToPark = ?"
+        args.add(park)
 
         if (dateLong != 0L) {
             query += if (conditions) " AND " else " WHERE "
@@ -483,9 +475,9 @@ class ItemSearchActivity: AppCompatActivity() {
             args.add(dateLong)
         }
 
-            query += if (conditions) " AND " else " WHERE "
-            query += "count_photos >= :${minPhoto}"
-            args.add(minPhoto)
+        query += if (conditions) " AND " else " WHERE "
+        query += "photos_count >= ?"
+        args.add(minPhoto)
 
         viewModel.getEstatesBySearch(query,args).observe(this, {
             if(it!!.isNotEmpty()){
@@ -516,5 +508,4 @@ class ItemSearchActivity: AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

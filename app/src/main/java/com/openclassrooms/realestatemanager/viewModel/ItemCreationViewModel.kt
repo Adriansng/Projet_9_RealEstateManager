@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Photo
@@ -25,12 +26,11 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
     // REAL ESTATE
     // ------------------
 
-    fun getRealEstate(id : Long): RealEstateComplete = realEstateRepository.getRealEstate(id)
+    fun getRealEstate(id : Long): LiveData<RealEstateComplete> = realEstateRepository.getRealEstate(id)
 
     fun getRealEstateLast(tableName: String): Long? = realEstateRepository.getRealEstateLast(tableName)
 
     fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
-
 
     fun initSearchList() = realEstateRepository.initSearchList()
 

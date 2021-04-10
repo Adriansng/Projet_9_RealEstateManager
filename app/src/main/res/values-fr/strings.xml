@@ -3,6 +3,8 @@
 
     <string name="popup_perms">Cette application a besoin d\'une autorisation pour fonctionner</string>
     <string name="toast_choose_image">Vous n\'avez pas choisi d\'image</string>
+    <string name="channel_name">RealEstateManager</string>
+    <string name="channel_description">Notification app</string>
 
     // ------------------
     // ITEM LIST
@@ -67,6 +69,9 @@
     <string name="add_not_internet">Vous n\'êtes pas connecté à Internet, nous n\'avons pas pu vérifier l\'adresse saisie</string>
     <string name="add_not_address_valide">s\'il-vous-plaît entrez une adresse valide</string>
     <string name="add_not_fill_all">Remplissez tous les champs</string>
+    <string name="add_title_notification">RealEstate record</string>
+    <string name="add_notification_sold">Le bien immobilier est vendu</string>
+    <string name="add_notification_sale">Le bien immobilier est à vendre</string>
 
     // ------------------
     // SEARCH REAL ESTATE
@@ -128,9 +133,5 @@
     <string name="map">Carte</string>
     <string name="map_title">Carte</string>
     <string name="filter_tilte">Filtre</string>
-    <string name="channel_name">RealEstateManager</string>
-    <string name="channel_description">Notification app</string>
-    <string name="add_title_notification">RealEstate record</string>
-    <string name="add_notification_sold">Le bien immobilier est vendu</string>
-    <string name="add_notification_sale">Le bien immobilier est à vendre</string>
+    <string name="description_date_button_search">button date</string>
 </resources>

@@ -12,7 +12,6 @@ import com.openclassrooms.realestatemanager.model.Photo
 
 class ItemDetailRecyclerViewAdapter(private var listPhoto: List<Photo>) : RecyclerView.Adapter<ItemDetailRecyclerViewAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemDetailRecyclerViewAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_photo, parent, false)
@@ -34,5 +33,4 @@ class ItemDetailRecyclerViewAdapter(private var listPhoto: List<Photo>) : Recycl
             description.text = photo.descriptionPhoto
         }
     }
-
 }
