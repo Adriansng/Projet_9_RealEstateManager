@@ -395,7 +395,7 @@ class ItemSearchActivity: AppCompatActivity() {
 
         query += if (conditions) " AND " else " WHERE "
         conditions = true
-        query += "isSold = ?"
+        query += "isSold = :$sold"
         args.add(sold)
 
         if (priceMin != 0) {
@@ -451,21 +451,25 @@ class ItemSearchActivity: AppCompatActivity() {
             args.add(city)
         }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "closeToSchool = ?"
-        args.add(school)
+        if(school){
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "closeToSchool = ?"
+            args.add(school)
+        }
 
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "closeToCommerce = ?"
-        args.add(commerce)
-
-        query += if (conditions) " AND " else " WHERE "
-        conditions = true
-        query += "closeToPark = ?"
-        args.add(park)
-
+        if(commerce) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "closeToCommerce = ?"
+            args.add(commerce)
+        }
+        if(park) {
+            query += if (conditions) " AND " else " WHERE "
+            conditions = true
+            query += "closeToPark = ?"
+            args.add(park)
+        }
         if (dateLong != 0L) {
             query += if (conditions) " AND " else " WHERE "
             conditions = true

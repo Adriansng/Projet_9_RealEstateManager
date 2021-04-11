@@ -145,6 +145,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.clear()
         menuInflater.inflate(R.menu.menu_toolbar_list_activity, menu)
         return true
     }
