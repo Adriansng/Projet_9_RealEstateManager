@@ -26,7 +26,6 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.lang.Exception
 import java.util.*
 
 class ItemDetailFragment : androidx.fragment.app.Fragment() {
@@ -53,7 +52,6 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)

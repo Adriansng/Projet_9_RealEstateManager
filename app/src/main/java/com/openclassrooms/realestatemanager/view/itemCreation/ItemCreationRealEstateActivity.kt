@@ -15,14 +15,10 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.TypedValue
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +34,7 @@ import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.utils.TemplateDialog
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.view.itemDetail.ItemDetailFragment
 import com.openclassrooms.realestatemanager.view.itemList.ItemListActivity
@@ -194,7 +191,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     editText.error = null
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
             }
         })
@@ -354,7 +350,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
     private fun popupDescription(photoAdd: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         builder.setTitle("Photo description") // dialog message view
-        val constraintLayout = getEditTextLayout(this)
+        val constraintLayout = TemplateDialog().getEditTextLayout(this, "Description")
         builder.setView(constraintLayout)
 
         val textInputLayout = constraintLayout.
@@ -385,7 +381,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
 
         // finally, create the alert dialog and show it
         val dialog = builder.create()
-
         dialog.show()
 
         // initially disable the positive button
@@ -407,7 +402,7 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
                     p2: Int, p3: Int,
             ) {
                 if (p0.isNullOrBlank()) {
-                    textInputLayout.error = "Name is required."
+                    textInputLayout.error = "Description is required."
                     dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
                             .isEnabled = false
                 } else {
@@ -418,49 +413,6 @@ class ItemCreationRealEstateActivity : AppCompatActivity() {
             }
         })
     }
-
-    // get edit text layout
-    private fun getEditTextLayout(context: Context): ConstraintLayout {
-        val constraintLayout = ConstraintLayout(context)
-        val layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-        )
-        constraintLayout.layoutParams = layoutParams
-        constraintLayout.id = View.generateViewId()
-
-        val textInputLayout = TextInputLayout(context)
-        textInputLayout.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
-        layoutParams.setMargins(
-                32.toDp(context),
-                8.toDp(context),
-                32.toDp(context),
-                8.toDp(context)
-        )
-        textInputLayout.layoutParams = layoutParams
-        textInputLayout.hint = "Input name"
-        textInputLayout.id = View.generateViewId()
-        textInputLayout.tag = "textInputLayoutTag"
-
-
-        val textInputEditText = TextInputEditText(context)
-        textInputEditText.id = View.generateViewId()
-        textInputEditText.tag = "textInputEditTextTag"
-
-        textInputLayout.addView(textInputEditText)
-
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(constraintLayout)
-
-        constraintLayout.addView(textInputLayout)
-        return constraintLayout
-    }
-
-    // extension method to convert pixels to dp
-    private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
-    ).toInt()
-
 
     // ------------------
     // LOCATION

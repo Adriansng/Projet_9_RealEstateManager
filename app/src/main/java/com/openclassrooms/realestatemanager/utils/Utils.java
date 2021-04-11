@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -8,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 
 import androidx.core.app.ActivityCompat;
 
@@ -46,12 +46,12 @@ public class Utils {
      * @return
      */
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
 
     public static String getFormatDate(Long date) {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
 
@@ -75,6 +75,22 @@ public class Utils {
     // ------------------
     // LOCATION
     // ------------------
+
+    // --- PERMISSION ---
+
+    public static Boolean getPermissionLocation(Context context, Activity activity) {
+        boolean check = false;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_REQUEST_CODE);
+        } else {
+            check = true;
+        }
+        return check;
+    }
+
+    // --- LOCATION ---
 
     public static Location getLastKnowLocation(Context context, Activity activity) {
         Location bestLocation = null;

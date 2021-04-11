@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import androidx.multidex.MultiDexApplication
-import com.openclassrooms.realestatemanager.di.module.*
+import com.openclassrooms.realestatemanager.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,13 +15,15 @@ class App : MultiDexApplication() {
             androidLogger(Level.NONE)
             androidContext(this@App)
             // modules
-            modules  (appModule,
+            modules(
+                    appModule,
                     itemListModule,
                     itemDetailModule,
                     itemCreationModule,
-                    itemFilterModule,
+                    itemSearchModule,
                     mapModule,
-                    simulatorModule,)
+                    simulatorModule,
+            )
         }
     }
 }

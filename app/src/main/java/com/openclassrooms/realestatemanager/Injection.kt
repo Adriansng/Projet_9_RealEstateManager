@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.di.module
+package com.openclassrooms.realestatemanager
 
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.repositories.PhotoRepository
@@ -43,7 +43,7 @@ val itemCreationModule = module {
     }
 }
 
-val itemFilterModule = module {
+val itemSearchModule = module {
     viewModel {
         SearchViewModel(get(), get())
     }

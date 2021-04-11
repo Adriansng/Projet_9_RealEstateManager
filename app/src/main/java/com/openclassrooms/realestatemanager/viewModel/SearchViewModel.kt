@@ -13,18 +13,10 @@ class SearchViewModel(private val realtorRepository: RealtorRepository,
                       private val realEstateRepository: RealEstateRepository): ViewModel() {
 
     // ------------------
-    // REALTOR
-    // ------------------
-
-    // --- GET ---
-
-    fun getRealtorCurrent() : MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
-
-    // ------------------
     // REAL ESTATE
     // ------------------
 
-    fun getEstatesBySearch(queryToConvert:String, args:ArrayList<Any>) : LiveData<List<RealEstateComplete>> {
+    fun getEstatesBySearch(queryToConvert: String, args: ArrayList<Any>): LiveData<List<RealEstateComplete>> {
         val query = SimpleSQLiteQuery(queryToConvert, args.toArray())
         return realEstateRepository.getEstatesBySearch(query)
     }
@@ -34,4 +26,13 @@ class SearchViewModel(private val realtorRepository: RealtorRepository,
     }
 
     fun initSearchList() = realEstateRepository.initSearchList()
+
+
+    // ------------------
+    // REALTOR
+    // ------------------
+
+    // --- GET ---
+
+    fun getRealtorCurrent(): MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 }

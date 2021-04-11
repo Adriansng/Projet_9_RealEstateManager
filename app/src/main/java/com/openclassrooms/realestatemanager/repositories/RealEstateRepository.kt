@@ -29,6 +29,7 @@ class RealEstateRepository(
     fun getRealEstate(id: Long): LiveData<RealEstateComplete> = realEstateDao.getRealEstate(id)
 
     // --- GET LAST CREATE ---
+
     fun getRealEstateLast(table: String): Long? = realEstateDao.getRealEstateLast(table)
 
     // --- GET SEARCH ---

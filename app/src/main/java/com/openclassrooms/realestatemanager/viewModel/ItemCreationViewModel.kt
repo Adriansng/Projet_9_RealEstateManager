@@ -19,24 +19,37 @@ class ItemCreationViewModel(private var realEstateRepository: RealEstateReposito
     // PHOTO
     // ------------------
 
-    fun deleteAllPhoto(id: Long) = photoRepository.deleteAll(id)
+    // --- ADD ---
+
     fun insertPhoto(photo: Photo) = photoRepository.insertPhoto(photo)
+
+    // --- DELETE ---
+
+    fun deleteAllPhoto(id: Long) = photoRepository.deleteAll(id)
 
     // ------------------
     // REAL ESTATE
     // ------------------
 
-    fun getRealEstate(id : Long): LiveData<RealEstateComplete> = realEstateRepository.getRealEstate(id)
+    // --- GET ---
+
+    fun getRealEstate(id: Long): LiveData<RealEstateComplete> = realEstateRepository.getRealEstate(id)
 
     fun getRealEstateLast(tableName: String): Long? = realEstateRepository.getRealEstateLast(tableName)
 
+    // --- ADD ---
+
     fun addRealEstate(realEstate: RealEstate) = realEstateRepository.addRealEstate(realEstate)
+
+    // --- INIT ---
 
     fun initSearchList() = realEstateRepository.initSearchList()
 
     // ------------------
     // REALTOR
     // ------------------
+
+    // --- GET ---
 
     fun getRealtorCurrent(): MutableLiveData<Realtor> = realtorRepository.getCurrentRealtor()
 }

@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.view.itemList
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,8 +15,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
@@ -29,10 +25,11 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.model.Realtor
+import com.openclassrooms.realestatemanager.utils.TemplateDialog
 import com.openclassrooms.realestatemanager.view.ItemMapActivity
+import com.openclassrooms.realestatemanager.view.ItemSearchActivity
 import com.openclassrooms.realestatemanager.view.SimulatorLoanActivity
 import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
-import com.openclassrooms.realestatemanager.view.ItemSearchActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.appcompat.widget.Toolbar as Toolbar1
@@ -169,7 +166,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     // --- NAVIGATION DRAWER ---
@@ -270,7 +266,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun popupAddRealtor(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add realtor") // dialog message view
-        val constraintLayout = getEditTextLayout(this)
+        val constraintLayout = TemplateDialog().getEditTextLayout(this, "Name")
         builder.setView(constraintLayout)
 
         val textInputLayout = constraintLayout.
@@ -306,13 +302,11 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         textInputEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
-
             override fun beforeTextChanged(
                     p0: CharSequence?, p1: Int,
                     p2: Int, p3: Int,
             ) {
             }
-
             override fun onTextChanged(
                     p0: CharSequence?, p1: Int,
                     p2: Int, p3: Int,
@@ -329,48 +323,6 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
         })
     }
-
-    // get edit text layout
-    private fun getEditTextLayout(context: Context): ConstraintLayout {
-        val constraintLayout = ConstraintLayout(context)
-        val layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-        )
-        constraintLayout.layoutParams = layoutParams
-        constraintLayout.id = View.generateViewId()
-
-        val textInputLayout = TextInputLayout(context)
-        textInputLayout.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
-        layoutParams.setMargins(
-                32.toDp(context),
-                8.toDp(context),
-                32.toDp(context),
-                8.toDp(context)
-        )
-        textInputLayout.layoutParams = layoutParams
-        textInputLayout.hint = "Input name"
-        textInputLayout.id = View.generateViewId()
-        textInputLayout.tag = "textInputLayoutTag"
-
-
-        val textInputEditText = TextInputEditText(context)
-        textInputEditText.id = View.generateViewId()
-        textInputEditText.tag = "textInputEditTextTag"
-
-        textInputLayout.addView(textInputEditText)
-
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(constraintLayout)
-
-        constraintLayout.addView(textInputLayout)
-        return constraintLayout
-    }
-
-    // extension method to convert pixels to dp
-    private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
-    ).toInt()
 
     // ------------------
     // ACTIVITY
@@ -390,6 +342,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     // --- LAUNCH FILTER  ---
+
     private fun launchFilter() {
         val intent = Intent(this, ItemSearchActivity::class.java)
         startActivity(intent)
@@ -409,5 +362,4 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         intent.putExtra("Realtor", realtor.prefEuro)
         startActivity(intent)
     }
-
 }

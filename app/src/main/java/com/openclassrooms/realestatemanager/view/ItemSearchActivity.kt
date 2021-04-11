@@ -120,7 +120,7 @@ class ItemSearchActivity: AppCompatActivity() {
         getSharedPreferences()
     }
 
-    // --- Device ---
+    // --- DEVICE ---
 
     private fun setUpDevice(inEuro: Boolean) {
         val device : String = if(inEuro) {
@@ -192,7 +192,6 @@ class ItemSearchActivity: AppCompatActivity() {
         if(sharePhoto == 3){
             checkBoxPhoto3.isChecked = true
         }
-
         checkBoxPhoto1.setOnClickListener {
             checkBoxPhoto2.isChecked = false
             checkBoxPhoto3.isChecked = false
@@ -271,7 +270,6 @@ class ItemSearchActivity: AppCompatActivity() {
 
     // --- RESET ---
 
-    @SuppressLint("CommitPrefEdits")
     private fun resetUi(){
         switchSold.isChecked = false
         checkBoxHouse.isChecked = false
@@ -314,7 +312,7 @@ class ItemSearchActivity: AppCompatActivity() {
     // SEARCH
     // ------------------
 
-    // --- Values --
+    // --- VALUES --
 
     private fun typeString(): String {
         if(checkBoxFlat.isChecked){typeString = "Flat" }
