@@ -28,6 +28,7 @@ class ItemListRecyclerViewAdapter(private val parentActivity: ItemListActivity,
             val fragment = ItemDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(ItemDetailFragment.ARG_ITEM_ID, item.realEstate.id)
+                    putBoolean("edit", twoPane)
                 }
             }
             parentActivity.supportFragmentManager

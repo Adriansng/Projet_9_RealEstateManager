@@ -146,17 +146,12 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_list_activity, menu)
-        menu?.findItem(R.id.item_list_edit_toolbar)?.isVisible = !twoPane
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when( item.itemId){
             R.id.item_list_add_toolbar -> {
-                launchItemCreation()
-                true
-            }
-            R.id.item_list_edit_toolbar -> {
                 launchItemCreation()
                 true
             }
@@ -336,7 +331,7 @@ class ItemListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     // --- LAUNCH ITEM CREATION  ---
 
-    private fun launchItemCreation(){
+    private fun launchItemCreation() {
         val intent = Intent(this, ItemCreationRealEstateActivity::class.java)
         startActivity(intent)
     }

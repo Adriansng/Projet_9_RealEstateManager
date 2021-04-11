@@ -1,14 +1,13 @@
 package com.openclassrooms.realestatemanager.view.itemDetail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +22,8 @@ import com.openclassrooms.realestatemanager.model.Photo
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.model.RealEstateComplete
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.view.ItemSearchActivity
+import com.openclassrooms.realestatemanager.view.itemCreation.ItemCreationRealEstateActivity
 import com.openclassrooms.realestatemanager.viewModel.ItemDetailFragmentViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -34,6 +35,7 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
 
     private val viewModel : ItemDetailFragmentViewModel by viewModel()
     private var itemId: Long? = null
+    private var twoPane : Boolean = false
     private lateinit var recyclerView : RecyclerView
 
     // ------------------
@@ -48,6 +50,9 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
                 itemId = it.getLong(ARG_ITEM_ID)
+                twoPane = it.getBoolean("edit")
+
+
             }
         }
     }
@@ -55,6 +60,8 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
+
+        setHasOptionsMenu(twoPane)
         // Show the dummy content as text in a TextView.
         itemId?.let { setUpRealEstates(it, rootView) }
         return rootView
@@ -63,6 +70,13 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
     companion object {
         const val ARG_ITEM_ID = "item_id"
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_toolbar_item_and_detail, menu)
+    }
+
+
     // ------------------
     // PHOTO
     // ------------------
@@ -198,5 +212,45 @@ class ItemDetailFragment : androidx.fragment.app.Fragment() {
         } else {
             textView.text = "$ "+ itemView.price
         }
+    }
+
+    // ------------------
+    // ACTIVITY
+    // ------------------
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when( item.itemId){
+            R.id.item_list_detail_edit_toolbar -> {
+                launchItemCreation(true)
+                true
+            }
+            R.id.item_list_detail_add_toolbar -> {
+                launchItemCreation(false)
+                true
+            }
+            R.id.item_list_detail_filter_toolbar -> {
+                launchFilter()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // --- LAUNCH ITEM CREATION  ---
+
+    private fun launchItemCreation(b: Boolean) {
+        val intent = Intent(requireActivity(), ItemCreationRealEstateActivity::class.java)
+        if(b){
+            intent.putExtra(ARG_ITEM_ID, itemId)
+        }
+        startActivity(intent)
+    }
+
+    // --- LAUNCH FILTER  ---
+
+    private fun launchFilter() {
+        val intent = Intent(requireActivity(), ItemSearchActivity::class.java)
+        startActivity(intent)
     }
 }
