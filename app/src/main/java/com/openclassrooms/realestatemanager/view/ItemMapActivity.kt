@@ -111,7 +111,7 @@ class ItemMapActivity : AppCompatActivity(), OnMapReadyCallback {
             val size = realEstate.size
             for (e in 0 until size) {
                 if (realEstate[e].realEstate.price.toString() == marker.title) {
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e].realEstate.id.toString())
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, realEstate[e].realEstate.id)
                     Objects.requireNonNull(this).startActivity(intent)
                 }
             }
